@@ -1,7 +1,8 @@
 # The Little Book of Rust Macros
 
-**Note**: This is a continuation of [Daniel Keep's Book](https://github.com/DanielKeep/tlborm) which
-has not been updated since the early summer of 2016.
+> **Note**: This is a continuation of [Daniel Keep's Book](https://github.com/DanielKeep/tlborm) which
+has not been updated since the early summer of 2016, rewritten to make use of
+[mdBook](https://github.com/rust-lang/mdBook).
 
 [View the rendered version](https://veykril.github.io/tlborm/).
 
