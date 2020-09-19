@@ -1,0 +1,13 @@
+[book]
+authors = ["Lukas Wirth"]
+language = "en"
+multilingual = false
+src = "src"
+title = "The Little Book of Rust Macros"
+
+[build]
+create-missing = true
+
+[output.html]
+default-theme = "ayu"
+git-repository-url = "https://github.com/veykril/tlborm/"
