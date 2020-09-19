@@ -7,6 +7,7 @@ title = "The Little Book of Rust Macros"
 
 [build]
 create-missing = true
+build-dir = "book"
 
 [output.html]
 default-theme = "ayu"
