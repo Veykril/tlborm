@@ -1,7 +1,7 @@
 # The Little Book of Rust Macros
 
 > **Note**: This is a continuation of [Daniel Keep's Book](https://github.com/DanielKeep/tlborm) which
-has not been updated since the early summer of 2016, rewritten to make use of
+has not been updated since the early summer of 2016, adapted to make use of
 [mdBook](https://github.com/rust-lang/mdBook).
 
 [View the rendered version](https://veykril.github.io/tlborm/).
@@ -14,9 +14,8 @@ The [original Little Book of Rust Macros](https://github.com/DanielKeep/tlborm) 
 immensely with understanding ***Macros by Example*** style macros while I was still learning the
 language. Unfortunately, the author of the book has since left the project untouched, while the Rust
 language as well as it's macro-system keeps evolving. Which is why I wanted to revive the project
-and keep it up to date with current Rust helping other newcomes to understand macros, a part of the
-language a lot of people are having trouble with, even though it is not that difficult to use once
-understood.
+and keep it up to date with current Rust helping other newcomers understand macros, a part of the
+language a lot of people seem to have trouble with.
 
 ## Thanks
 
