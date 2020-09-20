@@ -1,6 +1,6 @@
-# Captures and Expansion Redux
+# Metavariables and Expansion Redux
 
-Once the parser begins consuming tokens for a capture, *it cannot stop or backtrack*. This means
+Once the parser begins consuming tokens for a metavariable, *it cannot stop or backtrack*. This means
 that the second rule of the following macro *cannot ever match*, no matter what input is provided:
 
 ```ignore
@@ -21,7 +21,7 @@ citing a syntax error.
 As such, it is important in general that you write macro rules from most-specific to least-specific.
 
 To defend against future syntax changes altering the interpretation of macro input, `macro_rules!`
-restricts what can follow various captures. The complete list, as of Rust 1.47 is as follows:
+restricts what can follow various metavariables. The complete list, as of Rust 1.47 is as follows:
 
 * `stmt` and `expr`: `=>` `,` `;`
 * `pat`: `=>` `,` `=` `|` `if` `in`

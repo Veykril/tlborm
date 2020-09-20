@@ -1,0 +1,165 @@
+<style type="text/css">
+    /* Customisations. */
+
+    .small-code code {
+        font-size: 70%;
+    }
+
+    table.parse-table code {
+        white-space: pre-wrap;
+        background-color: transparent;
+        border: none;
+    }
+
+    table.parse-table tbody>tr>td:nth-child(1)>code:nth-of-type(2) {
+        color: red;
+        margin-top: -0.7em;
+        margin-bottom: -0.6em;
+    }
+
+    table.parse-table tbody>tr>td:nth-child(1)>code {
+        display: block;
+    }
+
+    table.parse-table tbody>tr>td:nth-child(2)>code {
+        display: block;
+    }
+</style>
+
+<table class="parse-table">
+    <colgroup>
+        <col width="42%" />
+        <col width="36%" />
+        <col width="0%" />
+        <col width="12%" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th>Position</th>
+            <th>Input</th>
+            <th><code>inits</code></th>
+            <th><code>recur</code></th>
+        </tr>
+    </thead>
+    <tbody class="small-code">
+        <tr>
+            <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
+                <code>⌂</code></td>
+            <td><code>a[n] = 0, 1, ..., a[n-1] + a[n-2]</code></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
+                <code> ⌂</code></td>
+            <td><code>[n] = 0, 1, ..., a[n-1] + a[n-2]</code></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
+                <code>  ⌂</code></td>
+            <td><code>n] = 0, 1, ..., a[n-1] + a[n-2]</code></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
+                <code>   ⌂</code></td>
+            <td><code>] = 0, 1, ..., a[n-1] + a[n-2]</code></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
+                <code>     ⌂</code></td>
+            <td><code>= 0, 1, ..., a[n-1] + a[n-2]</code></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
+                <code>       ⌂</code></td>
+            <td><code>0, 1, ..., a[n-1] + a[n-2]</code></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
+                <code>         ⌂</code></td>
+            <td><code>0, 1, ..., a[n-1] + a[n-2]</code></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
+                <code>                     ⌂  ⌂</code></td>
+            <td><code>, 1, ..., a[n-1] + a[n-2]</code></td>
+            <td><code>0</code></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="4" style="font-size:.8em;">
+                <em>Note</em>: there are two ⌂ here, because the next input token might match <em>either</em> the comma
+                separator <em>between</em>em> elements in the repetition, <em>or</em> the comma <em>after</em> the
+                repetition. The macro system will keep track of both possibilities, until it is able to decide which one
+                to follow.
+            </td>
+        </tr>
+        <tr>
+            <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
+                <code>         ⌂                ⌂</code></td>
+            <td><code>1, ..., a[n-1] + a[n-2]</code></td>
+            <td><code>0</code></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
+                <code>                     ⌂  ⌂ <s>⌂</s></code></td>
+            <td><code>, ..., a[n-1] + a[n-2]</code></td>
+            <td><code>0</code>, <code>1</code></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="4" style="font-size:.8em;">
+                <em>Note</em>: the third, crossed-out marker indicates that the macro system has, as a consequence of
+                the last token consumed, eliminated one of the previous possible branches.
+            </td>
+        </tr>
+        <tr>
+            <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
+                <code>         ⌂                ⌂</code></td>
+            <td><code>..., a[n-1] + a[n-2]</code></td>
+            <td><code>0</code>, <code>1</code></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
+                <code>         <s>⌂</s>                    ⌂</code></td>
+            <td><code>, a[n-1] + a[n-2]</code></td>
+            <td><code>0</code>, <code>1</code></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
+                <code>                                ⌂</code></td>
+            <td><code>a[n-1] + a[n-2]</code></td>
+            <td><code>0</code>, <code>1</code></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
+                <code>                                           ⌂</code></td>
+            <td></td>
+            <td><code>0</code>, <code>1</code></td>
+            <td><code>a[n-1] + a[n-2]</code></td>
+        </tr>
+        <tr>
+            <td colspan="4" style="font-size:.8em;">
+                <em>Note</em>: this particular step should make it clear that a binding like <tt>$recur:expr</tt> will
+                consume an <em>entire expression</em>, using the compiler's knowledge of what constitutes a valid
+                expression. As will be noted later, you can do this for other language constructs, too.
+            </td>
+        </tr>
+    </tbody>
+</table>

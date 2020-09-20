@@ -14,7 +14,8 @@ macro_rules! $name {
 ```
 
 There must be *at least* one rule, and you can omit the semicolon after the last rule. You can use
-parentheses(`()`), brackets(`[]`) or braces(`{}`), but the former two require a trailing semicolon.
+brackets(`[]`), parentheses(`()`) or braces(`{}`). Invocations with `{ .. }` and `( ... );`, notice
+the trailing semicolon, will *always* be parsed as an *item*.
 
 Each *"rule"* looks like the following:
 
