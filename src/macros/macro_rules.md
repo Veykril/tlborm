@@ -133,7 +133,7 @@ macro_rules! repeat {
 ```
 
 There is also a special metavariable called `$crate` which can be used to refer to the current
-current.
+current[^hygiene].
 
 ## Repetitions
 
@@ -196,3 +196,5 @@ fn main() {
     assert_eq!(s, &["1", "a", "true", "3.14159"]);
 }
 ```
+
+[^hygiene]:[Hygiene](./minutiae/hygiene.html)
