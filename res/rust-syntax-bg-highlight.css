@@ -1,0 +1,36 @@
+/**
+ * Copyright 2013-2014 The Rust Project Developers. See the COPYRIGHT
+ * file at the top-level directory of this distribution and at
+ * http://rust-lang.org/COPYRIGHT.
+ * With elements taken from Bootstrap v3.0.2 (MIT licensed).
+ *
+ * Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
+ * http://www.apache.org/licenses/LICENSE-2.0> or the MIT license
+ * <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+ * option. This file may not be copied, modified, or distributed
+ * except according to those terms.
+ *
+ * Modified by Daniel Keep.
+ */
+ 
+
+/* Code highlighting */
+pre.rust .kw { color: #f92672; }
+pre.rust .kw-2 { color: #f92672; }
+pre.rust .prelude-ty { color: #66d9ef; }
+pre.rust .number { color: #EFD6AB; }
+pre.rust .string { color: #F8E9A5; }
+pre.rust .self { color: #f92672; }
+pre.rust .boolval { color: #EFD6AB; }
+pre.rust .prelude-val { color: #66d9ef; }
+pre.rust .attribute { color: #C7AFD1; }
+pre.rust .attribute .ident { color: #D4BBDE; }
+pre.rust .comment { color: #75715e; }
+pre.rust .doccomment { color: #75715e; }
+pre.rust .macro { color: #AC7FE7; }
+pre.rust .macro-nonterminal { color: #CFC0E2; }
+pre.rust .lifetime { color: #B76514; }
+pre.rust .op { color: #f92672; }
+
+pre.rust .synctx-0 { background-color: rgba(255, 0, 0, 0.1); }
+pre.rust .synctx-1 { background-color: rgba(0, 255, 0, 0.1); }
