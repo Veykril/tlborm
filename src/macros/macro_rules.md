@@ -64,10 +64,10 @@ macro_rules! gibberish {
 
 You can use any token tree that you can write.
 
-## Captures
+## Metavariables
 
 Matchers can also contain captures. These allow input to be matched based on some general grammar
-category, with the result captured to a variable which can then be substituted into the output.
+category, with the result captured to a metavariable which can then be substituted into the output.
 
 Captures are written as a dollar (`$`) followed by an identifier, a colon (`:`), and finally the
 kind of capture, which must be one of the following:
@@ -86,7 +86,7 @@ kind of capture, which must be one of the following:
 * `ty`: a type
 * `vis`: a possible empty visibility qualifier (e.g. `pub`, `pub(in crate)`, ...)
 
-For example, here is a macro which captures its input as an expression:
+For example, here is a macro which captures its input as an expression under the metavariable `$e`:
 
 ```rust,ignore
 macro_rules! one_expression {
@@ -94,30 +94,46 @@ macro_rules! one_expression {
 }
 ```
 
-These captures leverage the Rust compiler's parser, ensuring that they are always "correct". An
-`expr` capture will *always* capture a complete, valid expression for the version of Rust being
+These metavariables leverage the Rust compiler's parser, ensuring that they are always "correct". An
+`expr` metavariables will *always* capture a complete, valid expression for the version of Rust being
 compiled.
 
-You can mix literal token trees and captures, within limits ([explained below]).
+You can mix literal token trees and metavariables, within limits ([explained below]).
 
-A capture `$name:kind` can be substituted into the expansion by writing `$name`. For example:
+To refer to a metavariable you simply write `$name`, as the type of the variable is already
+specified in the matcher. For example:
 
 ```rust,ignore
 macro_rules! times_five {
-    ($e:expr) => {5 * $e};
+    ($e:expr) => { 5 * $e };
 }
 ```
 
-Much like macro expansion, captures are substituted as complete AST nodes. This means that no matter
-what sequence of tokens is captured by `$e`, it will be interpreted as a single, complete expression.
+Much like macro expansion, metavariables are substituted as complete AST nodes. This means that no
+matter what sequence of tokens is captured by `$e`, it will be interpreted as a single, complete
+expression.
 
-You can also have multiple captures in a single matcher:
+You can also have multiple metavariables in a single matcher:
 
 ```rust,ignore
 macro_rules! multiply_add {
-    ($a:expr, $b:expr, $c:expr) => {$a * ($b + $c)};
+    ($a:expr, $b:expr, $c:expr) => { $a * ($b + $c) };
 }
 ```
+
+And use them as often as you like in the expansion:
+
+```rust,ignore
+macro_rules! discard {
+    ($e:expr) => {};
+}
+macro_rules! repeat {
+    ($e:expr) => { $e; $e; $e; };
+}
+```
+
+There is also a special metavariable called `$crate` which can be used to refer to the current
+current.
 
 ## Repetitions
 
@@ -126,18 +142,21 @@ general form `$ ( ... ) sep rep`.
 
 * `$` is a literal dollar token.
 * `( ... )` is the paren-grouped matcher being repeated.
-* `sep` is an *optional* separator token. Common examples are `,` and `;`.
-* `rep` is the *required* repeat control. Currently, this can be:
+* `sep` is an *optional* separator token. It may not be a delimiter or one
+    of the repitition operators. Common examples are `,` and `;`.
+* `rep` is the *required* repeat operator. Currently, this can be:
     * `?`: indicating zero or one repetitions, effectively making the group optional
     * `*`: indicating zero or more repetitions
     * `*`: indicating one or more repetitions
 
-    You cannot write "zero or one" or any other more specific counts or ranges.
+    You cannot write "zero or one" or any other more specific counts or ranges.    
+    Since `?` represents at most one occurrence, it cannot be used with a separator.
 
-Repetitions can contain any other valid matcher, including literal token trees, captures, and other
-repetitions allowing deeper nesting.
+Repetitions can contain any other valid matcher, including literal token trees, metavariables, and other
+repetitions allowing arbitrary nesting.
 
-Repetitions use the same syntax in the expansion.
+Repetitions use the same syntax in the expansion and repeated metavariables can only be accessed
+inside of repetitions in the expansion.
 
 For example, below is a macro which formats each element as a string. It matches zero or more
 comma-separated expressions and expands to an expression that constructs a vector.
