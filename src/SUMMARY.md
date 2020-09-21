@@ -18,3 +18,5 @@
 - [Macros, A Practical Introduction](./macros-practical.md)
 - [Patterns](./patterns.md)
 - [Building Blocks](./building-blocks.md)
+    - [AST Coercion](./building-blocks/ast-coercion.md)
+    - [Counting](./building-blocks/counting.md)
