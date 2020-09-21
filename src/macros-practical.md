@@ -541,12 +541,13 @@ Success! ... or so I thought. Turns out this is being rejected by the compiler n
 was fine back when this was written. The reason for this is that the compiler now recognizes the
 `...` as a token, and as we know we may only use `=>`, `,` or `;` after an expression fragment. So
 unfortunately we are now out of luck as our dreamed up syntax will not work out this way, so let us
-just choose one that looks the most befitting that we are allowed to use instead, I'd say `=>` works.
+just choose one that looks the most befitting that we are allowed to use instead,
+I'd say replacing `,` with `;` works.
 
 ```rust
 macro_rules! recurrence {
-    ( a[n]: $sty:ty = $($inits:expr),+ => $recur:expr ) => {
-//                                     ^~~ changed
+    ( a[n]: $sty:ty = $($inits:expr),+ ; ... ; $recur:expr ) => {
+//                                     ^~~~~~^ changed
         /* ... */
 #         // Cheat :D
 #         (vec![0u64, 1, 2, 3, 5, 8, 13, 21, 34]).into_iter()
@@ -554,8 +555,8 @@ macro_rules! recurrence {
 }
 
 fn main() {
-    let fib = recurrence![a[n]: u64 = 0, 1 => a[n-1] + a[n-2]];
-//                                         ^~~ changed
+    let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-1] + a[n-2]];
+//                                        ^~~~~^ changed
 
     for e in fib.take(10) { println!("{}", e) }
 }
@@ -571,7 +572,7 @@ metavariable `$sty:ty` by using `$sty`. So, let's go through and fix the `u64`s:
 
 ```rust
 macro_rules! recurrence {
-    ( a[n]: $sty:ty = $($inits:expr),+ => $recur:expr ) => {
+    ( a[n]: $sty:ty = $($inits:expr),+ ; ... ; $recur:expr ) => {
         {
             use std::ops::Index;
 
@@ -645,7 +646,7 @@ macro_rules! recurrence {
 }
 
 fn main() {
-    let fib = recurrence![a[n]: u64 = 0, 1 => a[n-1] + a[n-2]];
+    let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-1] + a[n-2]];
 
     for e in fib.take(10) { println!("{}", e) }
 }
@@ -816,7 +817,7 @@ macro_rules! count_exprs {
 }
 
 macro_rules! recurrence {
-    ( a[n]: $sty:ty = $($inits:expr),+ => $recur:expr ) => {
+    ( a[n]: $sty:ty = $($inits:expr),+ ; ... ; $recur:expr ) => {
         {
             use std::ops::Index;
 
@@ -892,7 +893,7 @@ macro_rules! recurrence {
 /* ... */
 # 
 # fn main() {
-#     let fib = recurrence![a[n]: u64 = 0, 1 => a[n-1] + a[n-2]];
+#     let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-1] + a[n-2]];
 # 
 #     for e in fib.take(10) { println!("{}", e) }
 # }
@@ -906,7 +907,7 @@ With that done, we can now substitute the last thing: the `recur` expression.
 #     ($head:expr $(, $tail:expr)*) => (1 + count_exprs!($($tail),*));
 # }
 # macro_rules! recurrence {
-#     ( a[n]: $sty:ty = $($inits:expr),+ => $recur:expr ) => {
+#     ( a[n]: $sty:ty = $($inits:expr),+ ; ... ; $recur:expr ) => {
 #         {
 #             use std::ops::Index;
 #
@@ -968,7 +969,7 @@ With that done, we can now substitute the last thing: the `recur` expression.
 #     };
 # }
 # fn main() {
-#     let fib = recurrence![a[n]: u64 = 1, 1 => a[n-1] + a[n-2]];
+#     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-1] + a[n-2]];
 #     for e in fib.take(10) { println!("{}", e) }
 # }
 ```
@@ -977,28 +978,28 @@ And, when we compile our finished macro...
 
 ```text
 error[E0425]: cannot find value `a` in this scope
-  --> src/main.rs:68:47
+  --> src/main.rs:68:50
    |
-68 |     let fib = recurrence![a[n]: u64 = 1, 1 => a[n-1] + a[n-2]];
-   |                                               ^ not found in this scope
+68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-1] + a[n-2]];
+   |                                                  ^ not found in this scope
 
 error[E0425]: cannot find value `n` in this scope
-  --> src/main.rs:68:49
+  --> src/main.rs:68:52
    |
-68 |     let fib = recurrence![a[n]: u64 = 1, 1 => a[n-1] + a[n-2]];
-   |                                                 ^ not found in this scope
+68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-1] + a[n-2]];
+   |                                                    ^ not found in this scope
 
 error[E0425]: cannot find value `a` in this scope
-  --> src/main.rs:68:56
+  --> src/main.rs:68:59
    |
-68 |     let fib = recurrence![a[n]: u64 = 1, 1 => a[n-1] + a[n-2]];
-   |                                                        ^ not found in this scope
+68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-1] + a[n-2]];
+   |                                                           ^ not found in this scope
 
 error[E0425]: cannot find value `n` in this scope
-  --> src/main.rs:68:58
+  --> src/main.rs:68:61
    |
-68 |     let fib = recurrence![a[n]: u64 = 1, 1 => a[n-1] + a[n-2]];
-   |                                                          ^ not found in this scope
+68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-1] + a[n-2]];
+   |                                                             ^ not found in this scope
 ```
 
 ... wait, what? That can't be right... let's check what the macro is expanding to.
@@ -1174,7 +1175,7 @@ macro_rules! count_exprs {
 }
 
 macro_rules! recurrence {
-    ( $seq:ident [ $ind:ident ]: $sty:ty = $($inits:expr),+ => $recur:expr ) => {
+    ( $seq:ident [ $ind:ident ]: $sty:ty = $($inits:expr),+ ; ... ; $recur:expr ) => {
 //    ^~~~~~~~~~   ^~~~~~~~~~ changed
         {
             use std::ops::Index;
@@ -1246,7 +1247,7 @@ macro_rules! recurrence {
 }
 
 fn main() {
-    let fib = recurrence![a[n]: u64 = 0, 1 => a[n-1] + a[n-2]];
+    let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-1] + a[n-2]];
 
     for e in fib.take(10) { println!("{}", e) }
 }
@@ -1262,7 +1263,7 @@ And it compiles!  Now, let's try with a different sequence.
 # }
 # 
 # macro_rules! recurrence {
-#     ( $seq:ident [ $ind:ident ]: $sty:ty = $($inits:expr),+ => $recur:expr ) => {
+#     ( $seq:ident [ $ind:ident ]: $sty:ty = $($inits:expr),+ ; ... ; $recur:expr ) => {
 #         {
 #             use std::ops::Index;
 #             
@@ -1331,7 +1332,7 @@ And it compiles!  Now, let's try with a different sequence.
 # }
 # 
 # fn main() {
-for e in recurrence!(f[i]: f64 = 1.0 => f[i-1] * i as f64).take(10) {
+for e in recurrence!(f[i]: f64 = 1.0; ...; f[i-1] * i as f64).take(10) {
     println!("{}", e)
 }
 # }
