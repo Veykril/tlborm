@@ -1,6 +1,6 @@
 # Summary
 
-[Introduction](../README.md)
+[Introduction](./introduction.md)
 
 - [Macros, A Methodical Introduction](./macros.md)
     - [Syntax Extensions](./macros/syntax.md)

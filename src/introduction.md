@@ -1,1 +1,1 @@
-# Introduction
+{{#include ../README.md}}
