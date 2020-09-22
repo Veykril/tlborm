@@ -26,3 +26,4 @@
 - [Building Blocks](./building-blocks.md)
     - [AST Coercion](./building-blocks/ast-coercion.md)
     - [Counting](./building-blocks/counting.md)
+        - [Abacus Counting](./building-blocks/abacus-counting.md)
