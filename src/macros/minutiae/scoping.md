@@ -159,4 +159,12 @@ fn b() {
 
 These scoping rules are why a common piece of advice is to place all macros which should be
 accessible "crate wide" at the very top of your root module, before any other modules. This ensures
-they are available *consistently*.
+they are available *consistently*. This also applies to `mod` definitions for files, as in:
+
+```rs
+#[macro_use]
+mod some_mod_that_defines_macros;
+mod some_mod_that_uses_those_macros;
+```
+
+The order here is important, swap the declaration order it won't compile.
