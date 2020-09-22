@@ -128,6 +128,9 @@ But not just `rustc` exposes means to aid in debugging macros. For the aforement
 [`cargo-expand`](https://github.com/dtolnay/cargo-expand) made by [`dtolnay`](https://github.com/dtolnay)
 which is basically just a wrapper around it.
 
+You can also use the [playground](https://play.rust-lang.org/), clicking on its `TOOLS` button in
+the top right gives you the option to expand macros right there!
+
 Another amazing tool is [`lukaslueg`'s](https://github.com/lukaslueg)
 [`macro_railroad`](https://github.com/lukaslueg/macro_railroad), a tool that allows you visualize
 and generate syntax diagrams for Rust's `macro-by-example` style macros. It visualizes the accepted

@@ -655,7 +655,7 @@ fn main() {
 Let's tackle a harder one: how to turn `inits` into both the array literal `[0, 1]` *and* the array
 type, `[$sty; 2]`. The first one we can do like so:
 
-```ignore
+```rust,ignore
             Recurrence { mem: [$($inits),+], pos: 0 }
 //                             ^~~~~~~~~~~ changed
 ```
@@ -803,7 +803,7 @@ macro_rules! count_exprs {
 ```
 
 > **<abbr title="Just for this example">JFTE</abbr>**: this is not the *only*, or even the *best*
-    way of counting things. You may wish to peruse the [Counting](.blocks/counting.html) section
+    way of counting things. You may wish to peruse the [Counting](./blocks/counting.html) section
     later.
 
 With this, we can now modify `recurrence` to determine the necessary size of `mem`.
