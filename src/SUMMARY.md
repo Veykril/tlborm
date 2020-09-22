@@ -20,6 +20,7 @@
     - [Callbacks](./patterns/callbacks.md)
     - [Incremental TT Munchers](./patterns/tt-muncher.md)
     - [Internal Rules](./patterns/internal-rules.md)
+    - [Push-down Accumulation](./patterns/push-down-acc.md)
 - [Building Blocks](./building-blocks.md)
     - [AST Coercion](./building-blocks/ast-coercion.md)
     - [Counting](./building-blocks/counting.md)
