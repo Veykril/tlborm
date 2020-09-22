@@ -22,6 +22,7 @@
     - [Internal Rules](./patterns/internal-rules.md)
     - [Push-down Accumulation](./patterns/push-down-acc.md)
     - [Repitition Replacement](./patterns/repitition-replacement.md)
+    - [TT Bundling](./patterns/tt-bundling.md)
 - [Building Blocks](./building-blocks.md)
     - [AST Coercion](./building-blocks/ast-coercion.md)
     - [Counting](./building-blocks/counting.md)
