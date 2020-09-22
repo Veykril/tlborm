@@ -17,6 +17,7 @@
         - [Import and Export](./macros/minutiae/import-export.md)
 - [Macros, A Practical Introduction](./macros-practical.md)
 - [Patterns](./patterns.md)
+    - [Callbacks](./patterns/callbacks.md)
 - [Building Blocks](./building-blocks.md)
     - [AST Coercion](./building-blocks/ast-coercion.md)
     - [Counting](./building-blocks/counting.md)
