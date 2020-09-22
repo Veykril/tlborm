@@ -148,7 +148,7 @@ general form `$ ( ... ) sep rep`.
 * `rep` is the *required* repeat operator. Currently, this can be:
     * `?`: indicating zero or one repetitions, effectively making the group optional
     * `*`: indicating zero or more repetitions
-    * `*`: indicating one or more repetitions
+    * `+`: indicating one or more repetitions
 
     You cannot write "zero or one" or any other more specific counts or ranges.    
     Since `?` represents at most one occurrence, it cannot be used with a separator.
