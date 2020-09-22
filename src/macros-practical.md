@@ -5,7 +5,7 @@ example. It does *not* attempt to explain all of the intricacies of the system; 
 you comfortable with how and why macros are written.
 
 There is also the [Macros chapter of the Rust Book](https://doc.rust-lang.org/book/ch19-06-macros.html)
-which is another high-level explanation, and the [methodical introduction](./macros.html) chapter of
+which is another high-level explanation, and the [methodical introduction](/macros.html) chapter of
 this book, which explains the macro system in detail.
 
 ## A Little Context
@@ -70,8 +70,8 @@ says the input to the macro must match:
 - the literal token sequence `,` `...` `,`,
 - a valid *expression* captured into the [metavariable] `recur` (`$recur:expr`).
 
-[repeating]:./macros/macro_rules.html#repetitions
-[metavariable]:./macros/macro_rules.html#metavariables
+[repeating]:/macros/macro_rules.html#repetitions
+[metavariable]:/macros/macro_rules.html#metavariables
 
 Finally, the rule says that *if* the input matches this rule, then the macro invocation should be
 replaced by the token sequence `/* ... */`.
@@ -215,7 +215,7 @@ Here, I've added a new metavariable: `sty` which should be a type.
 
 > **Aside**: if you're wondering, the bit after the colon in a metavariable can be one of several
     kinds of syntax matchers. The most common ones are `item`, `expr`, and `ty`. A complete
-    explanation can be found in [Macros, A Methodical Introduction; `macro_rules!` (Matchers)](./macros/macro_rules.html#Metavariables).
+    explanation can be found in [Macros, A Methodical Introduction; `macro_rules!` (Matchers)](/macros/macro_rules.html#Metavariables).
 >
 > There's one other thing to be aware of: in the interests of future-proofing the language, the
     compiler restricts what tokens you're allowed to put *after* a matcher, depending on what kind
@@ -223,7 +223,7 @@ Here, I've added a new metavariable: `sty` which should be a type.
     *only* be followed by one of `=>`, `,`, and `;`.
 >
 > A complete list can be found in
-    [Macros, A Methodical Introduction; Minutiae; Metavariables and Expansion Redux](./macros/minutiae/metavar-and-expansion.html).
+    [Macros, A Methodical Introduction; Minutiae; Metavariables and Expansion Redux](/macros/minutiae/metavar-and-expansion.html).
 
 ## Indexing and Shuffling
 
@@ -803,7 +803,7 @@ macro_rules! count_exprs {
 ```
 
 > **<abbr title="Just for this example">JFTE</abbr>**: this is not the *only*, or even the *best*
-    way of counting things. You may wish to peruse the [Counting](./blocks/counting.html) section
+    way of counting things. You may wish to peruse the [Counting](/blocks/counting.html) section
     later.
 
 With this, we can now modify `recurrence` to determine the necessary size of `mem`.
@@ -1355,4 +1355,4 @@ Which gives us:
 
 Success!
 
-[`macro_rules!`]:./macros/macro_rules.html
+[`macro_rules!`]:/macros/macro_rules.html

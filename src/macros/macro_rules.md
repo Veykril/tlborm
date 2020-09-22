@@ -136,6 +136,8 @@ macro_rules! repeat {
 There is also a special metavariable called `$crate` which can be used to refer to the current
 current[^hygiene].
 
+[^hygiene]:[Hygiene](./minutiae/hygiene.html)
+
 ## Repetitions
 
 Matchers can contain repetitions. These allow a sequence of tokens to be matched. These have the
@@ -197,5 +199,3 @@ fn main() {
     assert_eq!(s, &["1", "a", "true", "3.14159"]);
 }
 ```
-
-[^hygiene]:[Hygiene](./minutiae/hygiene.html)
