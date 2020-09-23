@@ -1,4 +1,4 @@
-# Repitition Replacement
+# Repetition Replacement
 
 ```rust,ignore
 macro_rules! replace_expr {

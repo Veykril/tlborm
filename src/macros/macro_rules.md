@@ -147,9 +147,9 @@ general form `$ ( ... ) sep rep`.
 * `$` is a literal dollar token.
 * `( ... )` is the paren-grouped matcher being repeated.
 * `sep` is an *optional* separator token. It may not be a delimiter or one
-    of the repitition operators. Common examples are `,` and `;`.
+    of the repetition operators. Common examples are `,` and `;`.
 * `rep` is the *required* repeat operator. Currently, this can be:
-    * `?`: indicating at most one repition
+    * `?`: indicating at most one repetition
     * `*`: indicating zero or more repetitions
     * `+`: indicating one or more repetitions
 
