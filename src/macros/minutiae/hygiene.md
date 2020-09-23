@@ -46,3 +46,46 @@ Which, upon expansion becomes:
 <pre class="rust rust-example-rendered"><span class="synctx-0"><span class="kw">let</span> <span class="ident">four</span> <span class="op">=</span> </span><span class="synctx-1">{&#xa;    <span class="kw">let</span> </span><span class="synctx-0"><span class="ident">a</span></span><span class="synctx-1"> <span class="op">=</span> <span class="number">42</span>;&#xa;    </span><span class="synctx-0"><span class="ident">a</span> <span class="op">/</span> <span class="number">10</span></span><span class="synctx-1">&#xa;}</span><span class="synctx-0">;</span></pre>
 
 The compiler will accept this code because there is only one `a` being used.
+
+### `$crate`
+
+Hygiene is also the reason that we need the `$crate` metavariable when our macro needs access to
+other items in the defining crate. What this special metavariable does is that it expands to an
+absolute path to the defining crate.
+
+```rust,ignore
+//// Definitions in the `helper_macro` crate.
+#[macro_export]
+macro_rules! helped {
+    // () => { helper!() } // This might lead to an error due to 'helper' not being in scope.
+    () => { $crate::helper!() }
+}
+
+#[macro_export]
+macro_rules! helper {
+    () => { () }
+}
+
+//// Usage in another crate.
+// Note that `helper_macro::helper` is not imported!
+use helper_macro::helped;
+
+fn unit() {
+   // but it still works due to `$crate` properly expanding to the crate path `helper_macro`
+   helped!();
+}
+```
+
+Note that, because `$crate` refers to the current crate, it must be used with a fully qualified
+module path when referring to non-macro items:
+
+```rust
+pub mod inner {
+    #[macro_export]
+    macro_rules! call_foo {
+        () => { $crate::inner::foo() };
+    }
+
+    pub fn foo() {}
+}
+```

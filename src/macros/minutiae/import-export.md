@@ -70,7 +70,7 @@ fn main() {}
 ```
 
 When exporting macros, it is often useful to refer to non-macro symbols in the defining crate.
-Because crates can be renamed, there is a special substitution variable available: `$crate`. This
+Because crates can be renamed, there is a special substitution variable available: [`$crate`]. This
 will *always* expand to an absolute path prefix to the containing crate (*e.g.* `:: macs`).
 
 Note that this does *not* work for macros, since macros do not interact with regular name resolution
@@ -81,6 +81,8 @@ currently *no way* to guarantee any given macro will be available when imported 
 
 It is recommended that you *always* use absolute paths to non-macro names, to avoid conflicts,
 *including* names in the standard library.
+
+[`$crate`]:./hygiene.html#crate
 
 ## Edition 2018
 
