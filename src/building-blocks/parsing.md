@@ -81,7 +81,6 @@ macro_rules! struct_item_matcher {
         $( #[$meta:meta] )*
     //  ^~~~attributes~~~~^
         $vis:vis struct $name:ident (
-
             $(
                 $( #[$field_meta:meta] )*
     //          ^~~~field attributes~~~~^
@@ -101,7 +100,6 @@ macro_rules! struct_item_matcher {
 
     // Named-Struct
     (
-
         $( #[$meta:meta] )*
     //  ^~~~attributes~~~~^
         $vis:vis struct $name:ident {
@@ -145,3 +143,86 @@ macro_rules! struct_item_matcher {
 #    let _: Baz = Baz(2, 0.1234, String::new());
 #}
 ```
+
+# Enum
+
+Parsing enums is a bit more complex than structs so we will finally make use of some of the
+[patterns] we have discussed, [Incremental TT Muncher] and [Internal Rules]. Instead of just
+building the parsed enum again we will merely visit all the tokens of the enum, as rebuilding the
+enum would require us to collect all the parsed tokens temporarily again via a
+[Push Down Accumulator].
+
+```rust
+macro_rules! enum_item_matcher {
+    // tuple variant
+    (@variant $variant:ident (
+        $(
+            $( #[$field_meta:meta] )*
+    //      ^~~~field attributes~~~~^
+            $field_vis:vis $field_ty:ty
+    //      ^~~~~~a single field~~~~~~^
+        ),* $(,)?
+    //∨~~rest of input~~∨
+    ) $(, $($tt:tt)* )? ) => {
+        
+        // process rest of the enum
+        $( enum_item_matcher!(@variant $( $tt )*) )?
+    };
+    // named variant
+    (@variant $variant:ident {
+        $(
+            $( #[$field_meta:meta] )*
+    //      ^~~~field attributes~~~!^
+            $field_vis:vis $field_name:ident : $field_ty:ty
+    //      ^~~~~~~~~~~~~~~~~a single field~~~~~~~~~~~~~~~^
+        ),* $(,)?
+    //∨~~rest of input~~∨
+    } $(, $($tt:tt)* )? ) => {
+        // process rest of the enum
+        $( enum_item_matcher!(@variant $( $tt )*) )?
+    };
+    // unit variant
+    (@variant $variant:ident $(, $($tt:tt)* )? ) => {
+        // process rest of the enum
+        $( enum_item_matcher!(@variant $( $tt )*) )?
+    };
+    // trailing comma
+    (@variant ,) => {};
+    // base case
+    (@variant) => {};
+    // entry point
+    (
+        $( #[$meta:meta] )*
+        $vis:vis enum $name:ident {
+            $($tt:tt)*
+        }
+    ) => {
+        enum_item_matcher!(@variant $($tt)*)
+    };
+}
+
+#enum_item_matcher!(
+#    #[derive(Copy, Clone)]
+#    pub(crate) enum Foo { 
+#        Bar,
+#        Baz,
+#    }
+#);
+#enum_item_matcher!(
+#    #[derive(Copy, Clone)]
+#    pub(crate) enum Bar {
+#        Foo(i32, f32),
+#        Bar,
+#        Baz(),
+#    }
+#);
+#enum_item_matcher!(
+#    #[derive(Clone)]
+#    pub(crate) enum Baz {}
+#);
+```
+
+[patterns]:/patterns.html
+[Push Down Accumulator]:/patterns/push-down-acc.html
+[Internal Rules]:/patterns/internal-rules.html
+[Incremental TT Muncher]:/patterns/tt-muncher.html
