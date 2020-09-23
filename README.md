@@ -17,6 +17,11 @@ language as well as it's macro-system keeps evolving. Which is why I wanted to r
 and keep it up to date with current Rust helping other newcomers understand macros, a part of the
 language a lot of people seem to have trouble with.
 
+> This book expects you to have basic knowledge of Rust, it will not explain language features or
+> constructs that are irrelevant to macros. Having read and understood the first seven chapters of
+> the [Rust Book](https://doc.rust-lang.org/stable/book/) is a must, though having read the majority
+> of the book is recommended.
+
 ## Thanks
 
 Thanks to Daniel Keep for the original work and thanks to the following people for suggestions and
