@@ -21,17 +21,37 @@ citing a syntax error.
 As such, it is important in general that you write macro rules from most-specific to least-specific.
 
 To defend against future syntax changes altering the interpretation of macro input, `macro_rules!`
-restricts what can follow various metavariables. The complete list, as of Rust 1.47 is as follows:
+restricts what can follow various metavariables. The complete list, showing what may follow what
+fragment specifier, as of Rust 1.47 is as follows:
 
-* `stmt` and `expr`: `=>` `,` `;`
-* `pat`: `=>` `,` `=` `|` `if` `in`
-* `path` and `ty`: `=>` `,` `=` `|` `;` `:` `>` `>>` `[` `{` `as` `where` `$b:block`
+* `stmt` and `expr`: `=>`, `,`, or `;`
+* `pat`: `=>`, `,`, `=`, `|`, `if`, `in`
+* `path` and `ty`:`=>`, `,`, `=`, `|`, `;`, `:`, `>`, `>>`, `[`, `{`, `as`, `where`, or a macro
+    variable of block fragment specifier.
 * `vis`: `,` an identifier other than a non-raw `priv`, any token that can begin a type or a
     metavariable with an `ident`, `ty`, or `path` fragment specifier.
+* All other fragment specifiers have no restrictions.
 
 Repetitions also adhere to these restrictions, meaning if a repetition can repeat multiple times
 (`*` or `+`), then the contents must be able to follow themselves. If a repetition can repeat zero
 times (`?` or `*`) then what comes after the repetition must be able to follow what comes before.
+
+The parser also does not perform any kind of lookahead. That means if the compiler cannot
+unambiguously determine how to parse the macro invocation one token at a time, it will abort with an
+ambiguity error. A simple example that triggers this:
+
+```rust
+macro_rules! ambiguity {
+    ($($i:ident)* $i2:ident) => { };
+}
+
+// error:
+//    local ambiguity: multiple parsing options: built-in NTs ident ('i') or ident ('i2').
+ambiguity!(an_identifier);
+```
+
+The parser does not look ahead past the identifier to see if the following token is a `)`, which
+would allow it to parse properly.
 
 One aspect of substitution that often surprises people is that substitution is *not* token-based,
 despite very much *looking* like it.
@@ -109,6 +129,6 @@ something else (#[no_mangle])
 something else (#[inline])
 ```
 
-The only way to avoid this is to capture using the `tt` or `ident` kinds. Once you capture with
-anything else, the only thing you can do with the result from then on is substitute it directly
-into the output.
+The only way to avoid this is to capture using the `tt`, `ident` or `lifetime` kinds. Once you
+capture with anything else, the only thing you can do with the result from then on is substitute it
+directly into the output.

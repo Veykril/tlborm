@@ -24,7 +24,8 @@ Each *"rule"* looks like the following:
 ```
 
 Like before, the types of parens used can be any kind, but parens around the matcher and braces
-around the expansion are somewhat conventional.
+around the expansion are somewhat conventional. The expansion part of a rule is also called its
+*transcriber*.
 
 If you are wondering, the `macro_rules!` invocation expands to... *nothing*.  At least, nothing that
 appears in the AST; rather, it manipulates compiler-internal structures to register the macro. As
@@ -33,8 +34,8 @@ such, you can *technically* use `macro_rules!` in any position where an empty ex
 ## Matching
 
 When a macro is invoked, the `macro_rules!` interpreter goes through the rules one by one, in
-lexical order. For each rule, it tries to match the contents of the input token tree against that
-rule's `matcher`. A matcher must match the *entirety* of the input to be considered a match.
+declaration order. For each rule, it tries to match the contents of the input token tree against
+that rule's `matcher`. A matcher must match the *entirety* of the input to be considered a match.
 
 If the input matches the matcher, the invocation is replaced by the `expansion`; otherwise, the next
 rule is tried. If all rules fail to match, macro expansion fails with an error.
@@ -198,3 +199,7 @@ fn main() {
     assert_eq!(s, &["1", "a", "true", "3.14159"]);
 }
 ```
+
+For the compelte grammar definition you may want to consult the 
+[Macros By Example](https://doc.rust-lang.org/reference/macros-by-example.html#macros-by-example)
+chapter of the Rust reference.

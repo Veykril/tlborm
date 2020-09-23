@@ -1,7 +1,16 @@
 # Scoping
 
-The way in which macros are scoped can be somewhat unintuitive. Firstly, unlike everything else in
-the language, macros will remain visible in sub-modules.
+The way in which macros are scoped can be somewhat unintuitive. Macros use two forms of scopes:
+textual scope, and path-based scope.
+
+When a macro is invoked by an unqualified identifier(an identifier that isn't part of a mulit-part 
+path), it is first looked up in textual scoping and then in path-based scoping should the first
+lookup not yield any results. If it is invoked by a qualified identifier it will skip the textual
+scoping lookup and instead only do a look up in the path-based scoping.
+
+## Textual Scope
+
+Firstly, unlike everything else in the language, macros will remain visible in sub-modules.
 
 ```rust
 macro_rules! X { () => {}; }
@@ -72,7 +81,28 @@ mod c {
 # fn main() {}
 ```
 
-Macros can be exported from a module using the `#[macro_use]` attribute.
+Defining macros multiple times is allowed and the most recent declaration will simply shadow
+previous ones unless it has gone out of scope.
+
+```rust
+macro_rules! X { (1) => {}; }
+X!(1);
+macro_rules! X { (2) => {}; }
+// X!(1); // Error: no rule matches `1`
+X!(2);
+
+mod a {
+    macro_rules! X { (3) => {}; }
+    // X!(2); // Error: no rule matches `2`
+    X!(3);
+}
+// X!(3); // Error: no rule matches `3`
+X!(2);
+
+```
+
+Macros can be exported from a module using the `#[macro_use]` attribute. Using this on a module is
+similar to saying that you do not want to have the module's macros scope end with the module.
 
 ```rust
 mod a {
@@ -167,4 +197,10 @@ mod some_mod_that_defines_macros;
 mod some_mod_that_uses_those_macros;
 ```
 
-The order here is important, swap the declaration order it won't compile.
+The order here is important, swap the declaration order and it won't compile.
+
+## Path-Based Scope
+
+By default, a macro has no path-based scope. However, if it has the `#[macro_export]` attribute,
+then it is declared in the crate root scope and can be referred to similar to how you refer to any
+other item. The [Import and Export] chapter goes more in-depth into said attribute.
