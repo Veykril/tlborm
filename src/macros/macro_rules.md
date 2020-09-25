@@ -72,7 +72,7 @@ Matchers can also contain captures. These allow input to be matched based on som
 category, with the result captured to a metavariable which can then be substituted into the output.
 
 Captures are written as a dollar (`$`) followed by an identifier, a colon (`:`), and finally the
-kind of capture, which must be one of the following:
+kind of capture which is also called the fragment-specifier, which must be one of the following:
 
 * `block`: a block (i.e. a block of statements and/or an expression, surrounded by braces)
 * `expr`: an expression
@@ -87,6 +87,9 @@ kind of capture, which must be one of the following:
 * `tt`: a single token tree
 * `ty`: a type
 * `vis`: a possible empty visibility qualifier (e.g. `pub`, `pub(in crate)`, ...)
+
+For more in-depth description of the fragement specifiers, check out the
+[Fragment Specifiers](./minutiae/fragment-specifiers.md) chapter.
 
 For example, here is a macro which captures its input as an expression under the metavariable `$e`:
 

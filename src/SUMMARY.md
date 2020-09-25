@@ -9,6 +9,7 @@
         - [Expansion](./macros/syntax/expansion.md)
     - [macro_rules!](./macros/macro_rules.md)
     - [Minutiae](./macros/minutiae.md)
+        - [Fragment Specifiers](./macros/minutiae/fragment-specifiers.md)
         - [Metavariables and Expansion Redux](./macros/minutiae/metavar-and-expansion.md)
         - [Hygiene](./macros/minutiae/hygiene.md)
         - [Non-Identifier Identifiers](./macros/minutiae/identifiers.md)

@@ -54,9 +54,11 @@ there may be many intermediate layers which need to forward these arguments, but
 
 As such, it can be very useful to bundle all such arguments together into a single TT by placing
 them in a group. This allows layers which do not need to use the arguments to simply capture and
-substitute a single `tt`, rather than having to exactly capture and substitute the entire argument
+substitute a single [`tt`], rather than having to exactly capture and substitute the entire argument
 group.
 
 The example above bundles the `$a` and `$b` expressions into a group which can then be forwarded as
-a single `tt` by the recursive rule. This group is then destructured by the terminal rules to access
+a single [`tt`] by the recursive rule. This group is then destructured by the terminal rules to access
 the expressions.
+
+[`tt`]:./fragment-specifiers.html#tt

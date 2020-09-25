@@ -24,7 +24,7 @@ multi-character symbol tokens in Rust, as of Rust 1.2.[^two-lexers]
 [^wither-at]: `@` has a purpose, though most people seem to forget about it completely: it is used
 in patterns to bind a non-terminal part of the pattern to a name.
 
-[^two-lexers]: Technically rust currently(1.47) has two lexers, [`rustc_lexer`] which only emits
+[^two-lexers]: Technically rust currently(1.46) has two lexers, [`rustc_lexer`] which only emits
 single character symbols as tokens and the [lexer] in [`rustc_parse`] which sees multi-character
 symbols as distinct tokens.
 

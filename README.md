@@ -6,10 +6,9 @@ has not been updated since the early summer of 2016, adapted to make use of
 
 [View the rendered version](https://veykril.github.io/tlborm/).
 
-This book is an attempt to distil the Rust community's collective knowledge of Rust macros,
+This book is an attempt to distill the Rust community's collective knowledge of Rust macros,
 `Macros by Example` to be precise.  As such, both additions (in the form of pull requests) and
 requests (in the form of issues) are welcome.
-
 The [original Little Book of Rust Macros](https://github.com/DanielKeep/tlborm) has helped me
 immensely with understanding ***Macros by Example*** style macros while I was still learning the
 language. Unfortunately, the author of the book has since left the project untouched, while the Rust

@@ -22,14 +22,14 @@ As such, it is important in general that you write macro rules from most-specifi
 
 To defend against future syntax changes altering the interpretation of macro input, `macro_rules!`
 restricts what can follow various metavariables. The complete list, showing what may follow what
-fragment specifier, as of Rust 1.47 is as follows:
+fragment specifier, as of Rust 1.46 is as follows:
 
-* `stmt` and `expr`: `=>`, `,`, or `;`
-* `pat`: `=>`, `,`, `=`, `|`, `if`, `in`
-* `path` and `ty`:`=>`, `,`, `=`, `|`, `;`, `:`, `>`, `>>`, `[`, `{`, `as`, `where`, or a macro
-    variable of block fragment specifier.
-* `vis`: `,` an identifier other than a non-raw `priv`, any token that can begin a type or a
-    metavariable with an `ident`, `ty`, or `path` fragment specifier.
+* [`stmt`] and [`expr`]: `=>`, `,`, or `;`
+* [`pat`]: `=>`, `,`, `=`, `|`, `if`, `in`
+* [`path`] and [`ty`]:`=>`, `,`, `=`, `|`, `;`, `:`, `>`, `>>`, `[`, `{`, `as`, `where`, or a macro
+    variable of the [`block`] fragment specifier.
+* [`vis`]: `,`, an identifier other than a non-raw `priv`, any token that can begin a type or a
+    metavariable with an [`ident`], [`ty`], or [`path`] fragment specifier.
 * All other fragment specifiers have no restrictions.
 
 Repetitions also adhere to these restrictions, meaning if a repetition can repeat multiple times
@@ -129,6 +129,21 @@ something else (#[no_mangle])
 something else (#[inline])
 ```
 
-The only way to avoid this is to capture using the `tt`, `ident` or `lifetime` kinds. Once you
+The only way to avoid this is to capture using the [`tt`], [`ident`] or [`lifetime`] kinds. Once you
 capture with anything else, the only thing you can do with the result from then on is substitute it
 directly into the output.
+
+
+[`item`]:./fragment-specifiers.html#item
+[`block`]:./fragment-specifiers.html#block
+[`stmt`]:./fragment-specifiers.html#stmt
+[`pat`]:./fragment-specifiers.html#pat
+[`expr`]:./fragment-specifiers.html#expr
+[`ty`]:./fragment-specifiers.html#ty
+[`ident`]:./fragment-specifiers.html#ident
+[`path`]:./fragment-specifiers.html#path
+[`tt`]:./fragment-specifiers.html#tt
+[`meta`]:./fragment-specifiers.html#meta
+[`lifetime`]:./fragment-specifiers.html#lifetime
+[`vis`]:./fragment-specifiers.html#vis
+[`literal`]:./fragment-specifiers.html#literal

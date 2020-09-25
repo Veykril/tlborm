@@ -40,7 +40,7 @@ time. At each step, it matches and removes (munches) some sequence of tokens fro
 input, generates some intermediate output, then recurses on the input tail.
 
 The reason for "TT" in the name specifically is that the unprocessed part of the input is *always*
-captured as `$($tail:tt)*`. This is done as a `tt` repetition is the only way to *losslessly*
+captured as `$($tail:tt)*`. This is done as a [`tt`] repetition is the only way to *losslessly*
 capture part of a macro's input.
 
 The only hard restrictions on TT munchers are those imposed on the macro system as a whole:
@@ -54,3 +54,5 @@ muncher, you make reasonable efforts to keep recursion as limited as possible. T
 adding additional rules to account for variation in the input (as opposed to recursion into an
 intermediate layer), or by making compromises on the input syntax to make using standard repetitions
 more tractable.
+
+[`tt`]:./fragment-specifiers.html#tt

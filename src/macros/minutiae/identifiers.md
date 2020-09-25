@@ -207,4 +207,6 @@ You might think you can get around this by using `$self_:pat` instead; that way,
 Except, no, because `self` isn't a pattern. Joy.
 
 The only work around for this (in cases where you want to accept some combination of these tokens)
-is to use a `tt` matcher instead.
+is to use a [`tt`] matcher instead.
+
+[`tt`]:./fragment-specifiers.html#tt
