@@ -11,7 +11,7 @@ this book, which explains the macro system in detail.
 ## A Little Context
 
 > **Note**: don't panic! What follows is the only math that will be talked about. You can quite
-    safely skip this section if you just want to get to the meat of the article.
+> safely skip this section if you just want to get to the meat of the article.
 
 If you aren't familiar, a recurrence relation is a sequence where each value is defined in terms of
 one or more *previous* values, with one or more initial values to get the whole thing started. For
@@ -108,7 +108,7 @@ This will be the actual iterator type. `mem` will be the memo buffer to hold the
 the recurrence can be computed. `pos` is to keep track of the value of `n`.
 
 > **Aside**: I've chosen `u64` as a "sufficiently large" type for the elements of this sequence.
-    Don't worry about how this will work out for *other* sequences; we'll come to it.
+> Don't worry about how this will work out for *other* sequences; we'll come to it.
 
 ```rust,ignore
     impl Iterator for Recurrence {
@@ -190,8 +190,8 @@ for e in fib.take(10) { println!("{}", e) }
 ```
 
 > **Aside**: Yes, this *does* mean we're defining a different `Recurrence` struct and its
-    implementation for each macro invocation. Most of this will optimise away in the final binary,
-    with some judicious use of `#[inline]` attributes.
+> implementation for each macro invocation. Most of this will optimise away in the final binary,
+> with some judicious use of `#[inline]` attributes.
 
 It's also useful to check your expansion as you're writing it. If you see anything in the expansion
 that needs to vary with the invocation, but *isn't* in the actual macro syntax, you should work out
@@ -214,16 +214,16 @@ for e in fib.take(10) { println!("{}", e) }
 Here, I've added a new metavariable: `sty` which should be a type.
 
 > **Aside**: if you're wondering, the bit after the colon in a metavariable can be one of several
-    kinds of syntax matchers. The most common ones are `item`, `expr`, and `ty`. A complete
-    explanation can be found in [Macros, A Methodical Introduction; `macro_rules!` (Matchers)](/macros/macro_rules.html#Metavariables).
+> kinds of syntax matchers. The most common ones are `item`, `expr`, and `ty`. A complete
+> explanation can be found in [Macros, A Methodical Introduction; `macro_rules!` (Matchers)](/macros/macro_rules.html#Metavariables).
 >
 > There's one other thing to be aware of: in the interests of future-proofing the language, the
-    compiler restricts what tokens you're allowed to put *after* a matcher, depending on what kind
-    it is. Typically, this comes up when trying to match expressions or statements; those can
-    *only* be followed by one of `=>`, `,`, and `;`.
+> compiler restricts what tokens you're allowed to put *after* a matcher, depending on what kind
+> it is. Typically, this comes up when trying to match expressions or statements; those can
+> *only* be followed by one of `=>`, `,`, and `;`.
 >
 > A complete list can be found in
-    [Macros, A Methodical Introduction; Minutiae; Metavariables and Expansion Redux](/macros/minutiae/metavar-and-expansion.html).
+> [Macros, A Methodical Introduction; Minutiae; Metavariables and Expansion Redux](/macros/minutiae/metavar-and-expansion.html).
 
 ## Indexing and Shuffling
 
@@ -257,16 +257,16 @@ impl<'a> Index<usize> for IndexOffset<'a> {
 ```
 
 > **Aside**: since lifetimes come up *a lot* with people new to Rust, a quick explanation: `'a` and
-    `'b` are lifetime parameters that are used to track where a reference
-    (*i.e.* a borrowed pointer to some data) is valid. In this case, `IndexOffset` borrows a
-    reference to our iterator's data, so it needs to keep track of how long it's allowed to hold
-    that reference for, using `'a`.
+> `'b` are lifetime parameters that are used to track where a reference
+> (*i.e.* a borrowed pointer to some data) is valid. In this case, `IndexOffset` borrows a
+> reference to our iterator's data, so it needs to keep track of how long it's allowed to hold
+> that reference for, using `'a`.
 >
 > `'b` is used because the `Index::index` function (which is how subscript syntax is actually
-    implemented) is *also* parameterised on a lifetime, on account of returning a borrowed reference.
-    `'a` and `'b` are not necessarily the same thing in all cases. The borrow checker will make sure
-    that even though we don't explicitly relate `'a` and `'b` to one another, we don't accidentally
-    violate memory safety.
+> implemented) is *also* parameterised on a lifetime, on account of returning a borrowed reference.
+> `'a` and `'b` are not necessarily the same thing in all cases. The borrow checker will make sure
+> that even though we don't explicitly relate `'a` and `'b` to one another, we don't accidentally
+> violate memory safety.
 
 This changes the definition of `a` to:
 
@@ -498,23 +498,23 @@ it during expansion, `macro_rules` can't decide if it's supposed to parse *anoth
 expression, so it gives up. Theoretically, this *should* work as desired, but currently doesn't.
 
 > **Aside**: I *did* fib a little about how our rule would be interpreted by the macro system. In
-    general, it *should* work as described, but doesn't in this case. The `macro_rules` machinery,
-    as it stands, has its foibles, and its worthwhile remembering that on occasion, you'll need to
-    contort a little to get it to work.
+> general, it *should* work as described, but doesn't in this case. The `macro_rules` machinery,
+> as it stands, has its foibles, and its worthwhile remembering that on occasion, you'll need to
+> contort a little to get it to work.
 >
 > In this *particular* case, there are two issues. First, the macro system doesn't know what does
-    and does not constitute the various grammar elements (*e.g.* an expression); that's the parser's
-    job. As such, it doesn't know that `...` isn't an expression. Secondly, it has no way of trying
-    to capture a compound grammar element (like an expression) without 100% committing to that
-    capture.
+> and does not constitute the various grammar elements (*e.g.* an expression); that's the parser's
+> job. As such, it doesn't know that `...` isn't an expression. Secondly, it has no way of trying
+> to capture a compound grammar element (like an expression) without 100% committing to that
+> capture.
 >
 > In other words, it can ask the parser to try and parse some input as an expression, but the parser
-    will respond to any problems by aborting. The only way the macro system can currently deal with
-    this is to just try to forbid situations where this could be a problem.
+> will respond to any problems by aborting. The only way the macro system can currently deal with
+> this is to just try to forbid situations where this could be a problem.
 >
 > On the bright side, this is a state of affairs that exactly *no one* is enthusiastic about. The
-    `macro` keyword has already been reserved for a more rigorously-defined future macro system.
-    Until then, needs must.
+> `macro` keyword has already been reserved for a more rigorously-defined future macro system.
+> Until then, needs must.
 
 Thankfully, the fix is relatively simple: we remove the comma from the syntax. To keep things
 balanced, we'll remove *both* commas around `...`:
@@ -689,15 +689,15 @@ macro_rules! count_exprs {
 ```
 
 > **Aside**: You may have noticed I used parentheses here instead of curly braces for the expansion.
-    `macro_rules` really doesn't care *what* you use, so long as it's one of the "matcher" pairs:
-    `( )`, `{ }` or `[ ]`. In fact, you can switch out the matchers on the macro itself
-    (*i.e.* the matchers right after the macro name), the matchers around the syntax rule, and the
-    matchers around the corresponding expansion.
+> `macro_rules` really doesn't care *what* you use, so long as it's one of the "matcher" pairs:
+> `( )`, `{ }` or `[ ]`. In fact, you can switch out the matchers on the macro itself
+> (*i.e.* the matchers right after the macro name), the matchers around the syntax rule, and the
+> matchers around the corresponding expansion.
 >
 > You can also switch out the matchers used when you *invoke* a macro, but in a more limited fashion:
-    a macro invoked as `{ ... }` or `( ... );` will *always* be parsed as an *item* (*i.e.* like a
-    `struct` or `fn` declaration).  This is important when using macros in a function body; it helps
-    disambiguate between "parse like an expression" and "parse like a statement".
+> a macro invoked as `{ ... }` or `( ... );` will *always* be parsed as an *item* (*i.e.* like a
+> `struct` or `fn` declaration).  This is important when using macros in a function body; it helps
+> disambiguate between "parse like an expression" and "parse like a statement".
 
 What if you have *one* expression? That should be a literal `1`.
 
@@ -776,9 +776,9 @@ macro_rules! count_exprs {
 ```
 
 > **Aside**: You might be wondering if we could reverse the order of these rules. In this particular
-    case, *yes*, but the macro system can sometimes be picky about what it is and is not willing to
-    recover from. If you ever find yourself with a multi-rule macro that you *swear* should work,
-    but gives you errors about unexpected tokens, try changing the order of the rules.
+> case, *yes*, but the macro system can sometimes be picky about what it is and is not willing to
+> recover from. If you ever find yourself with a multi-rule macro that you *swear* should work,
+> but gives you errors about unexpected tokens, try changing the order of the rules.
 
 Hopefully, you can see the pattern here. We can always reduce the list of expressions by matching
 one expression, followed by zero or more expressions, expanding that into 1 + a count.
@@ -803,8 +803,7 @@ macro_rules! count_exprs {
 ```
 
 > **<abbr title="Just for this example">JFTE</abbr>**: this is not the *only*, or even the *best*
-    way of counting things. You may wish to peruse the [Counting](/blocks/counting.html) section
-    later.
+> way of counting things. You may wish to peruse the [Counting](/blocks/counting.html) section later.
 
 With this, we can now modify `recurrence` to determine the necessary size of `mem`.
 
@@ -1112,8 +1111,8 @@ But that looks fine! If we add a few missing `#![feature(...)]` attributes and f
 build of `rustc`, it even compiles!  ... *what?!*
 
 > **Aside**: You can't compile the above with a non-nightly build of `rustc`. This is because the
-    expansion of the `println!` macro depends on internal compiler details which are *not* publicly
-    stabilised.
+> expansion of the `println!` macro depends on internal compiler details which are *not* publicly
+> stabilised.
 
 ### Being Hygienic
 

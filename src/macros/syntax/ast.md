@@ -89,7 +89,7 @@ The important takeaways are:
 * Macros (really, syntax extensions in general) are parsed as *part* of the abstract syntax tree.
 
 > **Aside**: due to the first point, some of what will be said below (including the next paragraph)
-will apply to syntax extensions *in general*.[^writer-is-lazy]
+> will apply to syntax extensions *in general*.[^writer-is-lazy]
 
 [^writer-is-lazy]: This is rather convenient as "macro" is much quicker and easier to type than
 "syntax extension".

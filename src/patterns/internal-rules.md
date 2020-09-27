@@ -86,9 +86,9 @@ aid readers in understanding your macro.
 [^ambiguity-restrictions]:[ambiguity-restrictions](/macros/minutiae/metavar-and-expansion.html)
 
 > **Note**: in the early days of Rust the `@` token was previously used in prefix position to denote
-    a garbage-collected pointer, back when the language used sigils to denote pointer types. Its
-    only *current* purpose is for binding names to patterns. For this, however, it is used as an
-    *infix* operator, and thus does not conflict with its use here.
+> a garbage-collected pointer, back when the language used sigils to denote pointer types. Its
+> only *current* purpose is for binding names to patterns. For this, however, it is used as an
+> *infix* operator, and thus does not conflict with its use here.
 
 Additionally, internal rules will often come *before* any "bare" rules, to avoid issues with
 `macro_rules!` incorrectly attempting to parse an internal invocation as something it cannot

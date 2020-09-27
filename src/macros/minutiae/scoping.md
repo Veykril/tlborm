@@ -28,7 +28,7 @@ mod c {
 ```
 
 > **Note**: In these examples, remember that all of them have the *same behaviour* when the module
-    contents are in separate files.
+> contents are in separate files.
 
 Secondly, *also* unlike everything else in the language, `macro_rules!` macros are only accessible
 *after* their definition. Also note that this example demonstrates how `macro_rules!` macros do not

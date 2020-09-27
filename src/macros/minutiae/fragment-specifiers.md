@@ -5,7 +5,7 @@ will go a bit more into detail for some of them and tries to always show a few e
 matcher can match with.
 
 > Note that capturing with anything but the `ident`, `lifetime` and `tt` fragments will render the
-captured AST opaque, making it impossible to further inspect it in future macro invocations.
+> captured AST opaque, making it impossible to further inspect it in future macro invocations.
 
 * [`item`](#item)
 * [`block`](#block)

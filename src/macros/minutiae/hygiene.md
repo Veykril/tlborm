@@ -1,7 +1,7 @@
 # Hygiene
 
-Macros in Rust are *partially* hygienic. Specifically, they are hygienic when it comes to most
-identifiers, but *not* when it comes to generic type parameters or lifetimes.
+`macro_rules!` macros in Rust are *partially* hygienic. Specifically, they are hygienic when it
+comes to most identifiers, but *not* when it comes to generic type parameters or lifetimes.
 
 Hygiene works by attaching an invisible "syntax context" value to all identifiers. When two
 identifiers are compared, *both* the identifiers' textural names *and* syntax contexts must be
@@ -30,10 +30,10 @@ error[E0425]: cannot find value `a` in this scope
 ```
 
 Note that the background colour (*i.e.* syntax context) for the expanded macro *changes* as part of
-expansion. Each macro expansion is given a new, unique syntax context for its contents. As a result,
-there are *two different `a`s* in the expanded code: one in the first syntax context, the second in
-the other. In other words, <code><span class="synctx-0">a</span></code> is not the same identifier
-as <code><span class="synctx-1">a</span></code>, however similar they may appear.
+expansion. Each `macro_rules!` macro expansion is given a new, unique syntax context for its
+contents. As a result, there are *two different `a`s* in the expanded code: one in the first syntax
+context, the second in the other. In other words, <code><span class="synctx-0">a</span></code> is not
+the same identifier as <code><span class="synctx-1">a</span></code>, however similar they may appear.
 
 That said, tokens that were substituted *into* the expanded output *retain* their original syntax
 context (by virtue of having been provided to the macro as opposed to being part of the macro itself).
