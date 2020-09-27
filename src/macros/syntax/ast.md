@@ -76,7 +76,7 @@ fn main() {
 ```
 
 Just to reiterate: the parser does not assume *anything* about ⬚; it remembers the tokens it
-contains, but doesn't try to *understand* them. This means ⬚ can be anything even invalid Rust! As
+contains, but doesn't try to *understand* them. This means ⬚ can be anything, even invalid Rust! As
 to why this is a good thing, we will come back to that at a later point.
 
 The important takeaways are:
