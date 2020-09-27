@@ -5,7 +5,7 @@ but aren't. Except when they are.
 
 First is `self`. This is *very definitely* a keyword. However, it also happens to fit the definition
 of an identifier. In regular Rust code, there's no way for `self` to be interpreted as an identifier,
-but it *can* happen with macros:
+but it *can* happen with `macro_rules!` macros:
 
 ```rust
 macro_rules! what_is {

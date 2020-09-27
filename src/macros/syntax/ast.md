@@ -15,12 +15,12 @@ classified into different kinds, [built-in attributes], [macro attributes] and [
 The latter two can be implemented with the second macro system that Rust offers, [procedural macros].
 
 The third is the one of interest to us: function-like macros. It is the form available for use with
-macros. Note that this form is not *limited* to macros: it is a generic syntax extension form. For
-example, whilst [`format!`] is a macro, [`format_args!`] (which is used to *implement* [`format!`])
-is *not*.
+`macro_rules!` macros. Note that this form is not *limited* to `macro_rules!` macros: it is a
+generic syntax extension form. For example, whilst [`format!`] is a macro, [`format_args!`] (which
+is used to *implement* [`format!`]) is *not*.
 
 The fourth is essentially a variation which is *not* available to macros. In fact, the only case
-where this form is used *at all* is with `macro_rules!` which, again we will come back to.
+where this form is used *at all* is with `macro_rules!` itself which, again we will come back to.
 
 Disregarding all but the third form (`$name ! $arg`), the question becomes: how does the Rust parser
 know what `$arg` looks like for every possible syntax extension? The answer is that it doesn't

@@ -1,8 +1,8 @@
 # Debugging
 
-`rustc` provides a number of tools to debug macros. One of the most useful is [`trace_macros!`],
-which is a directive to the compiler instructing it to dump every macro invocation prior to
-expansion. For example, given the following:
+`rustc` provides a number of tools to debug `macro_rules!` macros. One of the most useful is
+[`trace_macros!`], which is a directive to the compiler instructing it to dump every `macro_rules!`
+macro invocation prior to expansion. For example, given the following:
 
 ```rust,ignore
 # // Note: make sure to use a nightly channel compiler.
@@ -43,8 +43,8 @@ note: trace_macro
    = note: to ``
 ```
 
-This is *particularly* invaluable when debugging deeply recursive macros. You can also enable this
-from the command-line by adding `-Z trace-macros` to the compiler command line.
+This is *particularly* invaluable when debugging deeply recursive `macro_rules!` macros. You can
+also enable this from the command-line by adding `-Z trace-macros` to the compiler command line.
 
 Secondly, there is [`log_syntax!`] which causes the compiler to output all tokens passed to it. For
 example, this makes the compiler sing a song:
@@ -133,7 +133,7 @@ the top right gives you the option to expand macros right there!
 
 Another amazing tool is [`lukaslueg`'s](https://github.com/lukaslueg)
 [`macro_railroad`](https://github.com/lukaslueg/macro_railroad), a tool that allows you visualize
-and generate syntax diagrams for Rust's `macro-by-example` style macros. It visualizes the accepted
+and generate syntax diagrams for Rust's `macro_rules!` macros. It visualizes the accepted
 macro's grammar as an automata. 
 
 [`trace_macros!`]:https://doc.rust-lang.org/std/macro.trace_macros.html

@@ -33,9 +33,10 @@ such, you can *technically* use `macro_rules!` in any position where an empty ex
 
 ## Matching
 
-When a macro is invoked, the `macro_rules!` interpreter goes through the rules one by one, in
-declaration order. For each rule, it tries to match the contents of the input token tree against
-that rule's `matcher`. A matcher must match the *entirety* of the input to be considered a match.
+When a `macro_rules!` macro is invoked, the `macro_rules!` interpreter goes through the rules one by
+one, in declaration order. For each rule, it tries to match the contents of the input token tree
+against that rule's `matcher`. A matcher must match the *entirety* of the input to be considered a
+match.
 
 If the input matches the matcher, the invocation is replaced by the `expansion`; otherwise, the next
 rule is tried. If all rules fail to match, macro expansion fails with an error.
@@ -91,7 +92,8 @@ kind of capture which is also called the fragment-specifier, which must be one o
 For more in-depth description of the fragement specifiers, check out the
 [Fragment Specifiers](./minutiae/fragment-specifiers.md) chapter.
 
-For example, here is a macro which captures its input as an expression under the metavariable `$e`:
+For example, here is a `macro_rules!` macro which captures its input as an expression under the
+metavariable `$e`:
 
 ```rust,ignore
 macro_rules! one_expression {

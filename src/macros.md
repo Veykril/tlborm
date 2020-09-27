@@ -10,8 +10,6 @@ explanation, the reference [chapter](https://doc.rust-lang.org/reference/macros-
 and the [practical introduction](./macros-practical.html) chapter of this book, which is a guided
 implementation of a single macro.
 
-> **Note**: The following pages will refer to `macro_rules!` macros simply by `macro`.
-
 
 [mbe]: https://doc.rust-lang.org/reference/macros-by-example.html
 [Macros chapter of the Rust Book]: https://doc.rust-lang.org/book/ch19-06-macros.html
