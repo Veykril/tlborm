@@ -74,7 +74,7 @@ it as a complete construct.
 
 The only critical part of the above formulation is the use of `$($body:tt)*` to preserve the output
 without triggering parsing. The use of `($input) -> ($output)` is simply a convention adopted to
-help clarify the behaviour of such macros.
+help clarify the behavior of such macros.
 
 Push-down accumulation is frequently used as part of
 [incremental TT munchers](./tt-muncher.md), as it allows arbitrarily complex intermediate

@@ -277,7 +277,7 @@ lifetimes! {
 
 ## `vis`
 
-The `vis` fragment matches a *possibly empty* [Visibility qualifer](https://doc.rust-lang.org/reference/visibility-and-privacy.html).
+The `vis` fragment matches a *possibly empty* [Visibility qualifier](https://doc.rust-lang.org/reference/visibility-and-privacy.html).
 Emphasis lies on the *possibly empty* part. You can think of this fragment having an implicit `?`
 repetition to it, meaning you don't, and in fact cannot, wrap it in a direct repetition.
 

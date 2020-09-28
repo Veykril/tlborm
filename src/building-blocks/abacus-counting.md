@@ -1,6 +1,6 @@
 # Abacus Counters
 
-> **Provisional**: needs a more compelling example. Mtching nested groups that are *not* denoted by
+> **Provisional**: needs a more compelling example. Matching nested groups that are *not* denoted by
 > Rust groups is sufficiently unusual that it may not merit inclusion.
 
 > **Note**: this section assumes understanding of [push-down accumulation](#push-down-accumulation)

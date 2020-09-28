@@ -58,7 +58,7 @@ substitute a single [`tt`], rather than having to exactly capture and substitute
 group.
 
 The example above bundles the `$a` and `$b` expressions into a group which can then be forwarded as
-a single [`tt`] by the recursive rule. This group is then destructured by the terminal rules to access
-the expressions.
+a single [`tt`] by the recursive rule. This group is then destructured by the terminal rules to
+access the expressions.
 
 [`tt`]:./fragment-specifiers.html#tt

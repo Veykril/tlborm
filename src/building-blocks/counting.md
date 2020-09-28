@@ -44,7 +44,7 @@ macro_rules! count_tts {
 # }
 ```
 
-> **Note**: As of `rustc` 1.2, the compiler has *grievious* performance problems when large numbers
+> **Note**: As of `rustc` 1.2, the compiler has *grievous* performance problems when large numbers
 > of integer literals of unknown type must undergo inference. We are using explicitly
 > `usize`-typed literals here to avoid that.
 >

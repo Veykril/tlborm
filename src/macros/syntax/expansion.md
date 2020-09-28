@@ -9,7 +9,7 @@ expansion. In the case of non-macro syntax extensions, *how* this happens is up 
 syntax extension. That said, syntax extensions go through *exactly* the same process that macros do
 once their expansion is complete.
 
-Once the compiler has run a syntax extension, it expects the result to be parseable as one of a
+Once the compiler has run a syntax extension, it expects the result to be parsable as one of a
 limited set of syntax elements, based on context. For example, if you invoke a macro at module scope,
 the compiler will parse the result into an AST node that represents an item. If you invoke a macro
 in expression position, the compiler will parse the result into an expression AST node.
@@ -33,7 +33,7 @@ For example, consider the following:
 let eight = 2 * four!();
 ```
 
-We can visualise this partial AST as follows:
+We can visualize this partial AST as follows:
 
 ```text
 ┌─────────────┐
@@ -77,10 +77,11 @@ This can be written out like so:
 let eight = 2 * (1 + 3);
 ```
 
-Note that we added parens *despite* them not being in the expansion.  Remember that the compiler
-always treats the expansion of a macro as a complete AST node, **not** as a mere sequence of tokens.
-To put it another way, even if you don't explicitly wrap a complex expression in parentheses, there
-is no way for the compiler to "misinterpret" the result, or change the order of evaluation.
+Note that we added parentheses *despite* them not being in the expansion.  Remember that the
+compiler always treats the expansion of a macro as a complete AST node, **not** as a mere sequence
+of tokens. To put it another way, even if you don't explicitly wrap a complex expression in
+parentheses, there is no way for the compiler to "misinterpret" the result, or change the order of
+evaluation.
 
 It is important to understand that macro expansions are treated as AST nodes, as this design has two
 further implications:

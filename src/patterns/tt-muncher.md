@@ -49,7 +49,7 @@ The only hard restrictions on TT munchers are those imposed on the macro system 
 * You cannot match unbalanced groups.
 
 It is important, however, to keep the macro recursion limit in mind. `macro_rules!` does not have
-*any* form of tail recursion elimination or optimisation. It is recommended that, when writing a TT
+*any* form of tail recursion elimination or optimization. It is recommended that, when writing a TT
 muncher, you make reasonable efforts to keep recursion as limited as possible. This can be done by
 adding additional rules to account for variation in the input (as opposed to recursion into an
 intermediate layer), or by making compromises on the input syntax to make using standard repetitions

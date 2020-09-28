@@ -27,7 +27,7 @@ mod c {
 # fn main() {}
 ```
 
-> **Note**: In these examples, remember that all of them have the *same behaviour* when the module
+> **Note**: In these examples, remember that all of them have the *same behavior* when the module
 > contents are in separate files.
 
 Secondly, *also* unlike everything else in the language, `macro_rules!` macros are only accessible
@@ -159,7 +159,7 @@ mod c {
 # fn main() {}
 ```
 
-Finally, note that these scoping behaviours apply to *functions* as well, with the exception of
+Finally, note that these scoping behaviors apply to *functions* as well, with the exception of
 `#[macro_use]` (which isn't applicable):
 
 ```rust

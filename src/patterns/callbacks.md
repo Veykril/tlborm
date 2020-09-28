@@ -9,7 +9,7 @@ macro_rules! expand_to_larch {
     () => { larch };
 }
 
-macro_rules! recognise_tree {
+macro_rules! recognize_tree {
     (larch) => { println!("#1, the Larch.") };
     (redwood) => { println!("#2, the Mighty Redwood.") };
     (fir) => { println!("#3, the Fir.") };
@@ -19,24 +19,24 @@ macro_rules! recognise_tree {
 }
 
 fn main() {
-    recognise_tree!(expand_to_larch!());
-    call_with_larch!(recognise_tree);
+    recognize_tree!(expand_to_larch!());
+    call_with_larch!(recognize_tree);
 }
 ```
 
 Due to the order that macros are expanded in, it is (as of Rust 1.2) impossible to pass information
-to a macro from the expansion of *another* macro. This can make modularising macros very difficult.
+to a macro from the expansion of *another* macro. This can make modularizing macros very difficult.
 
 An alternative is to use recursion and pass a callback. Here is a trace of the above example to
 demonstrate how this takes place:
 
 ```rust,ignore
-recognise_tree! { expand_to_larch ! (  ) }
+recognize_tree! { expand_to_larch ! (  ) }
 println! { "I don't know; some kind of birch maybe?" }
 // ...
 
-call_with_larch! { recognise_tree }
-recognise_tree! { larch }
+call_with_larch! { recognize_tree }
+recognize_tree! { larch }
 println! { "#1, the Larch." }
 // ...
 ```

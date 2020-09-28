@@ -23,9 +23,9 @@ Each *"rule"* looks like the following:
     ($matcher) => {$expansion}
 ```
 
-Like before, the types of parens used can be any kind, but parens around the matcher and braces
-around the expansion are somewhat conventional. The expansion part of a rule is also called its
-*transcriber*.
+Like before, the types of parentheses used can be any kind, but parentheses around the matcher and
+braces around the expansion are somewhat conventional. The expansion part of a rule is also called
+its *transcriber*.
 
 If you are wondering, the `macro_rules!` invocation expands to... *nothing*.  At least, nothing that
 appears in the AST; rather, it manipulates compiler-internal structures to register the macro. As
@@ -205,6 +205,6 @@ fn main() {
 }
 ```
 
-For the compelte grammar definition you may want to consult the 
+For the complete grammar definition you may want to consult the 
 [Macros By Example](https://doc.rust-lang.org/reference/macros-by-example.html#macros-by-example)
 chapter of the Rust reference.

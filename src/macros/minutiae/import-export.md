@@ -87,7 +87,7 @@ It is recommended that you *always* use absolute paths to non-macro names, to av
 
 ## Edition 2018
 
-The 2018 Edition made our lifes a lot easier when it comes to `macro_rules!` macros. Why you ask?
+The 2018 Edition made our lives a lot easier when it comes to `macro_rules!` macros. Why you ask?
 Quite simply because it managed to make them feel more like proper items than some special thing in
 the language. What this means is that we can properly import and use them in a namespaced fashion!
 
