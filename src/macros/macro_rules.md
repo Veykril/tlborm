@@ -140,7 +140,7 @@ macro_rules! repeat {
 ```
 
 There is also a special metavariable called [`$crate`] which can be used to refer to the current
-current.
+crate.
 
 [`$crate`]:./minutiae/hygiene.html#crate
 
