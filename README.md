@@ -4,7 +4,8 @@
 > which has not been updated since the early summer of 2016, adapted to make use of
 > [mdBook](https://github.com/rust-lang/mdBook).
 
-[View the rendered version](https://veykril.github.io/tlborm/).
+View the [rendered version here](https://veykril.github.io/tlborm/) and the
+[repository here](https://github.com/veykril/tlborm).
 
 This book is an attempt to distill the Rust community's collective knowledge of Rust macros,
 `Macros by Example` to be precise.  As such, both additions (in the form of pull requests) and
