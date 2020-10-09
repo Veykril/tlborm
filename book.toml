@@ -14,5 +14,4 @@ default-theme = "ayu"
 site-url = "/tlborm/"
 mathjax-support = true
 git-repository-url = "https://github.com/veykril/tlborm/"
-# unfortunately the "Source Code Pro" font doesn't seem to work well with box characters
-additional-css = ["res/code-font-patch.css", "res/rust-syntax-bg-highlight.css"]
+additional-css = ["res/rust-syntax-bg-highlight.css"]
