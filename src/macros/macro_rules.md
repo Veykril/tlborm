@@ -160,8 +160,8 @@ general form `$ ( ... ) sep rep`.
 
     Since `?` represents at most one occurrence, it cannot be used with a separator.
 
-Repetitions can contain any other valid matcher, including literal token trees, metavariables, and other
-repetitions allowing arbitrary nesting.
+Repetitions can contain any other valid matcher, including literal token trees, metavariables, and
+other repetitions allowing arbitrary nesting.
 
 Repetitions use the same syntax in the expansion and repeated metavariables can only be accessed
 inside of repetitions in the expansion.
@@ -204,6 +204,43 @@ fn main() {
     assert_eq!(s, &["1", "a", "true", "3.14159"]);
 }
 ```
+
+You can repeat multiple metavariables in a single repetition as long as all metavariables repeat
+equally often. So this invocation of the following macro works:
+
+```rust
+macro_rules! repeat_two {
+    ($($i:ident)*, $($i2:ident)*) => {
+        $( let $i: (); let $i2: (); )*
+    }
+}
+
+repeat_two!( a b c d e f, u v w x y z );
+```
+
+But this does not:
+
+```rust
+# macro_rules! repeat_two {
+#     ($($i:ident)*, $($i2:ident)*) => {
+#         $( let $i: (); let $i2: (); )*
+#     }
+# }
+
+repeat_two!( a b c d e f, x y z );
+```
+
+failing with the following error
+
+```
+error: meta-variable `i` repeats 6 times, but `i2` repeats 3 times
+ --> src/main.rs:6:10
+  |
+6 |         $( let $i: (); let $i2: (); )*
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+```
+
+&nbsp;
 
 For the complete grammar definition you may want to consult the 
 [Macros By Example](https://doc.rust-lang.org/reference/macros-by-example.html#macros-by-example)
