@@ -18,7 +18,7 @@ one or more *previous* values, with one or more initial values to get the whole 
 example, the [Fibonacci sequence](https://en.wikipedia.org/wiki/Fibonacci_number) can be defined by
 the relation:
 
-\\[ F_{n} = 0, 1, ..., F_{m-1} + F_{n-2}\\]
+\\[ F_{n} = 0, 1, ..., F_{n-1} + F_{n-2}\\]
 
 Thus, the first two numbers in the sequence are 0 and 1, with the third being 
 \\( F_{0} + F_{1} = 0 + 1 = 1\\), the fourth \\( F_{1} + F_{2} = 1 + 1 = 2\\), and so on forever.
