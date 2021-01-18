@@ -4,7 +4,7 @@
 comes to most identifiers, but *not* when it comes to generic type parameters or lifetimes.
 
 Hygiene works by attaching an invisible "syntax context" value to all identifiers. When two
-identifiers are compared, *both* the identifiers' textural names *and* syntax contexts must be
+identifiers are compared, *both* the identifiers' textual names *and* syntax contexts must be
 identical for the two to be considered equal.
 
 To illustrate this, consider the following code:
