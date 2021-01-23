@@ -99,7 +99,7 @@ would be parsed into the following token trees:
 ```
 
 Note that this has *no relationship* to the AST the expression would produce; instead of a single
-root node, there are *nine* token trees at the root level. For reference, the AST would be:
+root node, there are *seven* token trees at the root level. For reference, the AST would be:
 
 ```text
               ┌─────────┐
