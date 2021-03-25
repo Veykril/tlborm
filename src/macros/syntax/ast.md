@@ -3,7 +3,7 @@
 As previously mentioned, macro processing in Rust happens *after* the construction of the AST. As
 such, the syntax used to invoke a macro *must* be a proper part of the language's syntax. In fact,
 there are several "syntax extension" forms which are part of Rust's syntax. Specifically, the
-following forms (by way of examples):
+following 4 forms (by way of examples):
 
 * `# [ $arg ]`; *e.g.* `#[derive(Clone)]`, `#[no_mangle]`, …
 * `# ! [ $arg ]`; *e.g.* `#![allow(dead_code)]`, `#![crate_name="blang"]`, …
@@ -12,14 +12,16 @@ following forms (by way of examples):
 
 The first two are [attributes] which annotate items, expressions and statements. They can be
 classified into different kinds, [built-in attributes], [macro attributes] and [derive attributes].
-The latter two can be implemented with the second macro system that Rust offers, [procedural macros].
+[macro attributes] and [derive attributes] can be implemented with the second macro system that Rust
+offers, [procedural macros]. [built-in attributes] on the other hand are attributes implemented by
+the compiler.
 
-The third is the one of interest to us: function-like macros. It is the form available for use with
-`macro_rules!` macros. Note that this form is not *limited* to `macro_rules!` macros: it is a
-generic syntax extension form. For example, whilst [`format!`] is a macro, [`format_args!`] (which
-is used to *implement* [`format!`]) is *not*.
+The third form, `$name ! $arg`,  is the one of interest to us: function-like macros. It is the form
+available for use with `macro_rules!` macros. Note that this form is not *limited* to `macro_rules!`
+macros: it is a generic syntax extension form. For example, whilst [`format!`] is a macro,
+[`format_args!`] (which is used to *implement* [`format!`]) is *not*.
 
-The fourth is essentially a variation which is *not* available to macros. In fact, the only case
+The fourth form is essentially a variation which is *not* available to macros. In fact, the only case
 where this form is used *at all* is with `macro_rules!` itself which, again we will come back to.
 
 Disregarding all but the third form (`$name ! $arg`), the question becomes: how does the Rust parser
