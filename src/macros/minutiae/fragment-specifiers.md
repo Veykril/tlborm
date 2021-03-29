@@ -46,7 +46,7 @@ items! {
 ## `block`
 
 The `block` fragment solely matches a [block expression](https://doc.rust-lang.org/reference/expressions/block-expr.html),
-which consists of and opening `{` brace, followed by any amount of statements and finally followed
+which consists of an opening `{` brace, followed by any amount of statements and finally followed
 by a closing `}` brace.
 
 ```rust
