@@ -26,4 +26,4 @@ treat the final `tt` sequence as a particular kind of grammar construct.
 Note that this specific set of macros is determined by what macros are allowed to expand to, *not*
 what they are able to capture.
 
-[push-down accumulation]: ./pattern/push-down-accumulation.html
+[push-down accumulation]: ../patterns/push-down-acc.html
