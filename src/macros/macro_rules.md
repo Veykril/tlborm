@@ -14,8 +14,7 @@ macro_rules! $name {
 ```
 
 There must be *at least* one rule, and you can omit the semicolon after the last rule. You can use
-brackets(`[]`), parentheses(`()`) or braces(`{}`). Invocations with `{ .. }` and `( ... );`, notice
-the trailing semicolon, will *always* be parsed as an *item*.
+brackets(`[]`), parentheses(`()`) or braces(`{}`).
 
 Each *"rule"* looks like the following:
 
@@ -26,6 +25,11 @@ Each *"rule"* looks like the following:
 Like before, the types of parentheses used can be any kind, but parentheses around the matcher and
 braces around the expansion are somewhat conventional. The expansion part of a rule is also called
 its *transcriber*.
+
+Note that the choice of the parentheses does not matter in regards to how the macro may be invoked.
+In fact, macros can be invoked with any kind of parentheses as well, but invocations with `{ .. }`
+and `( ... );`, notice the trailing semicolon, are special in that their expansion will *always* be
+parsed as an *item*.
 
 If you are wondering, the `macro_rules!` invocation expands to... *nothing*.  At least, nothing that
 appears in the AST; rather, it manipulates compiler-internal structures to register the macro. As
