@@ -388,6 +388,7 @@ If we take this code and run it, we get:
 ```text
 0
 1
+1
 2
 3
 5
