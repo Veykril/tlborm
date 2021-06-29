@@ -6,8 +6,9 @@
     - [Source Analysis](./syntax-extensions/source-analysis.md)
     - [Macros in the Ast](./syntax-extensions/ast.md)
     - [Expansion](./syntax-extensions/expansion.md)
+    - [Hygiene]()<!-- ./syntax-extensions/hygiene.md-->
 - [Macros](./macros.md)
-    - [A Methodical Introduction](./macros.md)
+    - [A Methodical Introduction](./macros/macros-methodical.md)
         - [macro_rules!](./macros/macro_rules.md)
         - [Minutiae](./macros/minutiae.md)
             - [Fragment Specifiers](./macros/minutiae/fragment-specifiers.md)
@@ -30,4 +31,4 @@
         - [Counting](./macros/building-blocks/counting.md)
             - [Abacus Counting](./macros/building-blocks/abacus-counting.md)
         - [Parsing Rust](./macros/building-blocks/parsing.md)
-- [Proc-Macros](./proc-macros.md)
+ - [Proc-Macros]() <!--./proc-macros.md -->

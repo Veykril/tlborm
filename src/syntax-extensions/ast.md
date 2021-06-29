@@ -12,7 +12,7 @@ Specifically, the following 4 forms (by way of examples):
 
 The first two are [attributes] which annotate items, expressions and statements. They can be
 classified into different kinds, [built-in attributes], [proc-macro attributes] and [derive attributes].
-[macro attributes] and [derive attributes] can be implemented with the second macro system that Rust
+[proc-macro attributes] and [derive attributes] can be implemented with the second macro system that Rust
 offers, [procedural macros]. [built-in attributes] on the other hand are attributes implemented by
 the compiler.
 

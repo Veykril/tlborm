@@ -61,4 +61,4 @@ The example above bundles the `$a` and `$b` expressions into a group which can t
 a single [`tt`] by the recursive rule. This group is then destructured by the terminal rules to
 access the expressions.
 
-[`tt`]:./fragment-specifiers.html#tt
+[`tt`]: ../minutiae/fragment-specifiers.html#tt

@@ -93,8 +93,7 @@ kind of capture which is also called the fragment-specifier, which must be one o
 * `ty`: a type
 * `vis`: a possible empty visibility qualifier (e.g. `pub`, `pub(in crate)`, ...)
 
-For more in-depth description of the fragement specifiers, check out the
-[Fragment Specifiers](./minutiae/fragment-specifiers.md) chapter.
+For more in-depth description of the fragement specifiers, check out the [Fragment Specifiers](./minutiae/fragment-specifiers.md) chapter.
 
 For example, here is a `macro_rules!` macro which captures its input as an expression under the
 metavariable `$e`:
@@ -105,14 +104,12 @@ macro_rules! one_expression {
 }
 ```
 
-These metavariables leverage the Rust compiler's parser, ensuring that they are always "correct". An
-`expr` metavariables will *always* capture a complete, valid expression for the version of Rust being
-compiled.
+These metavariables leverage the Rust compiler's parser, ensuring that they are always "correct".
+An `expr` metavariables will *always* capture a complete, valid expression for the version of Rust being compiled.
 
-You can mix literal token trees and metavariables, within limits ([explained below]).
+You can mix literal token trees and metavariables, within limits (explained in [Metavariables and Expansion Redux]).
 
-To refer to a metavariable you simply write `$name`, as the type of the variable is already
-specified in the matcher. For example:
+To refer to a metavariable you simply write `$name`, as the type of the variable is already specified in the matcher. For example:
 
 ```rust,ignore
 macro_rules! times_five {
@@ -143,10 +140,10 @@ macro_rules! repeat {
 }
 ```
 
-There is also a special metavariable called [`$crate`] which can be used to refer to the current
-crate.
+There is also a special metavariable called [`$crate`] which can be used to refer to the current crate.
 
-[`$crate`]:./minutiae/hygiene.html#crate
+[Metavariables and Expansion Redux]: ./minutiae/metavar-and-expansion.md
+[`$crate`]: ./minutiae/hygiene.md#crate
 
 ## Repetitions
 
@@ -246,6 +243,6 @@ error: meta-variable `i` repeats 6 times, but `i2` repeats 3 times
 
 &nbsp;
 
-For the complete grammar definition you may want to consult the 
+For the complete grammar definition you may want to consult the
 [Macros By Example](https://doc.rust-lang.org/reference/macros-by-example.html#macros-by-example)
 chapter of the Rust reference.

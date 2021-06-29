@@ -123,7 +123,7 @@ macro_rules! struct_item_matcher {
 
 #struct_item_matcher!(
 #    #[derive(Copy, Clone)]
-#    pub(crate) struct Foo { 
+#    pub(crate) struct Foo {
 #       pub bar: i32,
 #       baz: &'static str,
 #       qux: f32
@@ -164,7 +164,7 @@ macro_rules! enum_item_matcher {
         ),* $(,)?
     //∨~~rest of input~~∨
     ) $(, $($tt:tt)* )? ) => {
-        
+
         // process rest of the enum
         $( enum_item_matcher!(@variant $( $tt )*) )?
     };
@@ -203,7 +203,7 @@ macro_rules! enum_item_matcher {
 
 #enum_item_matcher!(
 #    #[derive(Copy, Clone)]
-#    pub(crate) enum Foo { 
+#    pub(crate) enum Foo {
 #        Bar,
 #        Baz,
 #    }
@@ -222,7 +222,7 @@ macro_rules! enum_item_matcher {
 #);
 ```
 
-[patterns]:/patterns.html
-[Push Down Accumulator]:/patterns/push-down-acc.html
-[Internal Rules]:/patterns/internal-rules.html
-[Incremental TT Muncher]:/patterns/tt-muncher.html
+[patterns]: ../patterns.md
+[Push Down Accumulator]: ../patterns/push-down-acc.md
+[Internal Rules]: ../patterns/internal-rules.md
+[Incremental TT Muncher]: ../patterns/tt-muncher.md

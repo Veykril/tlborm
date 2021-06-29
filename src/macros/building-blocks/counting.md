@@ -13,7 +13,7 @@ macro_rules! replace_expr {
 macro_rules! count_tts {
     ($($tts:tt)*) => {0usize $(+ replace_expr!($tts 1usize))*};
 }
-# 
+#
 # fn main() {
 #     assert_eq!(count_tts!(0 1 2), 3);
 # }
@@ -38,7 +38,7 @@ macro_rules! count_tts {
     () => {0usize};
     ($_head:tt $($tail:tt)*) => {1usize + count_tts!($($tail)*)};
 }
-# 
+#
 # fn main() {
 #     assert_eq!(count_tts!(0 1 2), 3);
 # }
@@ -79,19 +79,19 @@ fn main() {
     assert_eq!(700, count_tts!(
         ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
         ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
-        
+
         ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
         ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
-        
+
         ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
         ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
-        
+
         ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
         ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
-        
+
         ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
         ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
-        
+
         // Repetition breaks somewhere after this
         ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
         ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
@@ -117,7 +117,7 @@ macro_rules! replace_expr {
 macro_rules! count_tts {
     ($($tts:tt)*) => {<[()]>::len(&[$(replace_expr!($tts ())),*])};
 }
-# 
+#
 # fn main() {
 #     assert_eq!(count_tts!(0 1 2), 3);
 # }
@@ -140,7 +140,7 @@ macro_rules! count_idents {
         }
     };
 }
-# 
+#
 # fn main() {
 #     const COUNT: u32 = count_idents!(A, B, C);
 #     assert_eq!(COUNT, 3);
@@ -156,7 +156,7 @@ Secondly, this approach is *not* hygienic, meaning that if whatever identifier y
 
 ## Bit twiddling
 
-Another recursive approach using bit operations: 
+Another recursive approach using bit operations:
 
 ```rust
 macro_rules! count_tts {
@@ -164,7 +164,7 @@ macro_rules! count_tts {
     ($odd:tt $($a:tt $b:tt)*) => { (count_tts!($($a)*) << 1) | 1 };
     ($($a:tt $even:tt)*) => { count_tts!($($a)*) << 1 };
 }
-# 
+#
 # fn main() {
 #     assert_eq!(count_tts!(0 1 2), 3);
 # }
@@ -211,8 +211,8 @@ can count 1 for the uneven discard and multiply by 2 again since we also halved.
 ((((0 << 1) | 1) << 1 << 1) | 1) << 1;
 ```
 
-Now to check if we expanded correctly manually we can use a one of the tools we introduced for
-[`debugging`](/macros/minutiae/debugging.html). When expanding the macro there we should get:
+Now to check if we expanded correctly manually we can use a one of the tools we introduced for [`debugging`](../minutiae/debugging.html).
+When expanding the macro there we should get:
 ```rust,ignore
 ((((0 << 1) | 1) << 1 << 1) | 1) << 1;
 ```
