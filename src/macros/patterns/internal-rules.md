@@ -9,7 +9,7 @@ macro_rules! foo {
         foo!(@as_expr $($tts)*)
     };
 }
-# 
+#
 # fn main() {
 #     assert_eq!(foo!(42), 42);
 # }
@@ -23,12 +23,12 @@ handled in the 2015 Edition of Rust due to macros not being namespaced in said e
 one the troubles of having to re-export all the internal macros as well polluting the global macro
 namespace or even worse, macro name collisions with other crates. In short, it's quite a hassle.
 This fortunately isn't really a problem anymore nowadays with a rustc version >= 1.30, for more
-information consult the [Import and Export chapter](/macros/minutiae/import-export.html). 
+information consult the [Import and Export chapter](../minutiae/import-export.html).
 
 Nevertheless, let's talk about how we can unify multiple macros into one with this technique and
 what exactly this technique even is.
 
-We have two macros, the common [`as_expr!` macro](/building-blocks/ast-coercion.html) and a `foo`
+We have two macros, the common [`as_expr!` macro](../building-blocks/ast-coercion.html) and a `foo`
 macro that makes use of the first macro:
 
 ```rust
@@ -41,7 +41,7 @@ macro_rules! foo {
         as_expr!($($tts)*)
     };
 }
-# 
+#
 # fn main() {
 #     assert_eq!(foo!(42), 42);
 # }
@@ -65,7 +65,7 @@ macro_rules! foo {
         foo!(@as_expr $($tts)*)
     };
 }
-# 
+#
 # fn main() {
 #     assert_eq!(foo!(42), 42);
 # }
@@ -83,7 +83,7 @@ to follow certain fragments[^ambiguity-restrictions], which in Rust 1.12 became 
 other symbols or unique prefixes may be used as desired, but use of `@` has started to become
 widespread, so using it may aid readers in understanding your macro.
 
-[^ambiguity-restrictions]:[ambiguity-restrictions](/macros/minutiae/metavar-and-expansion.html)
+[^ambiguity-restrictions]:[ambiguity-restrictions](../minutiae/metavar-and-expansion.html)
 
 > **Note**: in the early days of Rust the `@` token was previously used in prefix position to denote
 > a garbage-collected pointer, back when the language used sigils to denote pointer types. Its

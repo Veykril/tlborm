@@ -17,7 +17,7 @@ macro_rules! mixed_rules {
         }
     };
 }
-# 
+#
 # fn main() {
 #     let a = 42;
 #     let b = "Ho-dee-oh-di-oh-di-oh!";
@@ -55,4 +55,4 @@ adding additional rules to account for variation in the input (as opposed to rec
 intermediate layer), or by making compromises on the input syntax to make using standard repetitions
 more tractable.
 
-[`tt`]:./fragment-specifiers.html#tt
+[`tt`]: ../minutiae/fragment-specifiers.html#tt

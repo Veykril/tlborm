@@ -5,7 +5,7 @@ example. It does *not* attempt to explain all of the intricacies of the system; 
 you comfortable with how and why macros are written.
 
 There is also the [Macros chapter of the Rust Book](https://doc.rust-lang.org/book/ch19-06-macros.html)
-which is another high-level explanation, and the [methodical introduction](/macros.html) chapter of
+which is another high-level explanation, and the [methodical introduction](../macros.md) chapter of
 this book, which explains the macro system in detail.
 
 ## A Little Context
@@ -18,21 +18,17 @@ one or more *previous* values, with one or more initial values to get the whole 
 example, the [Fibonacci sequence](https://en.wikipedia.org/wiki/Fibonacci_number) can be defined by
 the relation:
 
-\\[ F_{n} = 0, 1, ..., F_{n-1} + F_{n-2}\\]
+\\[ F_{n} = 0, 1, ..., F_{n-1} + F_{n-2}\\](mathjax)
 
-Thus, the first two numbers in the sequence are 0 and 1, with the third being 
-\\( F_{0} + F_{1} = 0 + 1 = 1\\), the fourth \\( F_{1} + F_{2} = 1 + 1 = 2\\), and so on forever.
+Thus, the first two numbers in the sequence are 0 and 1, with the third being \\( F_{0} + F_{1} = 0 + 1 = 1\\), the fourth \\( F_{1} + F_{2} = 1 + 1 = 2\\), and so on forever.
 
-Now, *because* such a sequence can go on forever, that makes defining a `fibonacci` function a
-little tricky, since you obviously don't want to try returning a complete vector. What you *want* is
-to return something which will lazily compute elements of the sequence as needed.
+Now, *because* such a sequence can go on forever, that makes defining a `fibonacci` function a little tricky, since you obviously don't want to try returning a complete vector.
+What you *want* is to return something which will lazily compute elements of the sequence as needed.
 
-In Rust, that means producing an [`Iterator`]. This is not especially *hard*, but there is a fair
-amount of boilerplate involved: you need to define a custom type, work out what state needs to be
-stored in it, then implement the [`Iterator`] trait for it.
+In Rust, that means producing an [`Iterator`].
+This is not especially *hard*, but there is a fair amount of boilerplate involved: you need to define a custom type, work out what state needs to be stored in it, then implement the [`Iterator`] trait for it.
 
-However, recurrence relations are simple enough that almost all of these details can be abstracted
-out with a little macro-based code generation.
+However, recurrence relations are simple enough that almost all of these details can be abstracted out with a little macro-based code generation.
 
 So, with all that having been said, let's get started.
 
@@ -40,8 +36,7 @@ So, with all that having been said, let's get started.
 
 ## Construction
 
-Usually, when working on a new macro, the first thing I do is decide what the macro invocation
-should look like. In this specific case, my first attempt looked like this:
+Usually, when working on a new macro, the first thing I do is decide what the macro invocation should look like. In this specific case, my first attempt looked like this:
 
 ```rust,ignore
 let fib = recurrence![a[n] = 0, 1, ..., a[n-1] + a[n-2]];
@@ -70,8 +65,8 @@ says the input to the macro must match:
 - the literal token sequence `,` `...` `,`,
 - a valid *expression* captured into the [metavariable] `recur` (`$recur:expr`).
 
-[repeating]:/macros/macro_rules.html#repetitions
-[metavariable]:/macros/macro_rules.html#metavariables
+[repeating]: ./macro_rules.html#repetitions
+[metavariable]: ./macro_rules.html#metavariables
 
 Finally, the rule says that *if* the input matches this rule, then the macro invocation should be
 replaced by the token sequence `/* ... */`.
@@ -215,7 +210,7 @@ Here, I've added a new metavariable: `sty` which should be a type.
 
 > **Aside**: if you're wondering, the bit after the colon in a metavariable can be one of several
 > kinds of syntax matchers. The most common ones are `item`, `expr`, and `ty`. A complete
-> explanation can be found in [Macros, A Methodical Introduction; `macro_rules!` (Matchers)](/macros/macro_rules.html#Metavariables).
+> explanation can be found in [Macros, A Methodical Introduction; `macro_rules!` (Matchers)](./macro_rules.html#Metavariables).
 >
 > There's one other thing to be aware of: in the interests of future-proofing the language, the
 > compiler restricts what tokens you're allowed to put *after* a matcher, depending on what kind
@@ -223,7 +218,7 @@ Here, I've added a new metavariable: `sty` which should be a type.
 > *only* be followed by one of `=>`, `,`, and `;`.
 >
 > A complete list can be found in
-> [Macros, A Methodical Introduction; Minutiae; Metavariables and Expansion Redux](/macros/minutiae/metavar-and-expansion.html).
+> [Macros, A Methodical Introduction; Minutiae; Metavariables and Expansion Redux](./minutiae/metavar-and-expansion.html).
 
 ## Indexing and Shuffling
 
@@ -490,7 +485,7 @@ error: local ambiguity: multiple parsing options: built-in NTs expr ('inits') or
   --> src/main.rs:75:45
    |
 75 |     let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-1] + a[n-2]];
-   |              
+   |
 ```
 
 Here, we've run into a limitation of `macro_rules`. The problem is that second comma. When it sees
@@ -625,16 +620,16 @@ macro_rules! recurrence {
 #                             let a = IndexOffset { slice: &self.mem, offset: n };
 #                             (a[n-1] + a[n-2])
 #                         };
-#     
+#
 #                         {
 #                             use std::mem::swap;
-#     
+#
 #                             let mut swap_tmp = next_val;
 #                             for i in (0..2).rev() {
 #                                 swap(&mut swap_tmp, &mut self.mem[i]);
 #                             }
 #                         }
-#     
+#
 #                         self.pos += 1;
 #                         Some(next_val)
 #                     }
@@ -804,7 +799,7 @@ macro_rules! count_exprs {
 ```
 
 > **<abbr title="Just for this example">JFTE</abbr>**: this is not the *only*, or even the *best*
-> way of counting things. You may wish to peruse the [Counting](/blocks/counting.html) section later.
+> way of counting things. You may wish to peruse the [Counting](./building-blocks/counting.md) section later.
 
 With this, we can now modify `recurrence` to determine the necessary size of `mem`.
 
@@ -891,10 +886,10 @@ macro_rules! recurrence {
     };
 }
 /* ... */
-# 
+#
 # fn main() {
 #     let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-1] + a[n-2]];
-# 
+#
 #     for e in fib.take(10) { println!("{}", e) }
 # }
 ```
@@ -926,11 +921,11 @@ With that done, we can now substitute the last thing: the `recur` expression.
 #                 #[inline(always)]
 #                 fn index<'b>(&'b self, index: usize) -> &'b $sty {
 #                     use std::num::Wrapping;
-# 
+#
 #                     let index = Wrapping(index);
 #                     let offset = Wrapping(self.offset);
 #                     let window = Wrapping(MEM_SIZE);
-# 
+#
 #                     let real_index = index - offset + window;
 #                     &self.slice[real_index.0]
 #                 }
@@ -1261,43 +1256,43 @@ And it compiles!  Now, let's try with a different sequence.
 #     ($head:expr) => (1);
 #     ($head:expr, $($tail:expr),*) => (1 + count_exprs!($($tail),*));
 # }
-# 
+#
 # macro_rules! recurrence {
 #     ( $seq:ident [ $ind:ident ]: $sty:ty = $($inits:expr),+ ; ... ; $recur:expr ) => {
 #         {
 #             use std::ops::Index;
-#             
+#
 #             const MEM_SIZE: usize = count_exprs!($($inits),+);
-#     
+#
 #             struct Recurrence {
 #                 mem: [$sty; MEM_SIZE],
 #                 pos: usize,
 #             }
-#     
+#
 #             struct IndexOffset<'a> {
 #                 slice: &'a [$sty; MEM_SIZE],
 #                 offset: usize,
 #             }
-#     
+#
 #             impl<'a> Index<usize> for IndexOffset<'a> {
 #                 type Output = $sty;
-#     
+#
 #                 #[inline(always)]
 #                 fn index<'b>(&'b self, index: usize) -> &'b $sty {
 #                     use std::num::Wrapping;
-#                     
+#
 #                     let index = Wrapping(index);
 #                     let offset = Wrapping(self.offset);
 #                     let window = Wrapping(MEM_SIZE);
-#                     
+#
 #                     let real_index = index - offset + window;
 #                     &self.slice[real_index.0]
 #                 }
 #             }
-#     
+#
 #             impl Iterator for Recurrence {
 #                 type Item = $sty;
-#     
+#
 #                 #[inline]
 #                 fn next(&mut self) -> Option<$sty> {
 #                     if self.pos < MEM_SIZE {
@@ -1310,27 +1305,27 @@ And it compiles!  Now, let's try with a different sequence.
 #                             let $seq = IndexOffset { slice: &self.mem, offset: $ind };
 #                             $recur
 #                         };
-#     
+#
 #                         {
 #                             use std::mem::swap;
-#     
+#
 #                             let mut swap_tmp = next_val;
 #                             for i in (0..MEM_SIZE).rev() {
 #                                 swap(&mut swap_tmp, &mut self.mem[i]);
 #                             }
 #                         }
-#     
+#
 #                         self.pos += 1;
 #                         Some(next_val)
 #                     }
 #                 }
 #             }
-#     
+#
 #             Recurrence { mem: [$($inits),+], pos: 0 }
 #         }
 #     };
 # }
-# 
+#
 # fn main() {
 for e in recurrence!(f[i]: f64 = 1.0; ...; f[i-1] * i as f64).take(10) {
     println!("{}", e)
@@ -1355,4 +1350,4 @@ Which gives us:
 
 Success!
 
-[`macro_rules!`]:/macros/macro_rules.html
+[`macro_rules!`]: ./macro_rules.html

@@ -7,8 +7,12 @@ title = "The Little Book of Rust Macros"
 edition = "2018"
 
 [build]
-create-missing = false
+create-missing = true
 build-dir = "book"
+
+[output.linkcheck]
+traverse-parent-directories = false
+exclude = ["mathjax"]
 
 [output.html]
 default-theme = "ayu"

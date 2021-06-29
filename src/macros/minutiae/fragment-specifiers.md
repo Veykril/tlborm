@@ -69,7 +69,7 @@ blocks! {
 The `statement` fragment solely matches a [statement](https://doc.rust-lang.org/reference/statements.html)
 without its trailing semicolon, unless its an item statement that requires one. What would be an
 item statement that requires one? A Unit-Struct would be a simple one, as defining one requires a
-trailing semicolon. 
+trailing semicolon.
 
 Let's use a simple example to show exactly what is meant with this. We use a macro that merely emits
 what it captures:
@@ -230,7 +230,7 @@ paths! {
 ## `tt`
 
 The `tt` fragment matches a TokenTree. If you need a refresher on what exactly a TokenTree was you
-may want to revisit the [TokenTree chapter](../syntax/source-analysys.html#token-trees) of this
+may want to revisit the [TokenTree chapter](../../syntax-extensions/source-analysis.html#token-trees) of this
 book. The `tt` fragment is one of the most powerful fragments, as it can match nearly anything while
 still allowing you to inspect the contents of it at a later state in the macro.
 
@@ -283,7 +283,7 @@ repetition to it, meaning you don't, and in fact cannot, wrap it in a direct rep
 
 ```rust
 macro_rules! visibilities {
-    //         ∨~~Note this comma, since we cannot repeat a `vis` fragment on its own 
+    //         ∨~~Note this comma, since we cannot repeat a `vis` fragment on its own
     ($($vis:vis,)*) => ();
 }
 
@@ -315,3 +315,5 @@ literals! {
 }
 # fn main() {}
 ```
+
+[`macro_rules`]: ../macro_rules.md
