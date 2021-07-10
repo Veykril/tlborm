@@ -43,7 +43,7 @@ The following code will work as expected:
 X!(); // X is defined
 #[macro_use] extern crate macs;
 X!();
-# 
+#
 # fn main() {}
 ```
 
@@ -83,7 +83,7 @@ to guarantee any given macro will be available when imported by another crate.
 It is recommended that you *always* use absolute paths to non-macro names, to avoid conflicts,
 *including* names in the standard library.
 
-[`$crate`]:./hygiene.html#crate
+[`$crate`]:./hygiene.md#crate
 
 ## Edition 2018
 
@@ -111,4 +111,4 @@ So scoping applies there the same way as before as well.
 > The `$crate` prefix works in this version for everything, macros and items alike since this Edition
 > came out with Rust 1.31.
 
-[scoping chapter]:./scoping.html
+[scoping chapter]:./scoping.md

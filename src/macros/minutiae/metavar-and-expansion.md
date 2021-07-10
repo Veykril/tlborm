@@ -134,16 +134,16 @@ capture with anything else, the only thing you can do with the result from then 
 directly into the output.
 
 
-[`item`]:./fragment-specifiers.html#item
-[`block`]:./fragment-specifiers.html#block
-[`stmt`]:./fragment-specifiers.html#stmt
-[`pat`]:./fragment-specifiers.html#pat
-[`expr`]:./fragment-specifiers.html#expr
-[`ty`]:./fragment-specifiers.html#ty
-[`ident`]:./fragment-specifiers.html#ident
-[`path`]:./fragment-specifiers.html#path
-[`tt`]:./fragment-specifiers.html#tt
-[`meta`]:./fragment-specifiers.html#meta
-[`lifetime`]:./fragment-specifiers.html#lifetime
-[`vis`]:./fragment-specifiers.html#vis
-[`literal`]:./fragment-specifiers.html#literal
+[`item`]:./fragment-specifiers.md#item
+[`block`]:./fragment-specifiers.md#block
+[`stmt`]:./fragment-specifiers.md#stmt
+[`pat`]:./fragment-specifiers.md#pat
+[`expr`]:./fragment-specifiers.md#expr
+[`ty`]:./fragment-specifiers.md#ty
+[`ident`]:./fragment-specifiers.md#ident
+[`path`]:./fragment-specifiers.md#path
+[`tt`]:./fragment-specifiers.md#tt
+[`meta`]:./fragment-specifiers.md#meta
+[`lifetime`]:./fragment-specifiers.md#lifetime
+[`vis`]:./fragment-specifiers.md#vis
+[`literal`]:./fragment-specifiers.md#literal

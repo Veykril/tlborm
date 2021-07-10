@@ -84,7 +84,7 @@ Note that the example at the top combines some of the rules together (for exampl
 increment on `()` and `($($count:tt)+)` into an increment on `($($count:tt)*)`).
 
 If you want to extract the actual *value* of the counter, this can be done using a regular
-[counter macro](./counting.html). For the example above, the terminal rules can be replaced with the following:
+[counter macro](./counting.md). For the example above, the terminal rules can be replaced with the following:
 
 ```rust,ignore
 macro_rules! abacus {

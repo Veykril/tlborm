@@ -48,7 +48,7 @@ impl Dummy {
         self
     }
 }
-# 
+#
 # fn main() {
 #     println!("{:?}", Dummy(4).double().0);
 # }
@@ -87,7 +87,7 @@ impl Dummy {
         mut_self
     }
 }
-# 
+#
 # fn main() {
 #     println!("{:?}", Dummy(4).double().0);
 # }
@@ -134,7 +134,7 @@ impl Dummy {
         self
     }}
 }
-# 
+#
 # fn main() {
 #     println!("{:?}", Dummy(4).double().0);
 # }
@@ -159,7 +159,7 @@ impl Dummy {
         self
     }}
 }
-# 
+#
 # fn main() {
 #     println!("{:?}", Dummy(4).double().0);
 # }
@@ -182,7 +182,7 @@ struct Dummy(i32);
 impl Dummy {
     double_method! {_, 0}
 }
-# 
+#
 # fn main() {
 #     println!("{:?}", Dummy(4).double().0);
 # }
@@ -209,4 +209,4 @@ Except, no, because `self` isn't a pattern. Joy.
 The only work around for this (in cases where you want to accept some combination of these tokens)
 is to use a [`tt`] matcher instead.
 
-[`tt`]:./fragment-specifiers.html#tt
+[`tt`]:./fragment-specifiers.md#tt

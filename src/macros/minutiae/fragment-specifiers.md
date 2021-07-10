@@ -132,7 +132,7 @@ expression solely consists of only a block expression or control flow expression
 The fine details of what was just mentioned here can be looked up in the
 [reference](https://doc.rust-lang.org/reference/statements.html).
 
-[^debugging]:See the [debugging chapter](./debugging.html) for tips on how to do this.
+[^debugging]:See the [debugging chapter](./debugging.md) for tips on how to do this.
 
 ## `pat`
 
@@ -230,7 +230,7 @@ paths! {
 ## `tt`
 
 The `tt` fragment matches a TokenTree. If you need a refresher on what exactly a TokenTree was you
-may want to revisit the [TokenTree chapter](../../syntax-extensions/source-analysis.html#token-trees) of this
+may want to revisit the [TokenTree chapter](../../syntax-extensions/source-analysis.md#token-trees) of this
 book. The `tt` fragment is one of the most powerful fragments, as it can match nearly anything while
 still allowing you to inspect the contents of it at a later state in the macro.
 
