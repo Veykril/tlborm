@@ -65,8 +65,8 @@ says the input to the macro must match:
 - the literal token sequence `,` `...` `,`,
 - a valid *expression* captured into the [metavariable] `recur` (`$recur:expr`).
 
-[repeating]: ./macro_rules.html#repetitions
-[metavariable]: ./macro_rules.html#metavariables
+[repeating]: ./macro_rules.md#repetitions
+[metavariable]: ./macro_rules.md#metavariables
 
 Finally, the rule says that *if* the input matches this rule, then the macro invocation should be
 replaced by the token sequence `/* ... */`.
@@ -210,7 +210,7 @@ Here, I've added a new metavariable: `sty` which should be a type.
 
 > **Aside**: if you're wondering, the bit after the colon in a metavariable can be one of several
 > kinds of syntax matchers. The most common ones are `item`, `expr`, and `ty`. A complete
-> explanation can be found in [Macros, A Methodical Introduction; `macro_rules!` (Matchers)](./macro_rules.html#Metavariables).
+> explanation can be found in [Macros, A Methodical Introduction; `macro_rules!` (Matchers)](./macro_rules.md#Metavariables).
 >
 > There's one other thing to be aware of: in the interests of future-proofing the language, the
 > compiler restricts what tokens you're allowed to put *after* a matcher, depending on what kind
@@ -218,7 +218,7 @@ Here, I've added a new metavariable: `sty` which should be a type.
 > *only* be followed by one of `=>`, `,`, and `;`.
 >
 > A complete list can be found in
-> [Macros, A Methodical Introduction; Minutiae; Metavariables and Expansion Redux](./minutiae/metavar-and-expansion.html).
+> [Macros, A Methodical Introduction; Minutiae; Metavariables and Expansion Redux](./minutiae/metavar-and-expansion.md).
 
 ## Indexing and Shuffling
 
@@ -1350,4 +1350,4 @@ Which gives us:
 
 Success!
 
-[`macro_rules!`]: ./macro_rules.html
+[`macro_rules!`]: ./macro_rules.md

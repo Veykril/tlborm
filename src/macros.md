@@ -13,7 +13,7 @@ Should the information presented here not suffice, then there is also the [Macro
 
 [mbe]: https://doc.rust-lang.org/reference/macros-by-example.html
 [Macros chapter of the Rust Book]: https://doc.rust-lang.org/book/ch19-06-macros.html
-[practical]: ./macros/macros-practical.html
-[methodical]: ./macros/macros-methodical.html
+[practical]: ./macros/macros-practical.md
+[methodical]: ./macros/macros-methodical.md
 [patterns]: ./macros/patterns.md
 [building blocks]: ./macros/building-blocks.md

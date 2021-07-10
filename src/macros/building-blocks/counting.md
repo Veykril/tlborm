@@ -211,7 +211,7 @@ can count 1 for the uneven discard and multiply by 2 again since we also halved.
 ((((0 << 1) | 1) << 1 << 1) | 1) << 1;
 ```
 
-Now to check if we expanded correctly manually we can use a one of the tools we introduced for [`debugging`](../minutiae/debugging.html).
+Now to check if we expanded correctly manually we can use a one of the tools we introduced for [`debugging`](../minutiae/debugging.md).
 When expanding the macro there we should get:
 ```rust,ignore
 ((((0 << 1) | 1) << 1 << 1) | 1) << 1;
