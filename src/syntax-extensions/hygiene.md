@@ -3,6 +3,13 @@
 Hygiene is an important concept for macros, it describes the ability for a macro to work in any context, not affecting nor being affected by its surroundings.
 In other words this means that a syntax extension should be invocable anywhere without interfering with its surrounding context.
 
+In a perfect world all syntax extensions in rust would be fully hygienic, unfortunately this isn't the case, so care should be taken to avoid writing syntax extensions that aren't fully hygienic.
+We will go into general hygiene concepts here which will be touched upon in the corresponding hygiene chapters for the different syntax extensions rust has to offer.
+
+&nbsp;
+
+Hygiene mainly affects identifiers and paths emitted by syntax extensions.
+
 This is best shown by example:
 
 Let's assume we have some syntax extension `make_local` that expands to `let local = 0;`, then given the following snippet:
@@ -23,5 +30,6 @@ use_local!();
 In this case for `use_local` to be considered fully hygienic, this snippet again should not compile as otherwise it would be affected by its surrounding context and also affect its surrounding context as well.
 
 This is a rather short introduction to hygiene which will be explained in more depth in the corresponding [`macro_rules!` `hygiene`] and proc-macro `hygiene` chapters, mainly explaining how hygienic these syntax extensions can be, be it fully or only partially.
+There also exists this [github gist](https://gist.github.com/Kestrer/8c05ebd4e0e9347eb05f265dfb7252e1) that explains how to write hygienic syntax extensions while going into a hygiene a bit overall.
 
 [`macro_rules!` `hygiene`]: ../macros/minutiae/hygiene.md

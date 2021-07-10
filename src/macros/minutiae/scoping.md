@@ -3,7 +3,7 @@
 The way in which mbe macros are scoped can be somewhat unintuitive.
 They use two forms of scopes: textual scope, and path-based scope.
 
-When such a macro is invoked by an unqualified identifier(an identifier that isn't part of a mulit-part  path), it is first looked up in textual scoping and then in path-based scoping should the first lookup not yield any results.
+When such a macro is invoked by an unqualified identifier(an identifier that isn't part of a multi-segment path), it is first looked up in textual scoping and then in path-based scoping should the first lookup not yield any results.
 If it is invoked by a qualified identifier it will skip the textual scoping lookup and instead only do a look up in the path-based scoping.
 
 ## Textual Scope

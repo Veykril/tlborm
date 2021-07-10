@@ -1,4 +1,4 @@
-# Macros
+# Macros By Example
 
 This chapter will introduce Rust's [Macro-By-Example][mbe] system: [`macro_rules!`][mbe].
 There are two different introductions in this chapter, a [methodical] and a [practical].
