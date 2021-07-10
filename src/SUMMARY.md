@@ -32,3 +32,4 @@
             - [Abacus Counting](./macros/building-blocks/abacus-counting.md)
         - [Parsing Rust](./macros/building-blocks/parsing.md)
  - [Procedural Macros]() <!--./proc-macros.md -->
+ - [Glossary](./glossary.md)
