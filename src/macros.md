@@ -10,6 +10,7 @@ Following up the two introductions it offers some generally very useful [pattern
 
 Should the information presented here not suffice, then there is also the [Macros chapter of the Rust Book] which is a more approachable, high-level explanation as well as the reference [chapter](https://doc.rust-lang.org/reference/macros-by-example.html) which goes more into the precise details of things.
 
+> **Note**: This book will usually use the term *mbe*(**M**acro-**B**y-**E**xample), *mbe macro* or `macro_rules!` macro when talking about `macro_rules!` macros.
 
 [mbe]: https://doc.rust-lang.org/reference/macros-by-example.html
 [Macros chapter of the Rust Book]: https://doc.rust-lang.org/book/ch19-06-macros.html

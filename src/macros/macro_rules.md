@@ -1,8 +1,8 @@
 # `macro_rules!`
 
-With all that in mind, we can introduce `macro_rules!` itself. As noted previously, `macro_rules!`
-is *itself* a syntax extension, meaning it is *technically* not part of the Rust syntax. It uses the
-following forms:
+With all that in mind, we can introduce `macro_rules!` itself.
+As noted previously, `macro_rules!` is *itself* a syntax extension, meaning it is *technically* not part of the Rust syntax.
+It uses the following forms:
 
 ```rust,ignore
 macro_rules! $name {
@@ -13,8 +13,8 @@ macro_rules! $name {
 }
 ```
 
-There must be *at least* one rule, and you can omit the semicolon after the last rule. You can use
-brackets(`[]`), parentheses(`()`) or braces(`{}`).
+There must be *at least* one rule, and you can omit the semicolon after the last rule.
+You can use brackets(`[]`), parentheses(`()`) or braces(`{}`).
 
 Each *"rule"* looks like the following:
 
@@ -22,28 +22,24 @@ Each *"rule"* looks like the following:
     ($matcher) => {$expansion}
 ```
 
-Like before, the types of parentheses used can be any kind, but parentheses around the matcher and
-braces around the expansion are somewhat conventional. The expansion part of a rule is also called
-its *transcriber*.
+Like before, the types of parentheses used can be any kind, but parentheses around the matcher and braces around the expansion are somewhat conventional.
+The expansion part of a rule is also called its *transcriber*.
 
-Note that the choice of the parentheses does not matter in regards to how the macro may be invoked.
-In fact, macros can be invoked with any kind of parentheses as well, but invocations with `{ .. }`
-and `( ... );`, notice the trailing semicolon, are special in that their expansion will *always* be
-parsed as an *item*.
+Note that the choice of the parentheses does not matter in regards to how the mbe macro may be invoked.
+In fact, function-like macros can be invoked with any kind of parentheses as well, but invocations with `{ .. }` and `( ... );`, notice the trailing semicolon, are special in that their expansion will *always* be parsed as an *item*.
 
-If you are wondering, the `macro_rules!` invocation expands to... *nothing*.  At least, nothing that
-appears in the AST; rather, it manipulates compiler-internal structures to register the macro. As
-such, you can *technically* use `macro_rules!` in any position where an empty expansion is valid.
+If you are wondering, the `macro_rules!` invocation expands to... *nothing*.
+At least, nothing that appears in the AST; rather, it manipulates compiler-internal structures to register the mbe macro.
+As such, you can *technically* use `macro_rules!` in any position where an empty expansion is valid.
 
 ## Matching
 
-When a `macro_rules!` macro is invoked, the `macro_rules!` interpreter goes through the rules one by
-one, in declaration order. For each rule, it tries to match the contents of the input token tree
-against that rule's `matcher`. A matcher must match the *entirety* of the input to be considered a
-match.
+When a `macro_rules!` macro is invoked, the `macro_rules!` interpreter goes through the rules one by one, in declaration order.
+For each rule, it tries to match the contents of the input token tree against that rule's `matcher`.
+A matcher must match the *entirety* of the input to be considered a match.
 
-If the input matches the matcher, the invocation is replaced by the `expansion`; otherwise, the next
-rule is tried. If all rules fail to match, macro expansion fails with an error.
+If the input matches the matcher, the invocation is replaced by the `expansion`; otherwise, the next rule is tried.
+If all rules fail to match, the expansion fails with an error.
 
 The simplest example is of an empty matcher:
 
@@ -55,13 +51,13 @@ macro_rules! four {
 
 This matches if and only if the input is also empty (*i.e.* `four!()`, `four![]` or `four!{}`).
 
-Note that the specific grouping tokens you use when you invoke the macro *are not* matched. That is,
-you can invoke the above macro as `four![]` and it will still match. Only the *contents* of the
-input token tree are considered.
+Note that the specific grouping tokens you use when you invoke the function-like macro *are not* matched, they are in fact not passed to the invocation at all.
+That is, you can invoke the above macro as `four![]` and it will still match.
+Only the *contents* of the input token tree are considered.
 
-Matchers can also contain literal token trees, which must be matched exactly. This is done by simply
-writing the token trees normally. For example, to match the sequence `4 fn ['spang "whammo"] @_@`,
-you would write:
+Matchers can also contain literal token trees, which must be matched exactly.
+This is done by simply writing the token trees normally.
+For example, to match the sequence `4 fn ['spang "whammo"] @_@`, you would write:
 
 ```rust,ignore
 macro_rules! gibberish {
@@ -73,11 +69,10 @@ You can use any token tree that you can write.
 
 ## Metavariables
 
-Matchers can also contain captures. These allow input to be matched based on some general grammar
-category, with the result captured to a metavariable which can then be substituted into the output.
+Matchers can also contain captures.
+These allow input to be matched based on some general grammar category, with the result captured to a metavariable which can then be substituted into the output.
 
-Captures are written as a dollar (`$`) followed by an identifier, a colon (`:`), and finally the
-kind of capture which is also called the fragment-specifier, which must be one of the following:
+Captures are written as a dollar (`$`) followed by an identifier, a colon (`:`), and finally the kind of capture which is also called the fragment-specifier, which must be one of the following:
 
 * `block`: a block (i.e. a block of statements and/or an expression, surrounded by braces)
 * `expr`: an expression
@@ -93,10 +88,9 @@ kind of capture which is also called the fragment-specifier, which must be one o
 * `ty`: a type
 * `vis`: a possible empty visibility qualifier (e.g. `pub`, `pub(in crate)`, ...)
 
-For more in-depth description of the fragement specifiers, check out the [Fragment Specifiers](./minutiae/fragment-specifiers.md) chapter.
+For more in-depth description of the fragment specifiers, check out the [Fragment Specifiers](./minutiae/fragment-specifiers.md) chapter.
 
-For example, here is a `macro_rules!` macro which captures its input as an expression under the
-metavariable `$e`:
+For example, here is a `macro_rules!` macro which captures its input as an expression under the metavariable `$e`:
 
 ```rust,ignore
 macro_rules! one_expression {
@@ -117,9 +111,8 @@ macro_rules! times_five {
 }
 ```
 
-Much like macro expansion, metavariables are substituted as complete AST nodes. This means that no
-matter what sequence of tokens is captured by `$e`, it will be interpreted as a single, complete
-expression.
+Much like macro expansion, metavariables are substituted as complete AST nodes.
+This means that no matter what sequence of tokens is captured by `$e`, it will be interpreted as a single, complete expression.
 
 You can also have multiple metavariables in a single matcher:
 
@@ -147,8 +140,8 @@ There is also a special metavariable called [`$crate`] which can be used to refe
 
 ## Repetitions
 
-Matchers can contain repetitions. These allow a sequence of tokens to be matched. These have the
-general form `$ ( ... ) sep rep`.
+Matchers can contain repetitions. These allow a sequence of tokens to be matched.
+These have the general form `$ ( ... ) sep rep`.
 
 * `$` is a literal dollar token.
 * `( ... )` is the paren-grouped matcher being repeated.
@@ -161,14 +154,12 @@ general form `$ ( ... ) sep rep`.
 
     Since `?` represents at most one occurrence, it cannot be used with a separator.
 
-Repetitions can contain any other valid matcher, including literal token trees, metavariables, and
-other repetitions allowing arbitrary nesting.
+Repetitions can contain any other valid matcher, including literal token trees, metavariables, and other repetitions allowing arbitrary nesting.
 
-Repetitions use the same syntax in the expansion and repeated metavariables can only be accessed
-inside of repetitions in the expansion.
+Repetitions use the same syntax in the expansion and repeated metavariables can only be accessed inside of repetitions in the expansion.
 
-For example, below is a macro which formats each element as a string. It matches zero or more
-comma-separated expressions and expands to an expression that constructs a vector.
+For example, below is a mbe macro which formats each element as a string.
+It matches zero or more comma-separated expressions and expands to an expression that constructs a vector.
 
 ```rust
 macro_rules! vec_strs {
@@ -206,8 +197,8 @@ fn main() {
 }
 ```
 
-You can repeat multiple metavariables in a single repetition as long as all metavariables repeat
-equally often. So this invocation of the following macro works:
+You can repeat multiple metavariables in a single repetition as long as all metavariables repeat equally often.
+So this invocation of the following macro works:
 
 ```rust
 macro_rules! repeat_two {

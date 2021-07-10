@@ -1,13 +1,11 @@
 # Parsing Rust
 
-Parsing some of Rust's items can be useful in certain situations. This section will show a few
-macros that can parse some of Rust's more complex items like structs and functions to a certain extent.
-The goal of these macros is not to be able to parse the entire grammar of the items but to parse
-parts that are in general quite useful without being too complex to parse. This means we ignore
-things like generics and such.
+Parsing some of Rust's items can be useful in certain situations.
+This section will show a few macros that can parse some of Rust's more complex items like structs and functions to a certain extent.
+The goal of these macros is not to be able to parse the entire grammar of the items but to parse parts that are in general quite useful without being too complex to parse. This means we ignore things like generics and such.
 
-The main points of interest of these macros are their `matchers`. The transcribers are only there
-for example purposes and are usually not that impressive.
+The main points of interest of these macros are their `matchers`.
+The transcribers are only there for example purposes and are usually not that impressive.
 
 ## Function
 
@@ -42,23 +40,18 @@ macro_rules! function_item_matcher {
 # }
 ```
 
-A simple function matcher that ignores qualifiers like `unsafe`, `async`, ... as well a generics and
-where clauses. If parsing those is required it is likely that you are better off using a proc-macro
-instead.
+A simple function matcher that ignores qualifiers like `unsafe`, `async`, ... as well a generics and where clauses.
+If parsing those is required it is likely that you are better off using a proc-macro instead.
 
-This lets you for example, inspect the function signature, generate some extra things from it and
-then re-emit the entire function again. Kind of like a `Derive` proc-macro but weaker and for
-functions.
+This lets you for example, inspect the function signature, generate some extra things from it and then re-emit the entire function again.
+Kind of like a `Derive` proc-macro but weaker and for functions.
 
-> Ideally we would like to use a pattern fragment specifier instead of an ident for the arguments
-> but this is currently not allowed. Fortunately people don't use patterns in function signatures
-> that often so this is okay.
+> Ideally we would like to use a pattern fragment specifier instead of an ident for the arguments but this is currently not allowed.
+> Fortunately people don't use non-identifier patterns in function signatures that often so this is okay(a shame, really).
 
 ### Method
 
-The macro for parsing basic functions is nice and all, but sometimes we would like to also parse
-methods, functions that refer to their object via some form of `self` usage. This makes things a bit
-trickier:
+The macro for parsing basic functions is nice and all, but sometimes we would like to also parse methods, functions that refer to their object via some form of `self` usage. This makes things a bit trickier:
 
 > WIP
 
@@ -146,11 +139,8 @@ macro_rules! struct_item_matcher {
 
 # Enum
 
-Parsing enums is a bit more complex than structs so we will finally make use of some of the
-[patterns] we have discussed, [Incremental TT Muncher] and [Internal Rules]. Instead of just
-building the parsed enum again we will merely visit all the tokens of the enum, as rebuilding the
-enum would require us to collect all the parsed tokens temporarily again via a
-[Push Down Accumulator].
+Parsing enums is a bit more complex than structs so we will finally make use of some of the [patterns] we have discussed, [Incremental TT Muncher] and [Internal Rules].
+Instead of just building the parsed enum again we will merely visit all the tokens of the enum, as rebuilding the enum would require us to collect all the parsed tokens temporarily again via a [Push Down Accumulator].
 
 ```rust
 macro_rules! enum_item_matcher {

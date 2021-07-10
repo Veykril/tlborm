@@ -47,18 +47,13 @@ fn main() {
 }
 ```
 
-In particularly complex recursive macros, a large number of arguments may be needed in order to
-carry identifiers and expressions to successive layers. However, depending on the implementation
-there may be many intermediate layers which need to forward these arguments, but do not need to
-*use* them.
+In particularly complex recursive macros, a large number of arguments may be needed in order to carry identifiers and expressions to successive layers.
+However, depending on the implementation there may be many intermediate layers which need to forward these arguments, but do not need to *use* them.
 
-As such, it can be very useful to bundle all such arguments together into a single TT by placing
-them in a group. This allows layers which do not need to use the arguments to simply capture and
-substitute a single [`tt`], rather than having to exactly capture and substitute the entire argument
-group.
+As such, it can be very useful to bundle all such arguments together into a single TT by placing them in a group.
+This allows layers which do not need to use the arguments to simply capture and substitute a single [`tt`], rather than having to exactly capture and substitute the entire argument group.
 
-The example above bundles the `$a` and `$b` expressions into a group which can then be forwarded as
-a single [`tt`] by the recursive rule. This group is then destructured by the terminal rules to
-access the expressions.
+The example above bundles the `$a` and `$b` expressions into a group which can then be forwarded as a single [`tt`] by the recursive rule.
+This group is then destructured by the terminal rules to access the expressions.
 
 [`tt`]: ../minutiae/fragment-specifiers.html#tt

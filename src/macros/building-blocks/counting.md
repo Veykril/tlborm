@@ -2,8 +2,8 @@
 
 ## Repetition with replacement
 
-Counting things in a macro is a surprisingly tricky task. The simplest way is to use replacement
-with a repetition match.
+Counting things in a macro is a surprisingly tricky task.
+The simplest way is to use replacement with a repetition match.
 
 ```rust
 macro_rules! replace_expr {
@@ -19,15 +19,14 @@ macro_rules! count_tts {
 # }
 ```
 
-This is a fine approach for smallish numbers, but will likely *crash the compiler* with inputs of
-around 500 or so tokens. Consider that the output will look something like this:
+This is a fine approach for smallish numbers, but will likely *crash the compiler* with inputs of around 500 or so tokens.
+Consider that the output will look something like this:
 
 ```rust,ignore
 0usize + 1usize + /* ~500 `+ 1usize`s */ + 1usize
 ```
 
-The compiler must parse this into an AST, which will produce what is effectively a perfectly
-unbalanced binary tree 500+ levels deep.
+The compiler must parse this into an AST, which will produce what is effectively a perfectly unbalanced binary tree 500+ levels deep.
 
 ## Recursion
 
@@ -44,15 +43,13 @@ macro_rules! count_tts {
 # }
 ```
 
-> **Note**: As of `rustc` 1.2, the compiler has *grievous* performance problems when large numbers
-> of integer literals of unknown type must undergo inference. We are using explicitly
-> `usize`-typed literals here to avoid that.
+> **Note**: As of `rustc` 1.2, the compiler has *grievous* performance problems when large numbers of integer literals of unknown type must undergo inference.
+> We are using explicitly `usize`-typed literals here to avoid that.
 >
-> If this is not suitable (such as when the type must be substitutable), you can help matters by
-> using `as` (*e.g.* `0 as $ty`, `1 as $ty`, *etc.*).
+> If this is not suitable (such as when the type must be substitutable), you can help matters by using `as` (*e.g.* `0 as $ty`, `1 as $ty`, *etc.*).
 
-This *works*, but will trivially exceed the recursion limit. Unlike the repetition approach, you can
-extend the input size by matching multiple tokens at once.
+This *works*, but will trivially exceed the recursion limit.
+Unlike the repetition approach, you can extend the input size by matching multiple tokens at once.
 
 ```rust
 macro_rules! count_tts {
@@ -147,12 +144,10 @@ macro_rules! count_idents {
 # }
 ```
 
-This method does have two drawbacks. First, as implied above, it can *only* count valid identifiers
-(which are also not keywords), and it does not allow those identifiers to repeat.
+This method does have two drawbacks.
+First, as implied above, it can *only* count valid identifiers(which are also not keywords), and it does not allow those identifiers to repeat.
 
-Secondly, this approach is *not* hygienic, meaning that if whatever identifier you use in place of
-`__CountIdentsLast` is provided as input, the macro will fail due to the duplicate variants in the
-`enum`.
+Secondly, this approach is *not* hygienic, meaning that if whatever identifier you use in place of `__CountIdentsLast` is provided as input, the macro will fail due to the duplicate variants in the `enum`.
 
 ## Bit twiddling
 
@@ -170,16 +165,13 @@ macro_rules! count_tts {
 # }
 ```
 
-This approach is pretty smart as it effectively halves its input whenever its even and then
-multiplying the counter by 2 (or in this case shifting 1 bit to the left which is equivalent). If
-the input is uneven it simply takes one token tree from the input `or`s the token tree to the
-previous counter which is equivalent to adding 1 as the lowest bit has to be a 0 at this point due
-to the previous shifting. Rinse and repeat until we hit the base rule `() => 0`.
+This approach is pretty smart as it effectively halves its input whenever its even and then multiplying the counter by 2 (or in this case shifting 1 bit to the left which is equivalent).
+If the input is uneven it simply takes one token tree from the input `or`s the token tree to the previous counter which is equivalent to adding 1 as the lowest bit has to be a 0 at this point due to the previous shifting.
+Rinse and repeat until we hit the base rule `() => 0`.
 
-The benefit of this is that the constructed AST expression that makes up the counter value will grow
-with a complexity of `O(log(n))` instead of `O(n)` like the other approaches. Be aware that you can
-still hit the recursion limit with this if you try hard enough. Credits for this method go to Reddit
-user [`YatoRust`](https://www.reddit.com/r/rust/comments/d3yag8/the_little_book_of_rust_macros/).
+The benefit of this is that the constructed AST expression that makes up the counter value will grow with a complexity of `O(log(n))` instead of `O(n)` like the other approaches.
+Be aware that you can still hit the recursion limit with this if you try hard enough.
+Credits for this method go to Reddit user [`YatoRust`](https://www.reddit.com/r/rust/comments/d3yag8/the_little_book_of_rust_macros/).
 
 
 Let's go through the procedure by hand once:
@@ -187,17 +179,15 @@ Let's go through the procedure by hand once:
 ```rust,ignore
 count_tts!(0 0 0 0 0 0 0 0 0 0);
 ```
-This invocation will match the third rule due to the fact that we have an even number of token trees
-(10). The matcher names the odd token trees in the sequence `$a` and the even ones `$even` but the
-expansion only makes use of `$a`, which means it effectively discards all the even elements cutting
-the input in half. So the invocation now becomes:
+This invocation will match the third rule due to the fact that we have an even number of token trees(10).
+The matcher names the odd token trees in the sequence `$a` and the even ones `$even` but the expansion only makes use of `$a`, which means it effectively discards all the even elements cutting the input in half.
+So the invocation now becomes:
 ```rust,ignore
 count_tts!(0 0 0 0 0) << 1;
 ```
-This invocation will now match the second rule as its input is an uneven amount of token trees. In
-this case the first token tree is discarded to make the input even again, then we also do the
-halving step in this invocation again since we know the input would be even now anyways. Therefor we
-can count 1 for the uneven discard and multiply by 2 again since we also halved.
+This invocation will now match the second rule as its input is an uneven amount of token trees.
+In this case the first token tree is discarded to make the input even again, then we also do the halving step in this invocation again since we know the input would be even now anyways.
+Therefor we can count 1 for the uneven discard and multiply by 2 again since we also halved.
 ```rust,ignore
 ((count_tts!(0 0) << 1) | 1) << 1;
 ```
