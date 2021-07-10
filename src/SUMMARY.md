@@ -6,7 +6,7 @@
     - [Source Analysis](./syntax-extensions/source-analysis.md)
     - [Macros in the Ast](./syntax-extensions/ast.md)
     - [Expansion](./syntax-extensions/expansion.md)
-    - [Hygiene]()<!-- ./syntax-extensions/hygiene.md-->
+    - [Hygiene](./syntax-extensions/hygiene.md)
 - [Macros](./macros.md)
     - [A Methodical Introduction](./macros/macros-methodical.md)
         - [macro_rules!](./macros/macro_rules.md)
