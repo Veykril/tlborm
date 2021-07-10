@@ -77,7 +77,7 @@ For this, the `--pretty` argument to the compiler can be used.
 Given the following code:
 
 ```rust,ignore
-// Shorthand for initialising a `String`.
+// Shorthand for initializing a `String`.
 macro_rules! S {
     ($e:expr) => {String::from($e)};
 }
@@ -103,7 +103,7 @@ produces the following output (modified for formatting):
 use std::prelude::v1::*;
 #[macro_use]
 extern crate std as std;
-// Shorthand for initialising a `String`.
+// Shorthand for initializing a `String`.
 fn main() {
     let world = String::from("World");
     ::std::io::_print(::std::fmt::Arguments::new_v1(
@@ -121,8 +121,8 @@ fn main() {
 }
 ```
 
-Other options to `--pretty` can be listed using `rustc -Z unstable-options --help -v`; a full list
-is not provided since, as implied by the name, any such list would be subject to change at any time.
+Other options to `--pretty` can be listed using `rustc -Z unstable-options --help -v`;
+a full list is not provided since, as implied by the name, any such list would be subject to change at any time.
 
 But not just `rustc` exposes means to aid in debugging macros.
 For the aforementioned `--pretty=expanded` option, there exists a nice `cargo` addon called [`cargo-expand`](https://github.com/dtolnay/cargo-expand) made by [`dtolnay`](https://github.com/dtolnay) which is basically just a wrapper around it.

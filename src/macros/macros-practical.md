@@ -13,7 +13,7 @@ There is also the [Macros chapter of the Rust Book](https://doc.rust-lang.org/bo
 If you aren't familiar, a recurrence relation is a sequence where each value is defined in terms of one or more *previous* values, with one or more initial values to get the whole thing started.
 For example, the [Fibonacci sequence](https://en.wikipedia.org/wiki/Fibonacci_number) can be defined by the relation:
 
-\\[ F_{n} = 0, 1, ..., F_{n-1} + F_{n-2}\\](mathjax)
+\\[F_{n} = 0, 1, ..., F_{n-1} + F_{n-2}\\]
 
 Thus, the first two numbers in the sequence are 0 and 1, with the third being \\( F_{0} + F_{1} = 0 + 1 = 1\\), the fourth \\( F_{1} + F_{2} = 1 + 1 = 2\\), and so on forever.
 
@@ -141,7 +141,7 @@ for e in fib.take(10) { println!("{}", e) }
 ```
 
 Lastly, return an instance of our new structure, which can then be iterated over.
-To summarise, the complete expansion is:
+To summarize, the complete expansion is:
 
 ```rust,ignore
 let fib = {
@@ -242,7 +242,7 @@ impl<'a> Index<usize> for IndexOffset<'a> {
 > **Aside**: since lifetimes come up *a lot* with people new to Rust, a quick explanation: `'a` and `'b` are lifetime parameters that are used to track where a reference (*i.e.* a borrowed pointer to some data) is valid.
 > In this case, `IndexOffset` borrows a reference to our iterator's data, so it needs to keep track of how long it's allowed to hold that reference for, using `'a`.
 >
-> `'b` is used because the `Index::index` function (which is how subscript syntax is actually implemented) is *also* parameterised on a lifetime, on account of returning a borrowed reference.
+> `'b` is used because the `Index::index` function (which is how subscript syntax is actually implemented) is *also* parameterized on a lifetime, on account of returning a borrowed reference.
 > `'a` and `'b` are not necessarily the same thing in all cases.
 > The borrow checker will make sure that even though we don't explicitly relate `'a` and `'b` to one another, we don't accidentally violate memory safety.
 

@@ -8,6 +8,8 @@ A chinese version of this book can be found [here](https://zjp-cn.github.io/tlbo
 
 This book is an attempt to distill the Rust community's collective knowledge of Rust macros, the `Macros by Example` ones as well as procedural macros.
 As such, both additions (in the form of pull requests) and requests (in the form of issues) are very much welcome.
+If something's unclear, opens up questions or is not understandable as written down, fear not to make an issue asking for clarification.
+The goal is for this book to become the best learning resource possible.
 
 The [original Little Book of Rust Macros](https://github.com/DanielKeep/tlborm) has helped me immensely with understanding ***Macros by Example*** style macros while I was still learning the language.
 Unfortunately, the original book hasn't been updated since april of 2016, while the Rust language as well as it's macro-system keeps evolving.
@@ -16,7 +18,7 @@ In hopes that it will help out all the fresh faces coming to Rust understanding 
 
 > This book expects you to have basic knowledge of Rust, it will not explain language features or constructs that are irrelevant to macros.
 > No prior knowledge of macros is assumed.
-> Having read and understood the first seven chapters of the [Rust Book](https://doc.rust-lang.org/stable/book/) is > a must, though having read the majority of the book is recommended.
+> Having read and understood the first seven chapters of the [Rust Book](https://doc.rust-lang.org/stable/book/) is a must, though having read the majority of the book is recommended.
 
 ## Thanks
 

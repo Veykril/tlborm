@@ -4,7 +4,8 @@ There are two tokens which you are likely to run into eventually that *look* lik
 Except when they are.
 
 First is `self`.
-This is *very definitely* a keyword. However, it also happens to fit the definition of an identifier.
+This is *very definitely* a keyword.
+However, it also happens to fit the definition of an identifier.
 In regular Rust code, there's no way for `self` to be interpreted as an identifier, but it *can* happen with `macro_rules!` macros:
 
 ```rust
