@@ -243,6 +243,4 @@ error: meta-variable `i` repeats 6 times, but `i2` repeats 3 times
 
 &nbsp;
 
-For the complete grammar definition you may want to consult the
-[Macros By Example](https://doc.rust-lang.org/reference/macros-by-example.html#macros-by-example)
-chapter of the Rust reference.
+For the complete grammar definition you may want to consult the [Macros By Example](https://doc.rust-lang.org/reference/macros-by-example.html#macros-by-example) chapter of the Rust reference.
