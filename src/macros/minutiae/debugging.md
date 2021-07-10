@@ -1,8 +1,8 @@
 # Debugging
 
-`rustc` provides a number of tools to debug `macro_rules!` macros. One of the most useful is
-[`trace_macros!`], which is a directive to the compiler instructing it to dump every `macro_rules!`
-macro invocation prior to expansion. For example, given the following:
+`rustc` provides a number of tools to debug `macro_rules!` macros.
+One of the most useful is [`trace_macros!`], which is a directive to the compiler instructing it to dump every `macro_rules!` macro invocation prior to expansion.
+For example, given the following:
 
 ```rust,ignore
 # // Note: make sure to use a nightly channel compiler.
@@ -18,7 +18,7 @@ trace_macros!(true);
 each_tt!(spim wak plee whum);
 trace_macros!(false);
 each_tt!(trom qlip winp xod);
-# 
+#
 # fn main() {}
 ```
 
@@ -43,11 +43,11 @@ note: trace_macro
    = note: to ``
 ```
 
-This is *particularly* invaluable when debugging deeply recursive `macro_rules!` macros. You can
-also enable this from the command-line by adding `-Z trace-macros` to the compiler command line.
+This is *particularly* invaluable when debugging deeply recursive `macro_rules!` macros.
+You can also enable this from the command-line by adding `-Z trace-macros` to the compiler command line.
 
-Secondly, there is [`log_syntax!`] which causes the compiler to output all tokens passed to it. For
-example, this makes the compiler sing a song:
+Secondly, there is [`log_syntax!`] which causes the compiler to output all tokens passed to it.
+For example, this makes the compiler sing a song:
 
 ```rust
 # // Note: make sure to use a nightly channel compiler.
@@ -66,14 +66,15 @@ sing! {
     ; '\x08' '\'' + '$' ? '\x7f'
     , # '"' ~ | ) '\x07'
 }
-# 
+#
 # fn main() {}
 ```
 
 This can be used to do slightly more targeted debugging than [`trace_macros!`].
 
-Sometimes, it is what the macro *expands to* that proves problematic. For this, the `--pretty`
-argument to the compiler can be used. Given the following code:
+Sometimes, it is what the macro *expands to* that proves problematic.
+For this, the `--pretty` argument to the compiler can be used.
+Given the following code:
 
 ```rust,ignore
 // Shorthand for initialising a `String`.
@@ -123,18 +124,13 @@ fn main() {
 Other options to `--pretty` can be listed using `rustc -Z unstable-options --help -v`; a full list
 is not provided since, as implied by the name, any such list would be subject to change at any time.
 
-But not just `rustc` exposes means to aid in debugging macros. For the aforementioned
-`--pretty=expanded` option, there exists a nice `cargo` addon called
-[`cargo-expand`](https://github.com/dtolnay/cargo-expand) made by [`dtolnay`](https://github.com/dtolnay)
-which is basically just a wrapper around it.
+But not just `rustc` exposes means to aid in debugging macros.
+For the aforementioned `--pretty=expanded` option, there exists a nice `cargo` addon called [`cargo-expand`](https://github.com/dtolnay/cargo-expand) made by [`dtolnay`](https://github.com/dtolnay) which is basically just a wrapper around it.
 
-You can also use the [playground](https://play.rust-lang.org/), clicking on its `TOOLS` button in
-the top right gives you the option to expand macros right there!
+You can also use the [playground](https://play.rust-lang.org/), clicking on its `TOOLS` button in the top right gives you the option to expand macros right there!
 
-Another amazing tool is [`lukaslueg`'s](https://github.com/lukaslueg)
-[`macro_railroad`](https://github.com/lukaslueg/macro_railroad), a tool that allows you visualize
-and generate syntax diagrams for Rust's `macro_rules!` macros. It visualizes the accepted
-macro's grammar as an automata. 
+Another amazing tool is [`lukaslueg`'s](https://github.com/lukaslueg) [`macro_railroad`](https://github.com/lukaslueg/macro_railroad), a tool that allows you visualize and generate syntax diagrams for Rust's `macro_rules!` macros.
+It visualizes the accepted macro's grammar as an automata.
 
 [`trace_macros!`]:https://doc.rust-lang.org/std/macro.trace_macros.html
 [`log_syntax!`]:https://doc.rust-lang.org/std/macro.log_syntax.html

@@ -1,11 +1,11 @@
 # Non-Identifier Identifiers
 
-There are two tokens which you are likely to run into eventually that *look* like identifiers,
-but aren't. Except when they are.
+There are two tokens which you are likely to run into eventually that *look* like identifiers, but aren't.
+Except when they are.
 
-First is `self`. This is *very definitely* a keyword. However, it also happens to fit the definition
-of an identifier. In regular Rust code, there's no way for `self` to be interpreted as an identifier,
-but it *can* happen with `macro_rules!` macros:
+First is `self`.
+This is *very definitely* a keyword. However, it also happens to fit the definition of an identifier.
+In regular Rust code, there's no way for `self` to be interpreted as an identifier, but it *can* happen with `macro_rules!` macros:
 
 ```rust
 macro_rules! what_is {
@@ -31,8 +31,9 @@ the keyword `self`
 ```
 
 But that makes no sense; `call_with_ident!` required an identifier, matched one, and substituted it!
-So `self` is both a keyword and not a keyword at the same time. You might wonder how this is in any
-way important. Take this example:
+So `self` is both a keyword and not a keyword at the same time.
+You might wonder how this is in any way important.
+Take this example:
 
 ```rust
 macro_rules! make_mutable {
@@ -69,9 +70,8 @@ error: `mut` must be followed by a named binding
   = note: `mut` may be followed by `variable` and `variable @ pattern`
 ```
 
-So the macro will happily match `self` as an identifier, allowing you to use it in cases where you
-can't actually use it. But, fine; it somehow remembers that `self` is a keyword even when it's an
-identifier, so you *should* be able to do this, right?
+So the macro will happily match `self` as an identifier, allowing you to use it in cases where you can't actually use it.
+But, fine; it somehow remembers that `self` is a keyword even when it's an identifier, so you *should* be able to do this, right?
 
 ```rust
 macro_rules! make_self_mutable {
@@ -112,10 +112,9 @@ error[E0424]: expected value, found module `self`
    |
 ```
 
-Now the compiler thinks we refer to our module with `self`, but that doesn't make sense. We already
-have a `self` right there, in the function signature which is definitely not a module. It's almost
-like it's complaining that the `self` it's trying to use isn't the *same* `self`... as though the
-`self` keyword has hygiene, like an... identifier.
+Now the compiler thinks we refer to our module with `self`, but that doesn't make sense.
+We already have a `self` right there, in the function signature which is definitely not a module.
+It's almost like it's complaining that the `self` it's trying to use isn't the *same* `self`... as though the `self` keyword has hygiene, like an... identifier.
 
 ```rust
 macro_rules! double_method {
@@ -165,7 +164,8 @@ impl Dummy {
 # }
 ```
 
-At last, *this works*.  So `self` is both a keyword *and* an identifier when it feels like it.
+At last, *this works*.
+So `self` is both a keyword *and* an identifier when it feels like it.
 Surely this works for other, similar constructs, right?
 
 ```rust
@@ -199,14 +199,12 @@ error: no rules expected the token `_`
    |                     ^ no rules expected this token in macro call
 ```
 
-No, of course not.  `_` is a keyword that is valid in patterns and expressions, but somehow *isn't*
-an identifier like the keyword `self` is, despite matching the definition of an identifier just the
-same.
+No, of course not.
+`_` is a keyword that is valid in patterns and expressions, but somehow *isn't* an identifier like the keyword `self` is, despite matching the definition of an identifier just the same.
 
-You might think you can get around this by using `$self_:pat` instead; that way, `_` will match!
-Except, no, because `self` isn't a pattern. Joy.
+You might think you can get around this by using `$self_:pat` instead; that way, `_` will match! Except, no, because `self` isn't a pattern.
+Joy.
 
-The only work around for this (in cases where you want to accept some combination of these tokens)
-is to use a [`tt`] matcher instead.
+The only work around for this (in cases where you want to accept some combination of these tokens) is to use a [`tt`] matcher instead.
 
 [`tt`]:./fragment-specifiers.md#tt
