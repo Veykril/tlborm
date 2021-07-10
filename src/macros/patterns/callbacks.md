@@ -24,11 +24,11 @@ fn main() {
 }
 ```
 
-Due to the order that macros are expanded in, it is (as of Rust 1.2) impossible to pass information
-to a macro from the expansion of *another* macro. This can make modularizing macros very difficult.
+Due to the order that macros are expanded in, it is (as of Rust 1.2) impossible to pass information to a macro from the expansion of *another* macro.
+This can make modularizing macros very difficult.
 
-An alternative is to use recursion and pass a callback. Here is a trace of the above example to
-demonstrate how this takes place:
+An alternative is to use recursion and pass a callback.
+Here is a trace of the above example to demonstrate how this takes place:
 
 ```rust,ignore
 recognize_tree! { expand_to_larch ! (  ) }

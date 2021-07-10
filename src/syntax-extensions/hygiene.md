@@ -22,8 +22,6 @@ use_local!();
 
 In this case for `use_local` to be considered fully hygienic, this snippet again should not compile as otherwise it would be affected by its surrounding context and also affect its surrounding context as well.
 
-This is a rather short introduction to hygiene which will be explained in more depth in the corresponding [`macro_rules!` `hygiene`] and proc-macro `hygiene` chapters as there are specifics to each.
-
-> **Aside**: A Rust syntax extension might or might not be fully hygienic, depending on its kind and definition.
+This is a rather short introduction to hygiene which will be explained in more depth in the corresponding [`macro_rules!` `hygiene`] and proc-macro `hygiene` chapters, mainly explaining how hygienic these syntax extensions can be, be it fully or only partially.
 
 [`macro_rules!` `hygiene`]: ../macros/minutiae/hygiene.md

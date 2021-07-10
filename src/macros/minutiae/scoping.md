@@ -1,6 +1,6 @@
 # Scoping
 
-The way in which function-like macros are scoped can be somewhat unintuitive.
+The way in which mbe macros are scoped can be somewhat unintuitive.
 They use two forms of scopes: textual scope, and path-based scope.
 
 When such a macro is invoked by an unqualified identifier(an identifier that isn't part of a mulit-part  path), it is first looked up in textual scoping and then in path-based scoping should the first lookup not yield any results.

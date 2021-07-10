@@ -32,27 +32,22 @@ macro_rules! mixed_rules {
 # }
 ```
 
-This pattern is perhaps the *most powerful* macro parsing technique available, allowing one to parse
-grammars of significant complexity.
+This pattern is perhaps the *most powerful* macro parsing technique available, allowing one to parse grammars of significant complexity.
 
-A `TT muncher` is a recursive macro that works by incrementally processing its input one step at a
-time. At each step, it matches and removes (munches) some sequence of tokens from the start of its
-input, generates some intermediate output, then recurses on the input tail.
+A `TT muncher` is a recursive `macro_rules!` macro that works by incrementally processing its input one step at a time.
+At each step, it matches and removes (munches) some sequence of tokens from the start of its input, generates some intermediate output, then recurses on the input tail.
 
-The reason for "TT" in the name specifically is that the unprocessed part of the input is *always*
-captured as `$($tail:tt)*`. This is done as a [`tt`] repetition is the only way to *losslessly*
-capture part of a macro's input.
+The reason for "TT" in the name specifically is that the unprocessed part of the input is *always* captured as `$($tail:tt)*`.
+This is done as a [`tt`] repetition is the only way to *losslessly* capture part of a macro's input.
 
-The only hard restrictions on TT munchers are those imposed on the macro system as a whole:
+The only hard restrictions on TT munchers are those imposed on the `macro_rules!` macro system as a whole:
 
 * You can only match against literals and grammar constructs which can be captured by `macro_rules!`.
 * You cannot match unbalanced groups.
 
-It is important, however, to keep the macro recursion limit in mind. `macro_rules!` does not have
-*any* form of tail recursion elimination or optimization. It is recommended that, when writing a TT
-muncher, you make reasonable efforts to keep recursion as limited as possible. This can be done by
-adding additional rules to account for variation in the input (as opposed to recursion into an
-intermediate layer), or by making compromises on the input syntax to make using standard repetitions
-more tractable.
+It is important, however, to keep the macro recursion limit in mind.
+`macro_rules!` does not have *any* form of tail recursion elimination or optimization.
+It is recommended that, when writing a TT muncher, you make reasonable efforts to keep recursion as limited as possible.
+This can be done by adding additional rules to account for variation in the input (as opposed to recursion into an intermediate layer), or by making compromises on the input syntax to make using standard repetitions more tractable.
 
 [`tt`]: ../minutiae/fragment-specifiers.html#tt
