@@ -12,6 +12,7 @@ build-dir = "book"
 
 [output.linkcheck]
 traverse-parent-directories = false
+optional = true
 
 [output.html]
 default-theme = "ayu"
