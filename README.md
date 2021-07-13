@@ -6,7 +6,7 @@ View the [rendered version here](https://veykril.github.io/tlborm/) and the [rep
 
 A chinese version of this book can be found [here](https://zjp-cn.github.io/tlborm/).
 
-This book is an attempt to distill the Rust community's collective knowledge of Rust macros, the `Macros by Example` ones as well as procedural macros.
+This book is an attempt to distill the Rust community's collective knowledge of Rust macros, the `Macros by Example` ones as well as procedural macros(WIP).
 As such, both additions (in the form of pull requests) and requests (in the form of issues) are very much welcome.
 If something's unclear, opens up questions or is not understandable as written down, fear not to make an issue asking for clarification.
 The goal is for this book to become the best learning resource possible.
@@ -22,7 +22,7 @@ In hopes that it will help out all the fresh faces coming to Rust understanding 
 
 ## Thanks
 
-A big thank you to Daniel Keep for the original work as well as all the contributors that added to the original.
+A big thank you to Daniel Keep for the original work as well as all the contributors that added to the original which can be found [here](https://github.com/DanielKeep/tlborm).
 
 ## License
 
