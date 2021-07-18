@@ -20,7 +20,7 @@ In fact, it can turn a syntax extension result into any of the following:
 In other words, *where* you can invoke a syntax extension determines what its result will be interpreted as.
 
 The compiler will take this AST node and completely replace the syntax extension's invocation node with the output node.
-*This is a structural operation*, not a textural one!
+*This is a structural operation*, not a textual one!
 
 For example, consider the following:
 
