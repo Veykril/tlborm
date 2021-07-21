@@ -1,5 +1,9 @@
 # Counting
 
+What follows are several techniques for counting in `macro_rules!` macros:
+
+> **Note**: If you are just interested in the most efficient way [look here](./counting.md#bit-twiddling)
+
 ## Repetition with replacement
 
 Counting things in a macro is a surprisingly tricky task.
