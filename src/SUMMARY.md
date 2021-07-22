@@ -31,6 +31,10 @@
         - [Counting](./decl-macros/building-blocks/counting.md)
             - [Abacus Counting](./decl-macros/building-blocks/abacus-counting.md)
         - [Parsing Rust](./decl-macros/building-blocks/parsing.md)
- - [Procedural Macros]()  <!-- ./proc-macros.md -->
+ - [Procedural Macros](./proc-macros.md)
+     - [Hygiene](./proc-macros/hygiene.md)
+     - [custom!(…)](./proc-macros/function-like.md)
+     - [#\[Derive(CustomDerive, …)\]](./proc-macros/derive.md)
+     - [#\[CustomAttr(…)\]](./proc-macros/attr.md)
 
  [Glossary](./glossary.md)
