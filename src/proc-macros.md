@@ -23,7 +23,7 @@ A proc-macro is at its core just a function exported from a crate with the `proc
 A `proc-macro` type crate implicitly links to the compiler-provided [proc_macro](https://doc.rust-lang.org/proc_macro/index.html) crate, which contains all the things you need to get going with developing procedural macros.
 This crate also exposes the [`TokenStream`](https://doc.rust-lang.org/proc_macro/struct.TokenStream.html) mentioned earlier, which will be your macro's input and output type.
 This type as it's documentation says is just a stream of token trees as we know them from earlier chapters but encoded as rust types.
-Another type of interest is the [`Span`](https://doc.rust-lang.org/proc_macro/struct.Span.html), which describes a part of source code used primarily used for error reporting and [hygiene](./proc-macros/hygiene.md). Each token has an associated span that may be altered freely.
+Another type of interest is the [`Span`](https://doc.rust-lang.org/proc_macro/struct.Span.html), which describes a part of source code used primarily used for error reporting and hygiene. Each token has an associated span that may be altered freely.
 
 With this knowledge we can take a look at the function signatures of procedural macros, which in case of a function-like macro or derive is `fn(TokenStream) -> TokenStream` and in case of an attribute is `fn(TokenStream, TokenStream) -> TokenStream`.
 Note how the return type is a `TokenStream` itself for both and not a result or something else that gives the notion of fallible.
@@ -34,7 +34,7 @@ If a proc-macro panics the compiler will catch it and emit the payload as an err
 
 
 With all of this in mind we can now start implementing procedural macros, but as it turns out the `proc_macro` crate does not offer any parsing capabilities, just access to the token stream which means we are required to do the parsing of said tokens ourselves.
-This can be quite cumbersome depending on the macro and as such we will make use of the [`syn`](https://docs.rs/syn/1.0.74/syn/) crate to make our lives simpler.
+Parsing tokens to input by hand can be quite cumbersome depending on the macro that is being implemented and as such we will make use of the [`syn`](https://docs.rs/syn/*/syn/) crate to make parsing simpler.
 We will quickly go over the aforementioned crate as well as some other helpful ones in the next chapter and then finally begin implementing some macros.
 
 Other resources about procedural macros include the the reference [chapter](https://doc.rust-lang.org/reference/procedural-macros.html) which this chapter took heavy inspiration from.
