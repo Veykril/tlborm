@@ -9,7 +9,7 @@ As such, the [methodical introduction][methodical] is intended for people who ju
 
 Following up the two introductions it offers some generally very useful [patterns] and [building blocks] for creating feature rich macros.
 
-Should the information presented here not suffice, then there is also the [Macros chapter of the Rust Book] which is a more approachable, high-level explanation as well as the reference [chapter](https://doc.rust-lang.org/reference/macros-by-example.html) which goes more into the precise details of things.
+Other resources about declarative macros include the [Macros chapter of the Rust Book] which is a more approachable, high-level explanation as well as the reference [chapter](https://doc.rust-lang.org/reference/macros-by-example.html) which goes more into the precise details of things.
 
 > **Note**: This book will usually use the term *mbe*(**M**acro-**B**y-**E**xample), *mbe macro* or `macro_rules!` macro when talking about `macro_rules!` macros.
 
