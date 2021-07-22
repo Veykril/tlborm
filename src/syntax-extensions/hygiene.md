@@ -1,6 +1,6 @@
 # Hygiene
 
-Hygiene is an important concept for macros, it describes the ability for a macro to work in any context, not affecting nor being affected by its surroundings.
+Hygiene is an important concept for macros, it describes the ability for a macro to work in its own syntax context, not affecting nor being affected by its surroundings.
 In other words this means that a syntax extension should be invocable anywhere without interfering with its surrounding context.
 
 In a perfect world all syntax extensions in rust would be fully hygienic, unfortunately this isn't the case, so care should be taken to avoid writing syntax extensions that aren't fully hygienic.
@@ -32,4 +32,4 @@ In this case for `use_local` to be considered fully hygienic, this snippet again
 This is a rather short introduction to hygiene which will be explained in more depth in the corresponding [`macro_rules!` `hygiene`] and proc-macro `hygiene` chapters, mainly explaining how hygienic these syntax extensions can be, be it fully or only partially.
 There also exists this [github gist](https://gist.github.com/Kestrer/8c05ebd4e0e9347eb05f265dfb7252e1) that explains how to write hygienic syntax extensions while going into a hygiene a bit overall.
 
-[`macro_rules!` `hygiene`]: ../macros/minutiae/hygiene.md
+[`macro_rules!` `hygiene`]: ../decl-macros/minutiae/hygiene.md

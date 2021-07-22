@@ -3,7 +3,7 @@
 This chapter will introduce the Rust macro-by-example system using a relatively simple, practical example.
 It does *not* attempt to explain all of the intricacies of the system; its goal is to get you comfortable with how and why macros are written.
 
-There is also the [Macros chapter of the Rust Book](https://doc.rust-lang.org/book/ch19-06-macros.html) which is another high-level explanation, and the [methodical introduction](../macros.md) chapter of this book, which explains the macro system in detail.
+There is also the [Macros chapter of the Rust Book](https://doc.rust-lang.org/book/ch19-06-macros.html) which is another high-level explanation, and the [methodical introduction](../decl-macros.md) chapter of this book, which explains the macro system in detail.
 
 ## A Little Context
 

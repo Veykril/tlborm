@@ -1,6 +1,7 @@
-# Macros By Example
+# Declarative Macros
 
-This chapter will introduce Rust's [Macro-By-Example][mbe] system: [`macro_rules!`][mbe].
+This chapter will introduce Rust's declarative macro system: [`macro_rules!`][mbe].
+
 There are two different introductions in this chapter, a [methodical] and a [practical].
 
 The former will attempt to give you a complete and thorough explanation of *how* the system works, while the latter one will cover more practical examples.
@@ -14,7 +15,7 @@ Should the information presented here not suffice, then there is also the [Macro
 
 [mbe]: https://doc.rust-lang.org/reference/macros-by-example.html
 [Macros chapter of the Rust Book]: https://doc.rust-lang.org/book/ch19-06-macros.html
-[practical]: ./macros/macros-practical.md
-[methodical]: ./macros/macros-methodical.md
-[patterns]: ./macros/patterns.md
-[building blocks]: ./macros/building-blocks.md
+[practical]: ./decl-macros/macros-practical.md
+[methodical]: ./decl-macros/macros-methodical.md
+[patterns]: ./decl-macros/patterns.md
+[building blocks]: ./decl-macros/building-blocks.md
