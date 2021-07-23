@@ -32,10 +32,12 @@
             - [Abacus Counting](./decl-macros/building-blocks/abacus-counting.md)
         - [Parsing Rust](./decl-macros/building-blocks/parsing.md)
  - [Procedural Macros](./proc-macros.md)
+    - [Function-like](./proc-macros/function-like.md)
+    - [Derive](./proc-macros/derive.md)
+    - [Attribute](./proc-macros/attr.md)
     - [Third-Party Crates](./proc-macros/third-party-crates.md)
+        - [Parsing with Syn]()<!-- ./proc-macros/third-party-crates/syn-parsing.md -->
     - [Hygiene and Spans]()<!-- ./proc-macros/hygiene.md -->
-    - [custom!(…)](./proc-macros/function-like.md)
-    - [#\[Derive(CustomDerive, …)\]](./proc-macros/derive.md)
-    - [#\[CustomAttr(…)\]](./proc-macros/attr.md)
+    - [Techniques]()<!-- ./proc-macros/techniques.md -->
 
  [Glossary](./glossary.md)
