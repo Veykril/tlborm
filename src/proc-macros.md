@@ -1,15 +1,9 @@
 # Procedural Macros
 
 This chapter will introduce Rust's second syntax extension type, *procedural macros*.
+It does so by first going over the common features and requirements shared by the 3 types of proc macros before introducing each type itself.
 
 Unlike a [declarative macro](./decl-macros.md), a procedural macro takes the form of a rust function taking in a token stream(or two) and outputting a token stream.
-This makes writing procedural macros vastly different from declarative ones and comes with its own share of advantages and disadvantages.
-
-As noted in the [syntax extension chapter](./syntax-extensions/ast.md) it is possible to implement all three syntaxes of macro invocations with procedural macros, `#[attr]` attributes, `#[derive(…)]` derives and `foo!()` function-like. Each of these have some slight differences which will be explained in their separate chapters.
-
-All of these still run at the same stage in the compiler expansion-wise as declarative macros.
-As mentioned earlier, a procedural macro is just a function that maps a token stream(a stream of token trees) to another token stream.
-Thus it is a program the compiler compiles, then executes by feeding the input of the macro invocation, and depending on the type of macro invocation replaces the invocation with the output entirely or appends it.
 
 So how do we go about creating such a proc-macro? By creating a crate of course!
 A proc-macro is at its core just a function exported from a crate with the `proc-macro` [crate type](https://doc.rust-lang.org/reference/linkage.html), so when writing multiple proc macros you can have them all live in one crate.
@@ -21,20 +15,50 @@ A proc-macro is at its core just a function exported from a crate with the `proc
 > ```
 
 A `proc-macro` type crate implicitly links to the compiler-provided [proc_macro](https://doc.rust-lang.org/proc_macro/index.html) crate, which contains all the things you need to get going with developing procedural macros.
-This crate also exposes the [`TokenStream`](https://doc.rust-lang.org/proc_macro/struct.TokenStream.html) mentioned earlier, which will be your macro's input and output type.
-This type as it's documentation says is just a stream of token trees as we know them from earlier chapters but encoded as rust types.
-Another type of interest is the [`Span`](https://doc.rust-lang.org/proc_macro/struct.Span.html), which describes a part of source code used primarily used for error reporting and hygiene. Each token has an associated span that may be altered freely.
+The two most important types exposed by the crate are the [`TokenStream`](https://doc.rust-lang.org/proc_macro/struct.TokenStream.html), which are the proc-macro variant of the already familiar token trees as well as the [`Span`](https://doc.rust-lang.org/proc_macro/struct.Span.html), which describes a part of source code used primarily for error reporting and hygiene. See the [Hygiene and Spans]() chapter for more information.
 
-With this knowledge we can take a look at the function signatures of procedural macros, which in case of a function-like macro or derive is `fn(TokenStream) -> TokenStream` and in case of an attribute is `fn(TokenStream, TokenStream) -> TokenStream`.
-Note how the return type is a `TokenStream` itself for both and not a result or something else that gives the notion of fallible.
+As proc-macros therefore are functions living in a crate, they can be addressed as all the other items in a rust project. All thats required to add the crate to the dependency graph of a project and bring the desired item into scope.
+
+> **Note**: Procedural macros invocations still run at the same stage in the compiler expansion-wise as declarative macros, just that they are standalone rust programs that the compiler compiles, runs, and finally either replaces or appends to.
+
+
+## Types of procedural macros
+
+With procedural macros, there are actually 3 different kinds that can be implemented with each having slightly different properties.
+- *function-like* proc-macros which are used to implement `$name ! $arg` invocable macros
+- *attribute* proc-macros which are used to implement `#[$arg]` and `#![$arg]` attributes
+- *derive* proc-macros which are used to implement a derive, a "sub-macro" inside of a `#[derive(…)]` attribute
+
+At their core, all 3 work almost the same with a few differences in their inputs and output reflected by their function definition.
+As mentioned all a procedural macro really is, is a function that maps a token stream so let's take a quick look at each basic definition and their differences.
+
+### *function-like*
+```rs
+#[proc_macro]
+pub fn my_proc_macro(input: TokenStream) -> TokenStream {
+    TokenStream::new()
+}
+```
+
+### *attribute*
+```rs
+#[proc_macro_attribute]
+pub fn my_attribute(input: TokenStream, annotated_item: TokenStream) -> TokenStream {
+    TokenStream::new()
+}
+```
+
+### *derive*
+```rs
+#[proc_macro_derive(MyDerive)]
+pub fn my_derive(annotated_item: TokenStream) -> TokenStream {
+    TokenStream::new()
+}
+```
+
+As shown, the basic structure is the same for each, a public function marked with an attribute defining its procedural macro type returning a `TokenStream`.
+Note how the return type is a `TokenStream` and not a result or something else that gives the notion of being fallible.
 This does not mean that proc-macros cannot fail though, in fact they have two ways of reporting errors, the first one being to panic and the second to emit a [`compile_error!`](https://doc.rust-lang.org/std/macro.compile_error.html) invocation.
 If a proc-macro panics the compiler will catch it and emit the payload as an error coming from the macro invocation.
 
 > **Beware**: The compiler will happily hang on endless loops spun up inside proc-macros causing the compilation of crates using the proc-macro to hang as well.
-
-
-With all of this in mind we can now start implementing procedural macros, but as it turns out the `proc_macro` crate does not offer any parsing capabilities, just access to the token stream which means we are required to do the parsing of said tokens ourselves.
-Parsing tokens to input by hand can be quite cumbersome depending on the macro that is being implemented and as such we will make use of the [`syn`](https://docs.rs/syn/*/syn/) crate to make parsing simpler.
-We will quickly go over the aforementioned crate as well as some other helpful ones in the next chapter and then finally begin implementing some macros.
-
-Other resources about procedural macros include the the reference [chapter](https://doc.rust-lang.org/reference/procedural-macros.html) which this chapter took heavy inspiration from.

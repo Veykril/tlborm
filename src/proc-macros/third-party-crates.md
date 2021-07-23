@@ -48,7 +48,7 @@ This a very useful tool when preparing macro output avoiding the need of creatin
 ## [`syn`](https://docs.rs/syn/*/syn/)
 
 The [`syn`] crate is a parsing library for parsing a stream of Rust tokens into a syntax tree of Rust source code.
-It is a very powerful library that makes parsing proc-macro input quite a bit easier, be it Rust syntax or custom syntax.
+It is a very powerful library that makes parsing proc-macro input quite a bit easier, as the [`proc_macro`] crate itself does not expose any kind of parsing capabilities, merely the tokens.
 As the library can be a heavy compilation dependency, it makes heavy use of feature gates to allow users to cut it as small as required.
 
 So what does it offer? A bunch of things.
