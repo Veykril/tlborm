@@ -132,8 +132,8 @@ This approach can be used where you need to count a set of mutually distinct ide
 
 ```rust
 macro_rules! count_idents {
-    ($(,)*) => {0};
-    ($last_ident:ident, $($idents:ident),* $(,)*) => {
+    () => {0};
+    ($last_ident:ident, $($idents:ident),* $(,)?) => {
         {
             #[allow(dead_code, non_camel_case_types)]
             enum Idents { $($idents,)* $last_ident }
