@@ -132,11 +132,12 @@ This approach can be used where you need to count a set of mutually distinct ide
 
 ```rust
 macro_rules! count_idents {
-    ($($idents:ident),* $(,)*) => {
+    ($(,)*) => {0};
+    ($last_ident:ident, $($idents:ident),* $(,)*) => {
         {
             #[allow(dead_code, non_camel_case_types)]
-            enum Idents { $($idents,)* __CountIdentsLast }
-            const COUNT: u32 = Idents::__CountIdentsLast as u32;
+            enum Idents { $($idents,)* $last_ident }
+            const COUNT: u32 = Idents::$last_ident as u32 + 1;
             COUNT
         }
     };
@@ -149,9 +150,7 @@ macro_rules! count_idents {
 ```
 
 This method does have two drawbacks.
-First, as implied above, it can *only* count valid identifiers(which are also not keywords), and it does not allow those identifiers to repeat.
-
-Secondly, this approach is *not* hygienic, meaning that if whatever identifier you use in place of `__CountIdentsLast` is provided as input, the macro will fail due to the duplicate variants in the `enum`.
+As implied above, it can *only* count valid identifiers (which are also not keywords), and it does not allow those identifiers to repeat.
 
 ## Bit twiddling
 
