@@ -1,6 +1,6 @@
 # Derive
 
-Derive procedural macros define new inputs for the `derive` attribute.
+Derive procedural macros define new inputs for the [`derive`](https://doc.rust-lang.org/reference/attributes/derive.html) attribute.
 This type can be invoked by feeding it to a derive attribute's input, e.g. `#[derive(TlbormDerive)]`.
 
 A simple skeleton of a derive procedural macro looks like the following:
