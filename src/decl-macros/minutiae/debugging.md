@@ -1,6 +1,7 @@
 # Debugging
 
-`rustc` provides a number of tools to debug `macro_rules!` macros.
+> **Note**: This is a list of debugging tools specifically tailored towards declarative macros, additional means of debugging these can be found in the [debugging chapter](../../syntax-extensions/debugging.md) of syntax extensions.
+
 One of the most useful is [`trace_macros!`], which is a directive to the compiler instructing it to dump every `macro_rules!` macro invocation prior to expansion.
 For example, given the following:
 
@@ -71,63 +72,6 @@ sing! {
 ```
 
 This can be used to do slightly more targeted debugging than [`trace_macros!`].
-
-Sometimes, it is what the macro *expands to* that proves problematic.
-For this, the `--pretty` argument to the compiler can be used.
-Given the following code:
-
-```rust,ignore
-// Shorthand for initializing a `String`.
-macro_rules! S {
-    ($e:expr) => {String::from($e)};
-}
-
-fn main() {
-    let world = S!("World");
-    println!("Hello, {}!", world);
-}
-```
-
-compiled with the following command:
-
-```shell
-rustc -Z unstable-options --pretty expanded hello.rs
-```
-
-produces the following output (modified for formatting):
-
-```rust,ignore
-#![feature(no_std, prelude_import)]
-#![no_std]
-#[prelude_import]
-use std::prelude::v1::*;
-#[macro_use]
-extern crate std as std;
-// Shorthand for initializing a `String`.
-fn main() {
-    let world = String::from("World");
-    ::std::io::_print(::std::fmt::Arguments::new_v1(
-        {
-            static __STATIC_FMTSTR: &'static [&'static str]
-                = &["Hello, ", "!\n"];
-            __STATIC_FMTSTR
-        },
-        &match (&world,) {
-             (__arg0,) => [
-                ::std::fmt::ArgumentV1::new(__arg0, ::std::fmt::Display::fmt)
-            ],
-        }
-    ));
-}
-```
-
-Other options to `--pretty` can be listed using `rustc -Z unstable-options --help -v`;
-a full list is not provided since, as implied by the name, any such list would be subject to change at any time.
-
-But not just `rustc` exposes means to aid in debugging macros.
-For the aforementioned `--pretty=expanded` option, there exists a nice `cargo` addon called [`cargo-expand`](https://github.com/dtolnay/cargo-expand) made by [`dtolnay`](https://github.com/dtolnay) which is basically just a wrapper around it.
-
-You can also use the [playground](https://play.rust-lang.org/), clicking on its `TOOLS` button in the top right gives you the option to expand macros right there!
 
 Another amazing tool is [`lukaslueg`'s](https://github.com/lukaslueg) [`macro_railroad`](https://github.com/lukaslueg/macro_railroad), a tool that allows you visualize and generate syntax diagrams for Rust's `macro_rules!` macros.
 It visualizes the accepted macro's grammar as an automata.

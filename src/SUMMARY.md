@@ -7,6 +7,7 @@
     - [Macros in the Ast](./syntax-extensions/ast.md)
     - [Expansion](./syntax-extensions/expansion.md)
     - [Hygiene](./syntax-extensions/hygiene.md)
+    - [Debugging](./syntax-extensions/debugging.md)
 - [Declarative Macros](./decl-macros.md)
     - [A Methodical Introduction](./decl-macros/macros-methodical.md)
         - [macro_rules!](./decl-macros/macro_rules.md)
