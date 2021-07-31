@@ -23,8 +23,8 @@ All thats required to add the crate to the dependency graph of a project and bri
 
 With procedural macros, there are actually exist 3 different kinds with each having slightly different properties.
 - *function-like* proc-macros which are used to implement `$name ! $arg` invocable macros
-- *attribute* proc-macros which are used to implement `#[$arg]` and `#![$arg]` attributes
-- *derive* proc-macros which are used to implement a derive, a "sub-macro" inside of a `#[derive(…)]` attribute
+- *attribute* proc-macros which are used to implement `#[$arg]` attributes
+- *derive* proc-macros which are used to implement a derive, an *input* to a `#[derive(…)]` attribute
 
 At their core, all 3 work almost the same with a few differences in their inputs and output reflected by their function definition.
 As mentioned all a procedural macro really is, is a function that maps a token stream so let's take a quick look at each basic definition and their differences.
