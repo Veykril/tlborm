@@ -37,8 +37,7 @@
         - [Attribute](./proc-macros/methodical/attr.md)
         - [Derive](./proc-macros/methodical/derive.md)
     - [Third-Party Crates](./proc-macros/third-party-crates.md)
-        - [Parsing with Syn]()<!-- ./proc-macros/third-party-crates/syn-parsing.md -->
-    - [Hygiene and Spans]()<!-- ./proc-macros/hygiene.md -->
+    - [Hygiene and Spans](./proc-macros/hygiene.md)
     - [Techniques]()<!-- ./proc-macros/techniques.md -->
     - [A Practical Introduction]()<!-- ./proc-macros/macros-practical.md -->
 

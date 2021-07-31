@@ -9,27 +9,35 @@ We will go into general hygiene concepts here which will be touched upon in the 
 &nbsp;
 
 Hygiene mainly affects identifiers and paths emitted by syntax extensions.
+In short, if an identifier created by a syntax extension cannot be accessed by the environment where the syntax extension has been invoked it is hygienic in regards to that identifier.
+Likewise, if an identifier used in a syntax extension cannot reference something defined outside of a syntax extension it is considered hygienic.
+
+> **Note**: The terms `create` and `use` refer to the position the identifier is in.
+> That is the `Foo` in `struct Foo {}` or the `foo` in `let foo = …;` are created in the sense that they introduce something new under the name,
+> but the `Foo` in `fn foo(_: Foo) {}` or the `foo` in `foo + 3` are usages in the sense that they are referring to something existing.
 
 This is best shown by example:
 
-Let's assume we have some syntax extension `make_local` that expands to `let local = 0;`, then given the following snippet:
+Let's assume we have some syntax extension `make_local` that expands to `let local = 0;`, that is is *creates* the identifier `local`.
+Then given the following snippet:
 ```rust,ignore
 make_local!();
 assert_eq!(local, 0);
 ```
 
-For `make_local` to be considered fully hygienic this snippet should not compile.
-On the other hand if this example was to compile, the macro couldn't be considered hygienic, as it impacted its surrounding context by introducing a new name into it.
+If the `local` in `assert_eq!(local, 0);` resolves to the local defined by the syntax extension, the syntax extension is not hygienic(at least in regards to local names/bindings).
 
-Now let's assume we have some syntax extension `use_local` that expands to `local = 42;`, then given the following snippet:
+Now let's assume we have some syntax extension `use_local` that expands to `local = 42;`, that is it makes *use* of the identifier `local`.
+Then given the following snippet:
 ```rust,ignore
 let mut local = 0;
 use_local!();
 ```
 
-In this case for `use_local` to be considered fully hygienic, this snippet again should not compile as otherwise it would be affected by its surrounding context and also affect its surrounding context as well.
+If the `local` inside of the syntax extension for the given invocation resolves to the local defined before its invocation, the syntax extension is not hygienic either.
 
-This is a rather short introduction to hygiene which will be explained in more depth in the corresponding [`macro_rules!` `hygiene`] and proc-macro `hygiene` chapters, mainly explaining how hygienic these syntax extensions can be, be it fully or only partially.
-There also exists this [github gist](https://gist.github.com/Kestrer/8c05ebd4e0e9347eb05f265dfb7252e1) that explains how to write hygienic syntax extensions while going into a hygiene a bit overall.
+This is a rather short introduction to the general concept of hygiene.
+It will be explained in more depth in the corresponding [`macro_rules!` `hygiene`] and [proc-macro `hygiene`] chapters, with their specific peculiarities.
 
 [`macro_rules!` `hygiene`]: ../decl-macros/minutiae/hygiene.md
+[proc-macro `hygiene`]: ../proc-macros/hygiene.md

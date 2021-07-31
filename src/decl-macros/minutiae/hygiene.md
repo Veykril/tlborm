@@ -1,7 +1,7 @@
 # Hygiene
 
-`macro_rules!` macros in Rust are *partially* hygienic.
-Specifically, they are hygienic when it comes to most identifiers, but *not* when it comes to generic type parameters or lifetimes.
+`macro_rules!` macros in Rust are *partially* hygienic, also called mixed hygiene.
+Specifically, they are hygienic when it comes to *local variables*, *labels* and `$crate`, but nothing else.
 
 Hygiene works by attaching an invisible "syntax context" value to all identifiers.
 When two identifiers are compared, *both* the identifiers' textual names *and* syntax contexts must be identical for the two to be considered equal.
