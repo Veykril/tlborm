@@ -37,9 +37,13 @@
         - [Function-like](./proc-macros/methodical/function-like.md)
         - [Attribute](./proc-macros/methodical/attr.md)
         - [Derive](./proc-macros/methodical/derive.md)
+    - [A Practical Introduction]()<!-- ./proc-macros/practical.md -->
+        - [Function-like]()<!-- ./proc-macros/practical/function-like.md -->
+        - [Attribute]()<!-- ./proc-macros/practical/attr.md -->
+        - [Derive]()<!-- ./proc-macros/practical/derive.md -->
     - [Third-Party Crates](./proc-macros/third-party-crates.md)
     - [Hygiene and Spans](./proc-macros/hygiene.md)
     - [Techniques]()<!-- ./proc-macros/techniques.md -->
-    - [A Practical Introduction]()<!-- ./proc-macros/macros-practical.md -->
+        - [Testing]()<!-- ./proc-macros/techniques/testing.md -->
 
  [Glossary](./glossary.md)

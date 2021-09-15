@@ -1,5 +1,7 @@
 # A Methodical Introduction
 
+This chapter will introduce Rust's procedural macro system by explaining the system as a whole.
+
 Unlike a [declarative macro](../decl-macros.md), a procedural macro takes the form of a rust function taking in a token stream(or two) and outputting a token stream.
 
 A proc-macro is at its core just a function exported from a crate with the `proc-macro` [crate type](https://doc.rust-lang.org/reference/linkage.html), so when writing multiple proc macros you can have them all live in one crate.
