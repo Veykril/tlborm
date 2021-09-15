@@ -13,7 +13,7 @@ A proc-macro is at its core just a function exported from a crate with the `proc
 > ```
 
 A `proc-macro` type crate implicitly links to the compiler-provided [proc_macro](https://doc.rust-lang.org/proc_macro/index.html) crate, which contains all the things you need to get going with developing procedural macros.
-The two most important types exposed by the crate are the [`TokenStream`](https://doc.rust-lang.org/proc_macro/struct.TokenStream.html), which are the proc-macro variant of the already familiar token trees as well as the [`Span`](https://doc.rust-lang.org/proc_macro/struct.Span.html), which describes a part of source code used primarily for error reporting and hygiene. See the [Hygiene and Spans]() chapter for more information.
+The two most important types exposed by the crate are the [`TokenStream`](https://doc.rust-lang.org/proc_macro/struct.TokenStream.html), which are the proc-macro variant of the already familiar token trees as well as the [`Span`](https://doc.rust-lang.org/proc_macro/struct.Span.html), which describes a part of source code used primarily for error reporting and hygiene. See the [Hygiene and Spans](./hygiene.md) chapter for more information.
 
 As proc-macros therefore are functions living in a crate, they can be addressed as all the other items in a rust project.
 All thats required to add the crate to the dependency graph of a project and bring the desired item into scope.
