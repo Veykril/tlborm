@@ -1,7 +1,7 @@
 # Third-Party Crates
 
 > **Note**: Crates beyond the automatically linked [`proc_macro`] crate are not required to write procedural macros.
-> The crates listed here merely make writing them simpler and possibly more readable, while potentially adding to the compilation time of the procedural macro due to added the dependencies.
+> The crates listed here merely make writing them simpler and more concise, while potentially adding to the compilation time of the procedural macro due to added dependencies.
 
 As procedural macros live in a crate they can naturally depend on ([crates.io](https://crates.io/)) crates.
 turns out the crate ecosystem has some really helpful crates tailored towards procedural macros that this chapter will quickly go over, most of which will be used in the following chapters to implement the example macros.
