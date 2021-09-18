@@ -22,7 +22,7 @@ For example, whilst [`format!`] is a `macro_rules!` macro, [`format_args!`] (whi
 
 
 The fourth form is essentially a variation which is *not* available to macros.
-In fact, the only case where this form is used *at all* is with the `macro_rules!` construct itself which.
+In fact, the only case where this form is used *at all* is with the `macro_rules!` construct itself.
 
 So, starting with the third form, how does the Rust parser know what the `$arg` in (`$name ! $arg`) looks like for every possible syntax extension?
 The answer is that it doesn't *have to*.
