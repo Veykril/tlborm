@@ -126,6 +126,29 @@ macro_rules! count_tts {
 
 This has been tested to work up to 10,000 tokens, and can probably go much higher.
 
+## Array length
+
+Another modification of the previous approach is to use const generics stabilized in Rust 1.51.
+It's only slightly slower than slice length method on 20,000 tokens and works in const contexts.
+
+```rust
+const fn count_helper<const N: usize>(_: [(); N]) -> usize { N }
+
+macro_rules! replace_expr {
+    ($_t:tt $sub:expr) => { $sub }
+}
+
+macro_rules! count_tts {
+    ($($smth:tt)*) => {
+        count_helper([$(replace_expr!($smth ())),*])
+    }
+}
+#
+# fn main() {
+#     assert_eq!(count_tts!(0 1 2), 3);
+# }
+```
+
 ## Enum counting
 
 This approach can be used where you need to count a set of mutually distinct identifiers.
