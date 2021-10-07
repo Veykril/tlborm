@@ -18,7 +18,7 @@ Likewise, if an identifier used in a syntax extension cannot reference something
 
 This is best shown by example:
 
-Let's assume we have some syntax extension `make_local` that expands to `let local = 0;`, that is is *creates* the identifier `local`.
+Let's assume we have some syntax extension `make_local` that expands to `let local = 0;`, that is it *creates* the identifier `local`.
 Then given the following snippet:
 ```rust,ignore
 make_local!();
