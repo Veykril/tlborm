@@ -130,7 +130,7 @@ root node, there are *seven* token trees at the root level. For reference, the A
 It is important to understand the distinction between the AST and token trees. When writing macros,
 you have to deal with *both* as distinct things.
 
-One other aspect of this to note: it is *impossible* to have an unpaired paren, bracket or brace;
+One other aspect of this to note: it is *impossible* to have an unpaired parenthesis, bracket or brace;
 nor is it possible to have incorrectly nested groups in a token tree.
 
 [tokenization]: https://en.wikipedia.org/wiki/Lexical_analysis#Tokenization
