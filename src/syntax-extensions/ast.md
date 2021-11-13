@@ -81,7 +81,7 @@ it remembers the tokens it contains, but doesn't try to *understand* them.
 This means ⬚ can be anything, even invalid Rust!
 As to why this is a good thing, we will come back to that at a later point.
 
-So, does this also apply to `$arg` in form 1 and 2, and to ther two args in form 4? Kind of.
+So, does this also apply to `$arg` in form 1 and 2, and to the two args in form 4? Kind of.
 The `$arg$` for form 1 and 2 is a bit different in that it is not directly a token tree, but a *simple path* that is either followed by an `=` token and a literal expression, or a token tree.
 We will explore this more in-depth in the appropriate proc-macro chapter.
 The important part here is that this form as well, makes use of token trees to describe the input.
