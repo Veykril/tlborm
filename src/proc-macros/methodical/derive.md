@@ -40,7 +40,7 @@ use proc_macro::TokenStream;
 
 #[proc_macro_derive(TlbormDerive, attributes(tlborm_helper))]
 pub fn tlborm_derive(item: TokenStream) -> TokenStream {
-    TokenStream::neW()
+    TokenStream::new()
 }
 ```
 
