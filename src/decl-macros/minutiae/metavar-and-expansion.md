@@ -25,7 +25,8 @@ restricts what can follow various metavariables.
 The complete list, showing what may follow what fragment specifier, as of Rust 1.46 is as follows:
 
 * [`stmt`] and [`expr`]: `=>`, `,`, or `;`
-* [`pat`]: `=>`, `,`, `=`, `|`, `if`, `in`
+* [`pat`]: `=>`, `,`, `=`, `if`, `in`
+* [`pat_param`]: `=>`, `,`, `=`, `|`, `if`, `in`
 * [`path`] and [`ty`]:`=>`, `,`, `=`, `|`, `;`, `:`, `>`, `>>`, `[`, `{`, `as`, `where`, or a macro
     variable of the [`block`] fragment specifier.
 * [`vis`]: `,`, an identifier other than a non-raw `priv`, any token that can begin a type or a

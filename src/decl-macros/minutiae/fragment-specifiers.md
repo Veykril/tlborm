@@ -13,6 +13,7 @@ This section will go a bit more into detail for some of them and shows a few exa
 * [`literal`](#literal)
 * [`meta`](#meta)
 * [`pat`](#pat)
+* [`pat_param`](#pat_param)
 * [`path`](#path)
 * [`stmt`](#stmt)
 * [`tt`](#tt)
@@ -159,7 +160,7 @@ metas! {
 
 ## `pat`
 
-The `pat` fragment matches any kind of [pattern](https://doc.rust-lang.org/reference/patterns.html), except or-patterns.
+The `pat` fragment matches any kind of [pattern](https://doc.rust-lang.org/reference/patterns.html), including or-patterns starting with the 2021 edition.
 
 ```rust
 macro_rules! patterns {
@@ -171,6 +172,28 @@ patterns! {
     _
     0..5
     ref mut PatternsAreNice
+    0 | 1 | 2 | 3
+}
+# fn main() {}
+```
+
+## `pat_param`
+
+In the 2021 edition, the behavior for the `pat` fragment type has been changed to allow or-patterns to be parsed.
+This changes the follow list of the fragment, preventing such fragment from being followed by a `|` token.
+To avoid this problem or to get the old fragment behavior back one can use the `pat_param` fragment which allows `|` to follow it, as it disallows top level or-patterns.
+
+```rust
+macro_rules! patterns {
+    ($( $( $pat:pat_param )|+ )*) => ();
+}
+
+patterns! {
+    "literal"
+    _
+    0..5
+    ref mut PatternsAreNice
+    0 | 1 | 2 | 3
 }
 # fn main() {}
 ```
