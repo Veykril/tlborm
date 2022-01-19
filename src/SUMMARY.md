@@ -32,6 +32,7 @@
         - [Counting](./decl-macros/building-blocks/counting.md)
             - [Abacus Counting](./decl-macros/building-blocks/abacus-counting.md)
         - [Parsing Rust](./decl-macros/building-blocks/parsing.md)
+    - [Macros 2.0](./decl-macros/macros2.md)
  - [Procedural Macros](./proc-macros.md)
     - [A Methodical Introduction](./proc-macros/methodical.md)
         - [Function-like](./proc-macros/methodical/function-like.md)

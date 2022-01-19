@@ -135,6 +135,7 @@ Once you capture with anything else, the only thing you can do with the result f
 [`block`]:./fragment-specifiers.md#block
 [`stmt`]:./fragment-specifiers.md#stmt
 [`pat`]:./fragment-specifiers.md#pat
+[`pat_param`]:./fragment-specifiers.md#pat_param
 [`expr`]:./fragment-specifiers.md#expr
 [`ty`]:./fragment-specifiers.md#ty
 [`ident`]:./fragment-specifiers.md#ident
