@@ -1,5 +1,7 @@
 # Push-down Accumulation
 
+> Note: The pattern described here is inherently quadratic and as such, can worsen compilation times significantly. Therefore using it should be avoided unless necessary.
+
 ```rust
 macro_rules! init_array {
     (@accum (0, $_e:expr) -> ($($body:tt)*))
