@@ -74,5 +74,9 @@ As you can see, each layer adds to the accumulated output until the terminating 
 The only critical part of the above formulation is the use of `$($body:tt)*` to preserve the output without triggering parsing.
 The use of `($input) -> ($output)` is simply a convention adopted to help clarify the behavior of such macros.
 
+An important fact to note though is that the accumulator should be put at the end of the matcher, not at the start.
+The reason for that is simple: Putting it at the start will require the compiler to first match the accumulator before actually matching relevant tokens that will decide whether the rule matches or not.
+This means that putting the accumulator part at the start of a rule will drastically increase compilation times and therefor should be avoided.
+
 Push-down accumulation is frequently used as part of [incremental TT munchers](./tt-muncher.md), as it allows arbitrarily complex intermediate results to be constructed.
 [Internal Rules](./internal-rules.md) were of use here as well, as they simplify creating such macros.
