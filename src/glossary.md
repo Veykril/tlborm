@@ -8,4 +8,4 @@ A function like macro describes a syntax extension that can be invoked via the f
 It is called this way due to its resemblance of a function call.
 
 ## Syntax Extension
-The mechanism rust's `macro_rules!` and procedural macros are built on.
+The mechanism Rust's `macro_rules!` and procedural macros are built on.

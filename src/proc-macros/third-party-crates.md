@@ -55,7 +55,7 @@ So what does it offer? A bunch of things.
 
 First of all it has definitions and parsing for all standard Rust syntax nodes(when the `full` feature is enabled), as well as a [`DeriveInput`](https://docs.rs/syn/1/syn/struct.DeriveInput.html) type which encapsulates all the information a derive macro gets passed as an input stream as a structured input(requires the `derive` feature, enabled by default). These can be used right out of the box with the [`parse_macro_input!`](https://docs.rs/syn/1/syn/macro.parse_macro_input.html) macro(requires the `parsing` and `proc-macro` features, enabled by default) to parse token streams into these types.
 
-If rust syntax doesn't cut it, and instead one wishes to parse custom non-rust syntax the crate also offers a generic [parsing API](https://docs.rs/syn/1/syn/parse/index.html), mainly in the form of the [`Parse`](https://docs.rs/syn/1/syn/parse/trait.Parse.html) trait(requires the `parsing` feature, enabled by default).
+If Rust syntax doesn't cut it, and instead one wishes to parse custom non-Rust syntax the crate also offers a generic [parsing API](https://docs.rs/syn/1/syn/parse/index.html), mainly in the form of the [`Parse`](https://docs.rs/syn/1/syn/parse/trait.Parse.html) trait(requires the `parsing` feature, enabled by default).
 
 Aside from this the types exposed by the library keep location information and spans which allows procedural macros to emit detailed error messages pointing at the macro input at the points of interest.
 

@@ -12,8 +12,8 @@ If something's unclear, opens up questions or is not understandable as written d
 The goal is for this book to become the best learning resource possible.
 
 The [original Little Book of Rust Macros](https://github.com/DanielKeep/tlborm) has helped me immensely with understanding ***Macros by Example*** style macros while I was still learning the language.
-Unfortunately, the original book hasn't been updated since april of 2016, while the Rust language as well as it's macro-system keeps evolving.
-Which is why I took up the task to update the book and keep it updated as well as I can while also adding new found things to it.
+Unfortunately, the original book hasn't been updated since April of 2016, while the Rust language as well as its macro-system keeps evolving.
+Which is why I took up the task to update the book and keep it updated as well as I can while also adding newfound things to it.
 In hopes that it will help out all the fresh faces coming to Rust understanding its macro systems, a part of the language a people tend to have trouble with.
 
 > This book expects you to have basic knowledge of Rust, it will not explain language features or constructs that are irrelevant to macros.
