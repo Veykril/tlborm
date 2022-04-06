@@ -7,7 +7,7 @@ There are two different introductions in this chapter, a [methodical] and a [pra
 The former will attempt to give you a complete and thorough explanation of *how* the system works, while the latter one will cover more practical examples.
 As such, the [methodical introduction][methodical] is intended for people who just want the system as a whole explained, while the [practical introduction][practical] guides one through the implementation of a single macro.
 
-Following up the two introductions it offers some generally very useful [patterns] and [building blocks] for creating feature rich macros.
+Following up the two introductions it offers some generally very useful [patterns] and [building blocks] for creating feature-rich macros.
 
 Other resources about declarative macros include the [Macros chapter of the Rust Book] which is a more approachable, high-level explanation as well as the reference [chapter](https://doc.rust-lang.org/reference/macros-by-example.html) which goes more into the precise details of things.
 

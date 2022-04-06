@@ -41,7 +41,7 @@ blocks! {
 
 ## `expr`
 
-The `expr` fragment matches any kind of [expression](https://doc.rust-lang.org/reference/expressions.html)(Rust has a lot of them, given it *is* an expression orientated language).
+The `expr` fragment matches any kind of [expression](https://doc.rust-lang.org/reference/expressions.html) (Rust has a lot of them, given it *is* an expression orientated language).
 
 ```rust
 macro_rules! expressions {
@@ -137,7 +137,7 @@ literals! {
 
 ## `meta`
 
-The `meta` fragment matches an [attribute](https://doc.rust-lang.org/reference/attributes.html), to be more precise, the contents of an attribute.
+The `meta` fragment matches the contents of an [attribute](https://doc.rust-lang.org/reference/attributes.html).
 That is, it will match a simple path, one without generic arguments followed by a delimited token tree or an `=` followed by a literal expression.
 
 > **Note**: You will usually see this fragment being used in a matcher like `#[$meta:meta]` or `#![$meta:meta]` to actually capture an attribute.
@@ -219,10 +219,7 @@ paths! {
 
 ## `stmt`
 
-The `statement` fragment solely matches a [statement](https://doc.rust-lang.org/reference/statements.html) without its trailing semicolon, unless its an item statement that requires one.
-
-What would be an item statement that requires one?
-A Unit-Struct would be a simple one, as defining one requires a trailing semicolon.
+The `statement` fragment solely matches a [statement](https://doc.rust-lang.org/reference/statements.html) without its trailing semicolon, unless it is an item statement that requires one (such as a Unit-Struct).
 
 Let's use a simple example to show exactly what is meant with this.
 We use a macro that merely emits what it captures:
@@ -266,7 +263,7 @@ fn main() {
 }
 ```
 
-From this we can tell a few things:
+From this we can tell a few things.
 
 The first you should be able to see immediately is that while the `stmt` fragment doesn't capture trailing semicolons, it still emits them when required, even if the statement is already followed by one.
 The simple reason for that is that semicolons on their own are already valid statements which the fragment captures eagerly.
@@ -324,7 +321,7 @@ macro_rules! visibilities {
 }
 
 visibilities! {
-    , // no vis is fine, as its implicitly
+    , // no vis is fine, due to the implicit `?`
     pub,
     pub(crate),
     pub(in super),

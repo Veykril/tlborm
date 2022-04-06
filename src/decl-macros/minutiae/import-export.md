@@ -68,9 +68,9 @@ fn main() {}
 
 When exporting `macro_rules!` macros, it is often useful to refer to non-macro symbols in the defining crate.
 Because crates can be renamed, there is a special substitution variable available: [`$crate`].
-This will *always* expand to an absolute path prefix to the containing crate(*e.g.* `:: macs`).
+This will *always* expand to an absolute path prefix to the containing crate (*e.g.* `:: macs`).
 
-Note that unless your compiler version is >= 1.30, this does *not* work for `macro_rules!` macros, since `macro_rules!` macros do not interact with regular name resolution in any way.
+Note that unless your compiler version is >= 1.30, this does *not* work for `macro_rules!` macros, because `macro_rules!` macros do not interact with regular name resolution in any way.
 Otherwise, you cannot use something like `$crate::Y!` to refer to a particular macro within your crate.
 The implication, combined with selective imports via `#[macro_use]` is that there is currently *no way* to guarantee any given macro will be available when imported by another crate.
 

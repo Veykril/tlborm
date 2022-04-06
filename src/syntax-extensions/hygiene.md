@@ -1,10 +1,11 @@
 # Hygiene
 
-Hygiene is an important concept for macros, it describes the ability for a macro to work in its own syntax context, not affecting nor being affected by its surroundings.
+Hygiene is an important concept for macros.
+It describes the ability for a macro to work in its own syntax context, not affecting nor being affected by its surroundings.
 In other words this means that a syntax extension should be invocable anywhere without interfering with its surrounding context.
 
-In a perfect world all syntax extensions in rust would be fully hygienic, unfortunately this isn't the case, so care should be taken to avoid writing syntax extensions that aren't fully hygienic.
-We will go into general hygiene concepts here which will be touched upon in the corresponding hygiene chapters for the different syntax extensions rust has to offer.
+In a perfect world all syntax extensions in Rust would be fully hygienic, unfortunately this isn't the case, so care should be taken to avoid writing syntax extensions that aren't fully hygienic.
+We will go into general hygiene concepts here which will be touched upon in the corresponding hygiene chapters for the different syntax extensions Rust has to offer.
 
 &nbsp;
 
@@ -16,7 +17,7 @@ Likewise, if an identifier used in a syntax extension cannot reference something
 > That is the `Foo` in `struct Foo {}` or the `foo` in `let foo = …;` are created in the sense that they introduce something new under the name,
 > but the `Foo` in `fn foo(_: Foo) {}` or the `foo` in `foo + 3` are usages in the sense that they are referring to something existing.
 
-This is best shown by example:
+This is best shown by example.
 
 Let's assume we have some syntax extension `make_local` that expands to `let local = 0;`, that is it *creates* the identifier `local`.
 Then given the following snippet:
@@ -25,7 +26,7 @@ make_local!();
 assert_eq!(local, 0);
 ```
 
-If the `local` in `assert_eq!(local, 0);` resolves to the local defined by the syntax extension, the syntax extension is not hygienic(at least in regards to local names/bindings).
+If the `local` in `assert_eq!(local, 0);` resolves to the local defined by the syntax extension, the syntax extension is not hygienic (at least in regards to local names/bindings).
 
 Now let's assume we have some syntax extension `use_local` that expands to `local = 42;`, that is it makes *use* of the identifier `local`.
 Then given the following snippet:
