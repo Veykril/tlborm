@@ -972,11 +972,10 @@ error[E0425]: cannot find value `n` in this scope
 That can't be right... let's check what the macro is expanding to.
 
 ```shell
-$ rustc -Z unstable-options --pretty expanded recurrence.rs
+$ rustc +nightly -Zunpretty=expanded recurrence.rs
 ```
 
-The `--pretty expanded` argument tells `rustc` to perform macro expansion, then turn the resulting AST back into source code.
-Because this option isn't considered stable yet, we also need `-Z unstable-options`.
+The `-Zunpretty=expanded` argument tells `rustc` to perform macro expansion, then turn the resulting AST back into source code.
 The output (after cleaning up some formatting) is shown below;
 in particular, note the place in the code where `$recur` was substituted:
 
@@ -1117,7 +1116,7 @@ As you can see, the <code><span class="synctx-1">a</span></code> that's defined 
 As such, the compiler treats them as completely different identifiers, *even though they have the same lexical appearance*.
 
 This is something to be *really* careful of when working on `macro_rules!` macros, syntax extensions in general even: they can produce ASTs which
-will not compile, but which *will* compile if written out by hand, or dumped using `--pretty expanded`.
+will not compile, but which *will* compile if written out by hand, or dumped using `-Zunpretty=expanded`.
 
 The solution to this is to capture the identifier *with the appropriate syntax context*.
 To do that, we need to again adjust our macro syntax.

@@ -4,7 +4,7 @@
 
 
 Sometimes, it is what the extension *expands to* that proves problematic as you do not usually see the expanded code.
-Fortunately `rustc` offers the ability to look at the expanded code, for this, the `--pretty` argument can be used.
+Fortunately `rustc` offers the ability to look at the expanded code via the unstable `-Zunpretty=expanded` argument.
 Given the following code:
 
 ```rust,ignore
@@ -22,7 +22,7 @@ fn main() {
 compiled with the following command:
 
 ```shell
-rustc -Z unstable-options -Zunpretty=expanded hello.rs
+rustc +nightly -Zunpretty=expanded hello.rs
 ```
 
 produces the following output (modified for formatting):
@@ -54,6 +54,6 @@ fn main() {
 ```
 
 But not just `rustc` exposes means to aid in debugging syntax extensions.
-For the aforementioned `--pretty=expanded` option, there exists a nice `cargo` plugin called [`cargo-expand`](https://github.com/dtolnay/cargo-expand) made by [`dtolnay`](https://github.com/dtolnay) which is basically just a wrapper around it.
+For the aforementioned `-Zunpretty=expanded` option, there exists a nice `cargo` plugin called [`cargo-expand`](https://github.com/dtolnay/cargo-expand) made by [`dtolnay`](https://github.com/dtolnay) which is basically just a wrapper around it.
 
 You can also use the [playground](https://play.rust-lang.org/), clicking on its `TOOLS` button in the top right gives you the option to expand syntax extensions as well!
