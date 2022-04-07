@@ -309,10 +309,10 @@ types! {
 
 ## `vis`
 
-The `vis` fragment matches a *possibly empty* [Visibility qualifier](https://doc.rust-lang.org/reference/visibility-and-privacy.html).
-Emphasis lies on the *possibly empty* part.
-You can kind of think of this fragment as having an implicit `?` repetition to it, meaning you don't, and in fact cannot, wrap it in a direct repetition, though this only applies for matching.
-When expanding this fragment you expand it without a `$(...)?` repetition block.
+The `vis` fragment matches a *possibly empty* [Visibility qualifier].
+
+This fragment specifier acts a bit differently than the other ones in that is is allowed to match an empty sequence of tokens on its own, as long as it is not the last part of a matcher.
+Note that this ability has the quirk that when the fragment captures an empty sequence, it will still turn it into an opaque capture, meaning it will be possible to match it with a `tt` fragment even though it is empty!
 
 ```rust
 macro_rules! visibilities {
@@ -327,7 +327,24 @@ visibilities! {
     pub(in super),
     pub(in some_path),
 }
+
+macro_rules! non_optional_vis {
+    ($vis:vis) => ();
+}
+// vvvvvvvvvvvvvvvvvvvv~~ this is a compile error as the vis fragment is trying to capture at the end
+//                        and therefor loses its empty sequence matching ability
+// non_optional_vis!();
+non_optional_vis!(pub);
+
+macro_rules! it_is_opaque {
+    (()) => {};
+    ($vis:vis ,) => { is_is_opaque!( ($vis) ) }
+}
+is_is_opaque!(pub);
+is_is_opaque!(); // this works, even though it is empty, as the capture becomes opaque to the following expansions
+
 # fn main() {}
 ```
 
 [`macro_rules`]: ../macro_rules.md
+[Visibility qualifier]: https://doc.rust-lang.org/reference/visibility-and-privacy.html
