@@ -1,7 +1,5 @@
 # Push-down Accumulation
 
-> Note: The pattern described here is inherently quadratic and as such, can worsen compilation times significantly. Therefore using it should be avoided unless necessary.
-
 ```rust
 macro_rules! init_array {
     (@accum (0, $_e:expr) -> ($($body:tt)*))
@@ -74,9 +72,25 @@ As you can see, each layer adds to the accumulated output until the terminating 
 The only critical part of the above formulation is the use of `$($body:tt)*` to preserve the output without triggering parsing.
 The use of `($input) -> ($output)` is simply a convention adopted to help clarify the behavior of such macros.
 
-An important fact to note though is that the accumulator should be put at the end of the matcher, not at the start.
-The reason for that is simple: Putting it at the start will require the compiler to first match the accumulator before actually matching relevant tokens that will decide whether the rule matches or not.
-This means that putting the accumulator part at the start of a rule will drastically increase compilation times and therefor should be avoided.
-
 Push-down accumulation is frequently used as part of [incremental TT munchers](./tt-muncher.md), as it allows arbitrarily complex intermediate results to be constructed.
 [Internal Rules](./internal-rules.md) were of use here as well, as they simplify creating such macros.
+
+## Performance
+
+Push-down accumulation is inherently quadratic.
+Consider a push-down accumulation rule that builds up an accumulator of 100 token trees, one token tree per invocation.
+- The initial invocation will match against the empty accumulator.
+- The first recursive invocation will match against the accumulator of 1 token tree.
+- The next recursive invocation will match against the accumulator of 2 token trees.
+
+And so on, up to 100.
+This is a classic quadratic pattern, and long inputs can cause macro expansion to blow out compile times.
+Furthermore, TT munchers are also inherently quadratic over their input, so a macro that uses both TT munching *and* push-down accumulation will be doubly quadratic!
+
+All the [performance advice](./tt-muncher.md#performance) about TT munchers holds for push-down accumulation. 
+In general, avoid using them too much, and keep them as simple as possible.
+
+Finally, make sure you put the accumulator at the *end* of rules, rather than the beginning.
+That way, if a rule fails, the compiler won't have had to match the (potentially long) accumulator before hitting the part of the rule that fails to match.
+This can make a large difference to compile times.
+

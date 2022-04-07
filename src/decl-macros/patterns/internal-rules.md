@@ -81,4 +81,16 @@ There other symbols or unique prefixes may be used as desired, but use of `@` ha
 
 Additionally, internal rules will often come *before* any "bare" rules, to avoid issues with `macro_rules!` incorrectly attempting to parse an internal invocation as something it cannot possibly be, such as an expression.
 
+## Performance
+
+One downside of internal rules is that they can hurt compile times.
+Only one macro rule can match any (valid) macro invocation, but the compiler must try to match all rules in order.
+If a macro has many rules, there can be many such failures, and the use of internal rules will increase the number of such failures.
+
+Also, the `@as_expr`-style identifier makes rules longer, slightly increasing
+the amount of work the compiler must do when matching.
+
+Therefore, for best performance, avoiding internal rules is best.
+Avoiding them often makes complex macros easier to read, too.
+
 [TT Munchers]:./tt-muncher.html
