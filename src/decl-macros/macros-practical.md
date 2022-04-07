@@ -69,7 +69,6 @@ Finally, the rule says that *if* the input matches this rule, then the invocatio
 It's worth noting that `inits`, as implied by the name, actually contains *all* the expressions that match in this position, not just the first or last.
 What's more, it captures them *as a sequence* as opposed to, say, irreversibly pasting them all together.
 Also note that you can do "zero or more" with a repetition by using `*` instead of `+` and even optional, "zero or one" with `?`.
-There is no support for "zero or one" or more specific numbers of repetitions.
 
 As an exercise, let's take the proposed input and feed it through the rule, to see how it is processed.
 The "Position" column will show which part of the syntax pattern needs to be matched against next, denoted by a "⌂".
