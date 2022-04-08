@@ -1,22 +1,21 @@
 # Push-down Accumulation
 
+The following macro uses *push-down accumulation*.
+
 ```rust
 macro_rules! init_array {
-    (@accum (0, $_e:expr) -> ($($body:tt)*))
-        => {init_array!(@as_expr [$($body)*])};
-    (@accum (1, $e:expr) -> ($($body:tt)*))
-        => {init_array!(@accum (0, $e) -> ($($body)* $e,))};
-    (@accum (2, $e:expr) -> ($($body:tt)*))
-        => {init_array!(@accum (1, $e) -> ($($body)* $e,))};
-    (@accum (3, $e:expr) -> ($($body:tt)*))
-        => {init_array!(@accum (2, $e) -> ($($body)* $e,))};
-    (@as_expr $e:expr) => {$e};
-    [$e:expr; $n:tt] => {
-        {
-            let e = $e;
-            init_array!(@accum ($n, e.clone()) -> ())
+    [$e:expr; $n:tt] => { 
+        {   
+            let e = $e; 
+            accum!([$n, e.clone()] -> [])
         }
     };
+}
+macro_rules! accum {
+    ([3, $e:expr] -> [$($body:tt)*]) => { accum!([2, $e] -> [$($body)* $e,]) };
+    ([2, $e:expr] -> [$($body:tt)*]) => { accum!([1, $e] -> [$($body)* $e,]) };
+    ([1, $e:expr] -> [$($body:tt)*]) => { accum!([0, $e] -> [$($body)* $e,]) };
+    ([0, $_:expr] -> [$($body:tt)*]) => { [$($body)*] };
 }
 
 let strings: [String; 3] = init_array![String::from("hi!"); 3];
@@ -28,28 +27,29 @@ This means that it is impossible to have a syntax extension expand to a partial 
 
 One might hope that the above example could be more directly expressed like so:
 
-```ignore
+```rust,ignore
 macro_rules! init_array {
-    (@accum 0, $_e:expr) => {/* empty */};
-    (@accum 1, $e:expr) => {$e};
-    (@accum 2, $e:expr) => {$e, init_array!(@accum 1, $e)};
-    (@accum 3, $e:expr) => {$e, init_array!(@accum 2, $e)};
     [$e:expr; $n:tt] => {
         {
             let e = $e;
-            [init_array!(@accum $n, e)]
+            [accum!($n, e.clone())]
         }
     };
+}
+macro_rules! accum {
+    (3, $e:expr) => { $e, accum!(2, $e) };
+    (2, $e:expr) => { $e, accum!(1, $e) };
+    (1, $e:expr) => { $e };
 }
 ```
 
 The expectation is that the expansion of the array literal would proceed as follows:
 
 ```rust,ignore
-            [init_array!(@accum 3, e)]
-            [e, init_array!(@accum 2, e)]
-            [e, e, init_array!(@accum 1, e)]
-            [e, e, e]
+    [accum!(3, e.clone())]
+    [e.clone(), accum!(2, e.clone())]
+    [e.clone(), e.clone(), accum!(1, e.clone())]
+    [e.clone(), e.clone(), e.clone()]
 ```
 
 However, this would require each intermediate step to expand to an incomplete expression.
@@ -59,12 +59,12 @@ Push-down, however, allows us to incrementally build up a sequence of tokens wit
 In the example given at the top, the sequence of invocations proceeds as follows:
 
 ```rust,ignore
-init_array! { String:: from ( "hi!" ) ; 3 }
-init_array! { @ accum ( 3 , e . clone (  ) ) -> (  ) }
-init_array! { @ accum ( 2 , e.clone() ) -> ( e.clone() , ) }
-init_array! { @ accum ( 1 , e.clone() ) -> ( e.clone() , e.clone() , ) }
-init_array! { @ accum ( 0 , e.clone() ) -> ( e.clone() , e.clone() , e.clone() , ) }
-init_array! { @ as_expr [ e.clone() , e.clone() , e.clone() , ] }
+init_array!(String::from("hi!"); 3)
+accum!([3, e.clone()] -> [])
+accum!([2, e.clone()] -> [e.clone(),])
+accum!([1, e.clone()] -> [e.clone(), e.clone(),])
+accum!([0, e.clone()] -> [e.clone(), e.clone(), e.clone(),])
+[e.clone(), e.clone(), e.clone(),]
 ```
 
 As you can see, each layer adds to the accumulated output until the terminating rule finally emits it as a complete construct.
