@@ -311,9 +311,6 @@ types! {
 
 The `vis` fragment matches a *possibly empty* [Visibility qualifier].
 
-This fragment specifier acts a bit differently than the other ones in that is is allowed to match an empty sequence of tokens on its own, as long as it is not the last part of a matcher.
-Note that this ability has the quirk that when the fragment captures an empty sequence, it will still turn it into an opaque capture, meaning it will be possible to match it with a `tt` fragment even though it is empty!
-
 ```rust
 macro_rules! visibilities {
     //         ∨~~Note this comma, since we cannot repeat a `vis` fragment on its own
@@ -327,23 +324,49 @@ visibilities! {
     pub(in super),
     pub(in some_path),
 }
+```
 
+While able to match empty sequences of tokens, the fragment specifier still acts quite different from [optional repetitions](../macro_rules.md#repetitions) which is described in the following:
+
+If it is being matched against no left over tokens the entire macro matching fails.
+```rust
 macro_rules! non_optional_vis {
     ($vis:vis) => ();
 }
-// vvvvvvvvvvvvvvvvvvvv~~ this is a compile error as the vis fragment is trying to capture at the end
-//                        and therefor loses its empty sequence matching ability
-// non_optional_vis!();
-non_optional_vis!(pub);
+non_optional_vis!();
+// ^^^^^^^^^^^^^^^^ error: missing tokens in macro arguments
+```
 
-macro_rules! it_is_opaque {
-    (()) => {};
-    ($vis:vis ,) => { is_is_opaque!( ($vis) ) }
+`$vis:vis $ident:ident` matches fine, unlike `$(pub)? $ident:ident` which is ambiguous, as `pub` denotes a valid identifier.
+```rust
+macro_rules! vis_ident {
+    ($vis:vis $ident:ident) => ();
 }
-is_is_opaque!(pub);
-is_is_opaque!(); // this works, even though it is empty, as the capture becomes opaque to the following expansions
+vis_ident!(pub foo); // this works fine
 
-# fn main() {}
+macro_rules! pub_ident {
+    ($(pub)? $ident:ident) => ();
+}
+pub_ident!(pub foo);
+        // ^^^ error: local ambiguity when calling macro `pub_ident`: multiple parsing options: built-in NTs ident ('ident') or 1 other option.
+```
+
+Being a fragment that matches the empty token sequence also gives it a very interesting quirk in combination with `tt` fragments and recursive expansions.
+
+When matching the empty token sequence, the metavariable will still count as a capture and since it is not a `tt`, `ident` or `lifetime` fragment it will become opaque to further expansions.
+This means if this capture is passed onto another macro invocation that captures it as a `tt` you effectively end up with token tree that contains nothing!
+
+```rust
+macro_rules! it_is_opaque {
+    (()) => { "()" };
+    (($tt:tt)) => { concat!("$tt is ", stringify!($tt)) };
+    ($vis:vis ,) => { it_is_opaque!( ($vis) ); }
+}
+fn main() {
+    // this prints "$tt is ", as the recursive calls hits the second branch with an empty
+    // tt, opposed to matching with the first branch!
+    println!("{}", it_is_opaque!(,));
+}
 ```
 
 [`macro_rules`]: ../macro_rules.md
