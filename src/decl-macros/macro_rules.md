@@ -74,19 +74,19 @@ These allow input to be matched based on some general grammar category, with the
 
 Captures are written as a dollar (`$`) followed by an identifier, a colon (`:`), and finally the kind of capture which is also called the fragment-specifier, which must be one of the following:
 
-* `block`: a block (i.e. a block of statements and/or an expression, surrounded by braces)
-* `expr`: an expression
-* `ident`: an identifier (this includes keywords)
-* `item`: an item, like a function, struct, module, impl, etc.
-* `lifetime`: a lifetime (e.g. `'foo`, `'static`, ...)
-* `literal`: a literal (e.g. `"Hello World!"`, `3.14`, `'🦀'`, ...)
-* `meta`: a meta item; the things that go inside the `#[...]` and `#![...]` attributes
-* `pat`: a pattern
-* `path`: a path (e.g. `foo`, `::std::mem::replace`, `transmute::<_, int>`, …)
-* `stmt`: a statement
-* `tt`: a single token tree
-* `ty`: a type
-* `vis`: a possible empty visibility qualifier (e.g. `pub`, `pub(in crate)`, ...)
+* [`block`](./minutiae/fragment-specifiers.md#block): a block (i.e. a block of statements and/or an expression, surrounded by braces)
+* [`expr`](./minutiae/fragment-specifiers.md#expr): an expression
+* [`ident`](./minutiae/fragment-specifiers.md#ident): an identifier (this includes keywords)
+* [`item`](./minutiae/fragment-specifiers.md#item): an item, like a function, struct, module, impl, etc.
+* [`lifetime`](./minutiae/fragment-specifiers.md#lifetime): a lifetime (e.g. `'foo`, `'static`, ...)
+* [`literal`](./minutiae/fragment-specifiers.md#literal): a literal (e.g. `"Hello World!"`, `3.14`, `'🦀'`, ...)
+* [`meta`](./minutiae/fragment-specifiers.md#meta): a meta item; the things that go inside the `#[...]` and `#![...]` attributes
+* [`pat`](./minutiae/fragment-specifiers.md#pat): a pattern
+* [`path`](./minutiae/fragment-specifiers.md#path): a path (e.g. `foo`, `::std::mem::replace`, `transmute::<_, int>`, …)
+* [`stmt`](./minutiae/fragment-specifiers.md#stmt): a statement
+* [`tt`](./minutiae/fragment-specifiers.md#tt): a single token tree
+* [`ty`](./minutiae/fragment-specifiers.md#ty): a type
+* [`vis`](./minutiae/fragment-specifiers.md#vis): a possible empty visibility qualifier (e.g. `pub`, `pub(in crate)`, ...)
 
 For more in-depth description of the fragment specifiers, check out the [Fragment Specifiers](./minutiae/fragment-specifiers.md) chapter.
 
