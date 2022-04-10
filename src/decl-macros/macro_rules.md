@@ -232,6 +232,28 @@ error: meta-variable `i` repeats 6 times, but `i2` repeats 3 times
   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ```
 
+## Metavariable Expressions
+
+> *RFC*: [rfcs#1584](https://github.com/rust-lang/rfcs/blob/master/text/3086-macro-metavar-expr.md)\
+> *Tracking Issue*: [rust#83527](https://github.com/rust-lang/rust/issues/83527)\
+> *Feature*: `#![feature(macro_metavar_expr)]`
+
+Matchers can contain what is called metavariable expressions.
+Metavariable expressions provide matchers with information about metavariables that are otherwise not easily obtainable.
+With the exception of the `$$` expression, these have the general form `$ { op(...) }`.
+Currently all metavariable expressions but `$$` deal with repetitions.
+
+The following expressions are available with `ident` being the name of a bound metavariable and `depth` being an integer literal:
+
+- `${count(ident)}`: The number of times `$ident` repeats in the inner-most repetition in total. This is equivalent to `${count(ident, 0)}`.
+- `${count(ident, depth)}`: The number of times `$ident` repeats in the repetition at `depth`, counting outwards.
+- `${index()}`: The current repetition index of the inner-most repetition. This is equivalent to `${index(0)}`.
+- `${index(depth)}`: The current index of the repetition at `depth`, counting outwards.
+- `${length()}`: The number of times the inner-most repetition will repeat for. This is equivalent to `${length(0)}`.
+- `${length(depth)}`: The number of times the repetition at `depth` will repeat for, counting outwards.
+- `${ignore(ident)}`: Binds `$ident` for repetition, while expanding to nothing.
+- `$$`:	Expands to a single `$`, effectively escaping the `$` token so it won't be transcribed.
+
 &nbsp;
 
 For the complete grammar definition you may want to consult the [Macros By Example](https://doc.rust-lang.org/reference/macros-by-example.html#macros-by-example) chapter of the Rust reference.
