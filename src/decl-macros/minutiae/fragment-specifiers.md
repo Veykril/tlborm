@@ -1,6 +1,6 @@
 # Fragment Specifiers
 
-As shown in the [`macro_rules`] chapter, Rust, as of 1.60, has 14 fragment specifiers.
+As mentioned in the [`methodical introduction`](../macros-methodical.md) chapter, Rust, as of 1.60, has 14 fragment specifiers.
 This section will go a bit more into detail for some of them and shows a few example inputs of what each matcher matches.
 
 > **Note**: Capturing with anything but the `ident`, `lifetime` and `tt` fragments will render the captured AST opaque, making it impossible to further match it with other fragment specifiers in future macro invocations.
@@ -326,7 +326,7 @@ visibilities! {
 }
 ```
 
-While able to match empty sequences of tokens, the fragment specifier still acts quite different from [optional repetitions](../macro_rules.md#repetitions) which is described in the following:
+While able to match empty sequences of tokens, the fragment specifier still acts quite different from [optional repetitions](../macros-methodical.md#repetitions) which is described in the following:
 
 If it is being matched against no left over tokens the entire macro matching fails.
 ```rust

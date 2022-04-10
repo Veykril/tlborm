@@ -61,8 +61,8 @@ That rule says the input to the invocation must match:
 - the literal token sequence `,` `...` `,`,
 - a valid *expression* captured into the [metavariable] `recur` (`$recur:expr`).
 
-[repeating]: ./macro_rules.md#repetitions
-[metavariable]: ./macro_rules.md#metavariables
+[repeating]: ./macros-methodical.md#repetitions
+[metavariable]: ./macros-methodical.md#metavariables
 
 Finally, the rule says that *if* the input matches this rule, then the invocation should be replaced by the token sequence `/* ... */`.
 
@@ -200,7 +200,7 @@ Here, I've added a new metavariable: `sty` which should be a type.
 
 > **Aside**: if you're wondering, the bit after the colon in a metavariable can be one of several kinds of syntax matchers.
 > The most common ones are `item`, `expr`, and `ty`.
-> A complete explanation can be found in [Macros, A Methodical Introduction; `macro_rules!` (Matchers)](./macro_rules.md#Metavariables).
+> A complete explanation can be found in [Macros, A Methodical Introduction; `macro_rules!` (Matchers)](./macros-methodical.md#metavariables).
 >
 > There's one other thing to be aware of: in the interests of future-proofing the language, the compiler restricts what tokens you're allowed to put *after* a matcher, depending on what kind it is.
 > Typically, this comes up when trying to match expressions or statements;
@@ -1320,4 +1320,4 @@ Which gives us:
 
 Success!
 
-[`macro_rules!`]: ./macro_rules.md
+[`macro_rules!`]: ./macros-methodical.md

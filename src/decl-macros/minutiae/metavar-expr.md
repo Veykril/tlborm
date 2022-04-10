@@ -6,8 +6,7 @@
 
 > Note: The example code snippets are very bare bones, trying to show off how they work. If you think you got small snippets with proper isolated usage of these expression please submit them!
 
-
-As shown in the [`macro_rules`](../macro_rules.md) chapter, Rust has special expressions that can be used by macro transcribers to obtain information about metavariables that are otherwise difficult or even impossible to get.
+As mentioned in the [`methodical introduction`](../macros-methodical.md), Rust has special expressions that can be used by macro transcribers to obtain information about metavariables that are otherwise difficult or even impossible to get.
 This chapter will introduce them more in-depth together with usage examples.
 
 - [`$$`](#dollar-dollar-)
