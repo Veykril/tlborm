@@ -1,6 +1,6 @@
 # Fragment Specifiers
 
-As shown in the [`macro_rules`] chapter, Rust, as of 1.53, has 13 fragment specifiers.
+As shown in the [`macro_rules`] chapter, Rust, as of 1.60, has 14 fragment specifiers.
 This section will go a bit more into detail for some of them and shows a few example inputs of what each matcher matches.
 
 > **Note**: Capturing with anything but the `ident`, `lifetime` and `tt` fragments will render the captured AST opaque, making it impossible to further match it with other fragment specifiers in future macro invocations.
@@ -363,8 +363,8 @@ macro_rules! it_is_opaque {
     ($vis:vis ,) => { it_is_opaque!( ($vis) ); }
 }
 fn main() {
-    // this prints "$tt is ", as the recursive calls hits the second branch with an empty
-    // tt, opposed to matching with the first branch!
+    // this prints "$tt is ", as the recursive calls hits the second branch with
+    // an empty tt, opposed to matching with the first branch!
     println!("{}", it_is_opaque!(,));
 }
 ```
