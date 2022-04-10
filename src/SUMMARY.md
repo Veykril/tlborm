@@ -14,6 +14,7 @@
         - [Minutiae](./decl-macros/minutiae.md)
             - [Fragment Specifiers](./decl-macros/minutiae/fragment-specifiers.md)
             - [Metavariables and Expansion Redux](./decl-macros/minutiae/metavar-and-expansion.md)
+            - [Metavariable Expressions](./decl-macros/minutiae/metavar-expr.md)
             - [Hygiene](./decl-macros/minutiae/hygiene.md)
             - [Non-Identifier Identifiers](./decl-macros/minutiae/identifiers.md)
             - [Debugging](./decl-macros/minutiae/debugging.md)
