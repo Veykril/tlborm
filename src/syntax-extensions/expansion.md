@@ -5,7 +5,7 @@ At some point *after* the construction of the AST, but before the compiler begin
 
 This involves traversing the AST, locating syntax extension invocations and replacing them with their expansion.
 
-Once the compiler has run a syntax extension, it expects the result to be parsable as one of a limited set of syntax elements, based on context.
+Once the compiler has run expansion of a syntax extension, it expects the result to be parsable as one of a limited set of syntax elements, based on context.
 For example, if you invoke a syntax extension at module scope, the compiler will parse the result into an AST node that represents an item.
 If you invoke a syntax extension in expression position, the compiler will parse the result into an expression AST node.
 
