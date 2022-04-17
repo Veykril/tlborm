@@ -106,8 +106,8 @@ as many as is needed to completely expand all invocations.
 
 Well, not *quite*.
 In fact, the compiler imposes an upper limit on the number of such recursive passes it is willing to run before giving up.
-This is known as the syntax extension  recursion limit and defaults to 32.
-If the 32nd expansion contains a syntax extension invocation, the compiler will abort with an error indicating that the recursion limit was exceeded.
+This is known as the syntax extension  recursion limit and defaults to 128.
+If the 128nd expansion contains a syntax extension invocation, the compiler will abort with an error indicating that the recursion limit was exceeded.
 
 This limit can be raised using the `#![recursion_limit="…"]` [attribute][recursion_limit], though it *must* be done crate-wide.
 Generally, it is recommended to try and keep syntax extension below this limit wherever possible as it may impact compilation times.
