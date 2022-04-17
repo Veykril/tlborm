@@ -45,3 +45,7 @@ level = 1
 "/decl-macros/syntax/ast.html" = "../../syntax-extensions/ast.html"
 "/decl-macros/syntax/expansion.html" = "../../syntax-extensions/expansion.html"
 "/decl-macros/syntax/source-analysis.html" = "../../syntax-extensions/source-analysis.html"
+
+[rust]
+# see: https://rust-lang.github.io/mdBook/format/configuration/general.html#rust-options
+edition = "2021"
