@@ -267,7 +267,7 @@ From this we can tell a few things.
 
 The first you should be able to see immediately is that while the `stmt` fragment doesn't capture trailing semicolons, it still emits them when required, even if the statement is already followed by one.
 The simple reason for that is that semicolons on their own are already valid statements which the fragment captures eagerly.
-So our macro isn't capturing 8 times, but 11!
+So our macro isn't capturing 8 times, but 10!
 This can be important when doing multiples repetitions and expanding these in one repetition expansion, as the repetition numbers have to match in those cases.
 
 Another thing you should be able to notice here is that the trailing semicolon of the `struct Foo;` item statement is being matched, otherwise we would've seen an extra one like in the other cases.
