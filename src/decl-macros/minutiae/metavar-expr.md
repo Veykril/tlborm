@@ -11,9 +11,9 @@ This chapter will introduce them more in-depth together with usage examples.
 
 - [`$$`](#dollar-dollar-)
 - [`${count(ident, depth)}`](#countident-depth)
-- [`${index(depth)}`](#index-depth)
-- [`${length(depth)}`](#length-depth)
-- [`${ignore(ident)}`](#ignore-ident)
+- [`${index(depth)}`](#indexdepth)
+- [`${length(depth)}`](#lengthdepth)
+- [`${ignore(ident)}`](#ignoreident)
 
 ## Dollar Dollar (`$$`)
 
@@ -36,7 +36,7 @@ foo!();
 ```
 
 The problem is obvious, the transcriber of foo sees a repetition and tries to repeat it when transcribing, but there is no `$any` metavariable in its scope causing it to fail.
-With `$$` we can get around this as the transcriber of `foo` will no longer try to do the repetition.
+With `$$` we can get around this as the transcriber of `foo` will no longer try to do the repetition.[^tt-$]
 
 ```rust
 #![feature(macro_metavar_expr)]
@@ -53,6 +53,9 @@ foo!();
 bar!();
 # fn main() {}
 ```
+
+[^tt-$]: Before `$$` occurs, users must resort to a tricky and not so well-known hack to declare nested macros with repetitions
+         [via using `$tt` like this](https://play.rust-lang.org/?version=nightly&mode=debug&edition=2021&gist=9ce18fc79ce17c77d20e74f3c46ee13c).
 
 ## `count(ident, depth)`
 
