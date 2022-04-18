@@ -25,13 +25,15 @@ restricts what can follow various metavariables.
 The complete list, showing what may follow what fragment specifier, as of Rust 1.46 is as follows:
 
 * [`stmt`] and [`expr`]: `=>`, `,`, or `;`
-* [`pat`]: `=>`, `,`, `=`, `if`, `in`
+* [`pat`]: `=>`, `,`, `=`, `if`, `in`[^pat-edition]
 * [`pat_param`]: `=>`, `,`, `=`, `|`, `if`, `in`
 * [`path`] and [`ty`]:`=>`, `,`, `=`, `|`, `;`, `:`, `>`, `>>`, `[`, `{`, `as`, `where`, or a macro
     variable of the [`block`] fragment specifier.
 * [`vis`]: `,`, an identifier other than a non-raw `priv`, any token that can begin a type or a
     metavariable with an [`ident`], [`ty`], or [`path`] fragment specifier.
 * All other fragment specifiers have no restrictions.
+
+[^pat-edition]: **Edition Differences**: Before the 2021 edition, `pat` may also be followed by `|`.
 
 Repetitions also adhere to these restrictions, meaning if a repetition can repeat multiple times(`*` or `+`), then the contents must be able to follow themselves.
 If a repetition can repeat zero times (`?` or `*`) then what comes after the repetition must be able to follow what comes before.
