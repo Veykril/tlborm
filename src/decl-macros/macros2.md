@@ -4,7 +4,7 @@
 > *Tracking Issue*: [rust#39412](https://github.com/rust-lang/rust/issues/39412)\
 > *Feature*: `#![feature(decl_macro)]`
 
-While not yet stable(or rather far from being finished), there is proposal for a new declarative macro system that is supposed to replace `macro_rules!` dubbed declarative macros 2.0, `macro`, `decl_macro` or confusingly also `macros-by-example.
+While not yet stable(or rather far from being finished), there is proposal for a new declarative macro system that is supposed to replace `macro_rules!` dubbed declarative macros 2.0, `macro`, `decl_macro` or confusingly also `macros-by-example`.
 
 This chapter is only meant to quickly glance over the current state, showing how to use this macro system and where it differs.
 Nothing described here is final or complete, and may be subject to change.
