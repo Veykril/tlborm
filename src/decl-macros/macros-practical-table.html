@@ -5,6 +5,12 @@
         font-size: 70%;
     }
 
+    .parse-table {
+        --table-width: 900px;
+        width: var(--table-width);
+        margin-left: calc((var(--content-max-width) - var(--table-width)) / 2);
+    }
+
     table.parse-table code {
         white-space: pre-wrap;
         background-color: transparent;
@@ -29,9 +35,9 @@
 <table class="parse-table">
     <colgroup>
         <col width="42%" />
-        <col width="36%" />
+        <col width="30%" />
         <col width="0%" />
-        <col width="12%" />
+        <col width="18%" />
     </colgroup>
     <thead>
         <tr>
@@ -44,56 +50,64 @@
     <tbody class="small-code">
         <tr>
             <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
-                <code>⌂</code></td>
+                <code>⌂</code>
+            </td>
             <td><code>a[n] = 0, 1, ..., a[n-1] + a[n-2]</code></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
             <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
-                <code> ⌂</code></td>
+                <code> ⌂</code>
+            </td>
             <td><code>[n] = 0, 1, ..., a[n-1] + a[n-2]</code></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
             <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
-                <code>  ⌂</code></td>
+                <code>  ⌂</code>
+            </td>
             <td><code>n] = 0, 1, ..., a[n-1] + a[n-2]</code></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
             <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
-                <code>   ⌂</code></td>
+                <code>   ⌂</code>
+            </td>
             <td><code>] = 0, 1, ..., a[n-1] + a[n-2]</code></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
             <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
-                <code>     ⌂</code></td>
+                <code>     ⌂</code>
+            </td>
             <td><code>= 0, 1, ..., a[n-1] + a[n-2]</code></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
             <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
-                <code>       ⌂</code></td>
+                <code>       ⌂</code>
+            </td>
             <td><code>0, 1, ..., a[n-1] + a[n-2]</code></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
             <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
-                <code>         ⌂</code></td>
+                <code>         ⌂</code>
+            </td>
             <td><code>0, 1, ..., a[n-1] + a[n-2]</code></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
             <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
-                <code>                     ⌂  ⌂</code></td>
+                <code>                     ⌂  ⌂</code>
+            </td>
             <td><code>, 1, ..., a[n-1] + a[n-2]</code></td>
             <td><code>0</code></td>
             <td></td>
@@ -108,14 +122,16 @@
         </tr>
         <tr>
             <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
-                <code>         ⌂                ⌂</code></td>
+                <code>         ⌂                ⌂</code>
+            </td>
             <td><code>1, ..., a[n-1] + a[n-2]</code></td>
             <td><code>0</code></td>
             <td></td>
         </tr>
         <tr>
             <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
-                <code>                     ⌂  ⌂ <s>⌂</s></code></td>
+                <code>                     ⌂  ⌂ <s>⌂</s></code>
+            </td>
             <td><code>, ..., a[n-1] + a[n-2]</code></td>
             <td><code>0</code>, <code>1</code></td>
             <td></td>
@@ -128,28 +144,32 @@
         </tr>
         <tr>
             <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
-                <code>         ⌂                ⌂</code></td>
+                <code>         ⌂                ⌂</code>
+            </td>
             <td><code>..., a[n-1] + a[n-2]</code></td>
             <td><code>0</code>, <code>1</code></td>
             <td></td>
         </tr>
         <tr>
             <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
-                <code>         <s>⌂</s>                    ⌂</code></td>
+                <code>         <s>⌂</s>                    ⌂</code>
+            </td>
             <td><code>, a[n-1] + a[n-2]</code></td>
             <td><code>0</code>, <code>1</code></td>
             <td></td>
         </tr>
         <tr>
             <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
-                <code>                                ⌂</code></td>
+                <code>                                ⌂</code>
+            </td>
             <td><code>a[n-1] + a[n-2]</code></td>
             <td><code>0</code>, <code>1</code></td>
             <td></td>
         </tr>
         <tr>
             <td><code>a[n] = $($inits:expr),+ , ... , $recur:expr</code>
-                <code>                                           ⌂</code></td>
+                <code>                                           ⌂</code>
+            </td>
             <td></td>
             <td><code>0</code>, <code>1</code></td>
             <td><code>a[n-1] + a[n-2]</code></td>
