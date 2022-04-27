@@ -1,0 +1,79 @@
+<style>
+    pre[data-codetab=hide] {
+        display: none;
+    }
+
+    pre[data-codetab] {
+        margin-top: 0
+    }
+
+    .codetab-bar button {
+        background-color: var(--sidebar-bg);
+        border: none;
+        cursor: pointer;
+    }
+
+    .codetab-bar button:disabled {
+        cursor: default;
+    }
+
+    .codetab-bar button {
+        color: var(--fg);
+    }
+
+    .codetab-bar button:hover {
+        color: var(--sidebar-active);
+    }
+
+    .codetab-bar button[data-codetab=show] {
+        color: var(--sidebar-active);
+    }
+</style>
+
+<script>
+    function langName(lang) {
+        lang = lang ? lang.className.match(/language-(\w+)/)[1] : "code";
+        lang = { "rs": "rust", }[lang] || lang;
+        return lang;
+    }
+    function insertCodeTabs() {
+        while (true) {
+            let code = document.querySelector('pre:not([data-codetab])');
+            if (!code) return;
+            let bar = document.createElement("DIV");
+            bar.classList.add('codetab-bar');
+            let tabs = [], buttons = [];
+            while (code && code.nodeName == "PRE") {
+                let code_box = code.querySelector('code[class^="language-"]');
+                let lang_name = langName(code_box);
+                if (lang_name == "macro") {
+                    code_box.className = code_box.className.replace("macro", "rs");
+                    hljs.highlightBlock(code_box);
+                }
+                let button = document.createElement('BUTTON');
+                button.innerHTML = lang_name;
+                tabs.push(code);
+                buttons.push(button);
+                bar.appendChild(button);
+                code = code.nextElementSibling;
+            }
+            tabs[0].parentNode.insertBefore(bar, tabs[0]);
+            let select = function (t, b) {
+                tabs.forEach(t => t.dataset.codetab = "hide");
+                buttons.forEach(b => {
+                    b.dataset.codetab = "hide";
+                    b.disabled = false;
+                });
+                b.disabled = true;
+                t.dataset.codetab = "show";
+                b.dataset.codetab = "show";
+            };
+            for (var i = 0; i < tabs.length; i++) {
+                let ix = i;
+                buttons[ix].addEventListener('click', ev => select(tabs[ix], buttons[ix]));
+            }
+            select(tabs[0], buttons[0]);
+        }
+    }
+    document.addEventListener('DOMContentLoaded', insertCodeTabs);
+</script>
