@@ -59,13 +59,13 @@ bar!();
 
 ## `count(ident, depth)`
 
-The `count` metavariable expression expands to the repetition count of the metavariable `$ident` at the given repetition depth.
+The `count` metavariable expression expands to the repetition count of the metavariable `$ident` up to the given repetition depth.
 
 - The `ident` argument must be a declared metavariable in the scope of the rule.
 - The `depth` argument must be an integer literal of value less or equal to the maximum repetition depth that the `$ident` metavariable appears in.
 - The expression expands to an unsuffixed integer literal token.
 
-The `count(ident)` expression defaults `depth` to `0`, making it a shorthand for `count(ident, 0)`.
+The `count(ident)` expression defaults `depth` to the maximum valid depth, making it count the total repetitions for the given metavariable.
 
 ```rust
 #![feature(macro_metavar_expr)]
