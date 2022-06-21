@@ -19,7 +19,7 @@ Internal rules can be used to unify multiple `macro_rules!` macros into one, or 
 
 So why is it useful to unify multiple macros-by-example into one?
 The main reasoning for this is how they are handled in the 2015 Edition of Rust due to `macro_rules!` macros not being namespaced in said edition.
-This gives one the troubles of having to re-export all the internal `macro_rules!` macros as well polluting the global macro namespace or even worse, macro name collisions with other crates.
+This gives one the troubles of having to re-export all the internal `macro_rules!` macros as well as polluting the global macro namespace or even worse, macro name collisions with other crates.
 In short, it's quite a hassle.
 This fortunately isn't really a problem anymore nowadays with a rustc version >= 1.30, for more information consult the [Import and Export chapter](../minutiae/import-export.html).
 
