@@ -45,7 +45,7 @@ macro_rules! foo {
 
 This is definitely not the nicest solution we could have for this macro, as it pollutes the global macro namespace as mentioned earlier.
 In this specific case `as_expr` is also a very simple macro that we only used once, so let's "embed" this macro in our `foo` macro with internal rules!
-To do so we simply prepend a new matcher for our macro consists of the matcher used in the `as_expr` macro, but with a small addition.
+To do so, we simply prepend a new matcher for our macro, which consists of the matcher used in the `as_expr` macro, but with a small addition.
 We prepend a tokentree that makes it match only when specifically asked to.
 In this case we can for example use `@as_expr`, so our matcher becomes `(@as_expr $e:expr) => {$e};`.
 With this we get the macro that was defined at the very top of this page:
