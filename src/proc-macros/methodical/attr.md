@@ -14,7 +14,7 @@ pub fn tlborm_attribute(input: TokenStream, annotated_item: TokenStream) -> Toke
 ```
 
 Of note here is that unlike the other two procedural macro kinds, this one has two input parameters instead of one.
-- The first parameter is the delimited token tree following the attribute's, name excluding the delimiters around it.
+- The first parameter is the delimited token tree following the attribute's name, excluding the delimiters around it.
 It is empty if the attribute is written bare, that is just a name without a `(TokenTree)` following it, e.g. `#[attr]`.
 - The second token stream is the item the attribute is attached to *without* the attribute this proc macro defines.
 As this is an [`active`](https://doc.rust-lang.org/reference/attributes.html#active-and-inert-attributes) attribute, the attribute will be stripped from the item before it is being passed to the proc macro.

@@ -40,7 +40,7 @@ macro_rules! function_item_matcher {
 # }
 ```
 
-A simple function matcher that ignores qualifiers like `unsafe`, `async`, ... as well a generics and where clauses.
+A simple function matcher that ignores qualifiers like `unsafe`, `async`, ... as well as generics and where clauses.
 If parsing those is required it is likely that you are better off using a proc-macro instead.
 
 This lets you for example, inspect the function signature, generate some extra things from it and then re-emit the entire function again.

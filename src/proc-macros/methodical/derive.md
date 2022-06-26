@@ -14,7 +14,7 @@ pub fn tlborm_derive(item: TokenStream) -> TokenStream {
 ```
 
 The `proc_macro_derive` is a bit more special in that it requires an extra identifier, this identifier will become the actual name of the derive proc macro.
-The input token stream is the item the derive attribute is attached to, that is, it will always be an `enum`, `struct` or `union` as these are the only items a derive attribute can annotated.
+The input token stream is the item the derive attribute is attached to, that is, it will always be an `enum`, `struct` or `union` as these are the only items a derive attribute can annotate.
 The returned token stream will be **appended** to the containing block or module of the annotated item with the requirement that the token stream consists of a set of valid items.
 
 Usage example:
