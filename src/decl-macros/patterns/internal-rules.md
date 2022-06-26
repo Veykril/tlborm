@@ -71,7 +71,7 @@ If you look closely you might even see that this pattern can be combined quite n
 
 The reason for using `@` was that, as of Rust 1.2, the `@` token is *not* used in prefix position; as such, it cannot conflict with anything.
 This reasoning became obsolete later on when in Rust 1.7 macro matchers got future proofed by emitting a warning to prevent certain tokens from being allowed to follow certain fragments[^ambiguity-restrictions], which in Rust 1.12 became a hard-error.
-There other symbols or unique prefixes may be used as desired, but use of `@` has started to become widespread, so using it may aid readers in understanding your macro.
+Other symbols or unique prefixes may be used as desired, but use of `@` has started to become widespread, so using it may aid readers in understanding your macro.
 
 [^ambiguity-restrictions]:[ambiguity-restrictions](../minutiae/metavar-and-expansion.html)
 
