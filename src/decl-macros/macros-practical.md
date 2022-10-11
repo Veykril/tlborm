@@ -13,7 +13,7 @@ There is also the [Macros chapter of the Rust Book](https://doc.rust-lang.org/bo
 If you aren't familiar, a recurrence relation is a sequence where each value is defined in terms of one or more *previous* values, with one or more initial values to get the whole thing started.
 For example, the [Fibonacci sequence](https://en.wikipedia.org/wiki/Fibonacci_number) can be defined by the relation:
 
-\\[F_{n} = 0, 1, ..., F_{n-1} + F_{n-2}\\]
+\\[F_{n} = 0, 1, ..., F_{n-2} + F_{n-1}\\]
 
 Thus, the first two numbers in the sequence are 0 and 1, with the third being \\( F_{0} + F_{1} = 0 + 1 = 1\\), the fourth \\( F_{1} + F_{2} = 1 + 1 = 2\\), and so on forever.
 
@@ -35,7 +35,7 @@ Usually, when working on a new `macro_rules!` macro, the first thing I do is dec
 In this specific case, my first attempt looked like this:
 
 ```rust,ignore
-let fib = recurrence![a[n] = 0, 1, ..., a[n-1] + a[n-2]];
+let fib = recurrence![a[n] = 0, 1, ..., a[n-2] + a[n-1]];
 
 for e in fib.take(10) { println!("{}", e) }
 ```
@@ -116,7 +116,7 @@ We need a branch to yield the initial values of the sequence; nothing tricky.
             } else {
                 let a = /* something */;
                 let n = self.pos;
-                let next_val = a[n-1] + a[n-2];
+                let next_val = a[n-2] + a[n-1];
 
                 self.mem.TODO_shuffle_down_and_append(next_val);
 
@@ -160,7 +160,7 @@ let fib = {
             } else {
                 let a = /* something */;
                 let n = self.pos;
-                let next_val = (a[n-1] + a[n-2]);
+                let next_val = (a[n-2] + a[n-1]);
 
                 self.mem.TODO_shuffle_down_and_append(next_val.clone());
 
@@ -189,7 +189,7 @@ macro_rules! recurrence {
 }
 
 /*
-let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-1] + a[n-2]];
+let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-2] + a[n-1]];
 
 for e in fib.take(10) { println!("{}", e) }
 */
@@ -278,7 +278,7 @@ macro_rules! recurrence {
 
 fn main() {
     /*
-    let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-1] + a[n-2]];
+    let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-2] + a[n-1]];
 
     for e in fib.take(10) { println!("{}", e) }
     */
@@ -324,7 +324,7 @@ fn main() {
                     let next_val = {
                         let n = self.pos;
                         let a = IndexOffset { slice: &self.mem, offset: n };
-                        (a[n-1] + a[n-2])
+                        (a[n-2] + a[n-1])
                     };
 
                     {
@@ -423,7 +423,7 @@ macro_rules! recurrence {
                         let next_val = {
                             let n = self.pos;
                             let a = IndexOffset { slice: &self.mem, offset: n };
-                            (a[n-1] + a[n-2])
+                            (a[n-2] + a[n-1])
                         };
 
                         {
@@ -447,7 +447,7 @@ macro_rules! recurrence {
 }
 
 fn main() {
-    let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-1] + a[n-2]];
+    let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-2] + a[n-1]];
 
     for e in fib.take(10) { println!("{}", e) }
 }
@@ -460,7 +460,7 @@ However, if we try to compile this, `rustc` aborts, telling us:
 error: local ambiguity: multiple parsing options: built-in NTs expr ('inits') or 1 other option.
   --> src/main.rs:75:45
    |
-75 |     let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-1] + a[n-2]];
+75 |     let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-2] + a[n-1]];
    |
 ```
 
@@ -500,7 +500,7 @@ macro_rules! recurrence {
 }
 
 fn main() {
-    let fib = recurrence![a[n]: u64 = 0, 1 ... a[n-1] + a[n-2]];
+    let fib = recurrence![a[n]: u64 = 0, 1 ... a[n-2] + a[n-1]];
 //                                         ^~~ changed
 
     for e in fib.take(10) { println!("{}", e) }
@@ -523,7 +523,7 @@ macro_rules! recurrence {
 }
 
 fn main() {
-    let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-1] + a[n-2]];
+    let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-2] + a[n-1]];
 //                                        ^~~~~^ changed
 
     for e in fib.take(10) { println!("{}", e) }
@@ -590,7 +590,7 @@ macro_rules! recurrence {
 #                         let next_val = {
 #                             let n = self.pos;
 #                             let a = IndexOffset { slice: &self.mem, offset: n };
-#                             (a[n-1] + a[n-2])
+#                             (a[n-2] + a[n-1])
 #                         };
 #
 #                         {
@@ -614,7 +614,7 @@ macro_rules! recurrence {
 }
 
 fn main() {
-    let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-1] + a[n-2]];
+    let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-2] + a[n-1]];
 
     for e in fib.take(10) { println!("{}", e) }
 }
@@ -832,7 +832,7 @@ macro_rules! recurrence {
                         let next_val = {
                             let n = self.pos;
                             let a = IndexOffset { slice: &self.mem, offset: n };
-                            (a[n-1] + a[n-2])
+                            (a[n-2] + a[n-1])
                         };
 
                         {
@@ -858,7 +858,7 @@ macro_rules! recurrence {
 /* ... */
 #
 # fn main() {
-#     let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-1] + a[n-2]];
+#     let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-2] + a[n-1]];
 #
 #     for e in fib.take(10) { println!("{}", e) }
 # }
@@ -934,7 +934,7 @@ With that done, we can now substitute the last thing: the `recur` expression.
 #     };
 # }
 # fn main() {
-#     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-1] + a[n-2]];
+#     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-2] + a[n-1]];
 #     for e in fib.take(10) { println!("{}", e) }
 # }
 ```
@@ -945,25 +945,25 @@ And, when we compile our finished `macro_rules!` macro...
 error[E0425]: cannot find value `a` in this scope
   --> src/main.rs:68:50
    |
-68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-1] + a[n-2]];
+68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-2] + a[n-1]];
    |                                                  ^ not found in this scope
 
 error[E0425]: cannot find value `n` in this scope
   --> src/main.rs:68:52
    |
-68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-1] + a[n-2]];
+68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-2] + a[n-1]];
    |                                                    ^ not found in this scope
 
 error[E0425]: cannot find value `a` in this scope
   --> src/main.rs:68:59
    |
-68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-1] + a[n-2]];
+68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-2] + a[n-1]];
    |                                                           ^ not found in this scope
 
 error[E0425]: cannot find value `n` in this scope
   --> src/main.rs:68:61
    |
-68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-1] + a[n-2]];
+68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-2] + a[n-1]];
    |                                                             ^ not found in this scope
 ```
 
@@ -1211,7 +1211,7 @@ macro_rules! recurrence {
 }
 
 fn main() {
-    let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-1] + a[n-2]];
+    let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-2] + a[n-1]];
 
     for e in fib.take(10) { println!("{}", e) }
 }
