@@ -324,14 +324,14 @@ fn main() {
                     let next_val = {
                         let n = self.pos;
                         let a = IndexOffset { slice: &self.mem, offset: n };
-                        (a[n-2] + a[n-1])
+                        a[n-2] + a[n-1]
                     };
 
                     {
                         use std::mem::swap;
 
                         let mut swap_tmp = next_val;
-                        for i in (0..2).rev() {
+                        for i in [1,0] {
                             swap(&mut swap_tmp, &mut self.mem[i]);
                         }
                     }
