@@ -29,7 +29,7 @@ fn main() {
         call_a_or_b_on_tail!(
             (a: compute_len, b: show_tail),
             the recursive part that skips over all these
-            tokens doesn't much care whether we will call a
+            tokens does not much care whether we will call a
             or call b: only the terminal rules care.
         ),
         None
@@ -39,10 +39,10 @@ fn main() {
             (a: compute_len, b: show_tail),
             and now, to justify the existence of two paths
             we will also call a: its input should somehow
-            be self-referential, so let's make it return
-            some eighty-six!
+            be self-referential, so let us make it return
+            some ninety-one!
         ),
-        Some(92)
+        Some(91)
     );
 }
 ```
