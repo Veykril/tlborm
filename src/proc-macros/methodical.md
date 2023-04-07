@@ -23,7 +23,7 @@ All thats required to add the crate to the dependency graph of a project and bri
 
 ## Types of procedural macros
 
-With procedural macros, there are actually exist 3 different kinds with each having slightly different properties.
+With procedural macros, there actually exists 3 different kinds with each having slightly different properties.
 - *function-like* proc-macros which are used to implement `$name ! $arg` invocable macros
 - *attribute* proc-macros which are used to implement `#[$arg]` attributes
 - *derive* proc-macros which are used to implement a derive, an *input* to a `#[derive(…)]` attribute
