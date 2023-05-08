@@ -1089,7 +1089,7 @@ To show the difference, let's take a simpler example.
 macro_rules! using_a {
     ($e:expr) => {
         {
-            let a = 42i;
+            let a = 42;
             $e
         }
     }
