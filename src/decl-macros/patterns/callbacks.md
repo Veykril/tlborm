@@ -1,14 +1,8 @@
 # Callbacks
 
+Due to the order that macros are expanded in, it is (as of Rust 1.2) impossible to pass information to a macro from the expansion of *another* macro:
+
 ```rust
-macro_rules! call_with_larch {
-    ($callback:ident) => { $callback!(larch) };
-}
-
-macro_rules! expand_to_larch {
-    () => { larch };
-}
-
 macro_rules! recognize_tree {
     (larch) => { println!("#1, the Larch.") };
     (redwood) => { println!("#2, the Mighty Redwood.") };
@@ -18,27 +12,34 @@ macro_rules! recognize_tree {
     ($($other:tt)*) => { println!("I don't know; some kind of birch maybe?") };
 }
 
+macro_rules! expand_to_larch {
+    () => { larch };
+}
+
 fn main() {
     recognize_tree!(expand_to_larch!());
-    call_with_larch!(recognize_tree);
+    // first expands to:  recognize_tree! { expand_to_larch ! (  ) }
+    // and then:          println! { "I don't know; some kind of birch maybe?" }
 }
 ```
 
-Due to the order that macros are expanded in, it is (as of Rust 1.2) impossible to pass information to a macro from the expansion of *another* macro.
 This can make modularizing macros very difficult.
 
-An alternative is to use recursion and pass a callback.
-Here is a trace of the above example to demonstrate how this takes place:
+An alternative is to use recursion and pass a callback:
 
-```rust,ignore
-recognize_tree! { expand_to_larch ! (  ) }
-println! { "I don't know; some kind of birch maybe?" }
+```rust
 // ...
 
-call_with_larch! { recognize_tree }
-recognize_tree! { larch }
-println! { "#1, the Larch." }
-// ...
+macro_rules! call_with_larch {
+    ($callback:ident) => { $callback!(larch) };
+}
+
+fn main() {
+    call_with_larch!(recognize_tree);
+    // first expands to:  call_with_larch! { recognize_tree }
+    // then:              recognize_tree! { larch }
+    // and finally:       println! { "#1, the Larch." }
+}
 ```
 
 Using a `tt` repetition, one can also forward arbitrary arguments to a callback.
