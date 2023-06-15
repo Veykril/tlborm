@@ -34,7 +34,7 @@ Rust does *not*. For example, C/C++ macros are *effectively* processed at this p
 [^cpp-it-seemed-like-a-good-idea-at-the-time]
 
 ```c
-#define SUB void
+#define SUB int
 #define BEGIN {
 #define END }
 
