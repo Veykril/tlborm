@@ -156,7 +156,7 @@ metas! {
 # fn main() {}
 ```
 
-> **Doc-Comment Fact**: Doc-Comments like `/// ...` and `!// ...` are actually syntax sugar for attributes! They desugar to `#[doc="..."]` and `#![doc="..."]` respectively, meaning you can match on them like with attributes!
+> **Doc-Comment Fact**: Doc-Comments like `/// ...` and `//! ...` are actually syntax sugar for attributes! They desugar to `#[doc="..."]` and `#![doc="..."]` respectively, meaning you can match on them like with attributes!
 
 ## `pat`
 
