@@ -213,7 +213,7 @@ count_tts!(0 0 0 0 0) << 1;
 ```
 This invocation will now match the second rule as its input is an uneven amount of token trees.
 In this case the first token tree is discarded to make the input even again, then we also do the halving step in this invocation again since we know the input would be even now anyways.
-Therefor we can count 1 for the uneven discard and multiply by 2 again since we also halved.
+Therefore we can count 1 for the uneven discard and multiply by 2 again since we also halved.
 ```rust,ignore
 ((count_tts!(0 0) << 1) | 1) << 1;
 ```
@@ -221,7 +221,7 @@ Therefor we can count 1 for the uneven discard and multiply by 2 again since we 
 ((count_tts!(0) << 1 << 1) | 1) << 1;
 ```
 ```rust,ignore
-(((count_tts!() | 1) << 1 << 1) | 1) << 1;
+((((count_tts!() << 1) | 1) << 1 << 1) | 1) << 1;
 ```
 ```rust,ignore
 ((((0 << 1) | 1) << 1 << 1) | 1) << 1;
