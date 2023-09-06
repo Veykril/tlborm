@@ -102,29 +102,27 @@ Note that this has *no relationship* to the AST the expression would produce; in
 root node, there are *seven* token trees at the root level. For reference, the AST would be:
 
 ```text
-              ┌─────────┐
-              │ BinOp   │
-              │ op: Add │
-            ┌╴│ lhs: ◌  │
-┌─────────┐ │ │ rhs: ◌  │╶┐ ┌─────────┐
-│ Var     │╶┘ └─────────┘ └╴│ BinOp   │
-│ name: a │                 │ op: Add │
-└─────────┘               ┌╴│ lhs: ◌  │
-              ┌─────────┐ │ │ rhs: ◌  │╶┐ ┌─────────┐
-              │ Var     │╶┘ └─────────┘ └╴│ BinOp   │
-              │ name: b │                 │ op: Add │
-              └─────────┘               ┌╴│ lhs: ◌  │
+                                          ┌─────────┐
+                                          │ BinOp   │
+                                          │ op: Add │
+                                        ┌╴│ lhs: ◌  │
                             ┌─────────┐ │ │ rhs: ◌  │╶┐ ┌─────────┐
                             │ BinOp   │╶┘ └─────────┘ └╴│ Var     │
                             │ op: Add │                 │ name: e │
                           ┌╴│ lhs: ◌  │                 └─────────┘
-              ┌─────────┐ │ │ rhs: ◌  │╶┐ ┌─────────┐
-              │ Var     │╶┘ └─────────┘ └╴│ Index   │
-              │ name: c │               ┌╴│ arr: ◌  │
-              └─────────┘   ┌─────────┐ │ │ ind: ◌  │╶┐ ┌─────────┐
-                            │ Var     │╶┘ └─────────┘ └╴│ LitInt  │
-                            │ name: d │                 │ val: 0  │
-                            └─────────┘                 └─────────┘
+┌─────────┐   ┌─────────┐ │ │ rhs: ◌  │╶┐ ┌─────────┐
+│ Var     │╶┐ │ BinOp   │╶┘ └─────────┘ └╴│ BinOp   │
+│ name: a │ │ │ op: Add │                 │ op: Add │
+└─────────┘ └╴│ lhs: ◌  │               ┌╴│ lhs: ◌  │
+┌─────────┐ ┌╴│ rhs: ◌  │   ┌─────────┐ │ │ rhs: ◌  │╶┐ ┌─────────┐
+│ Var     │╶┘ └─────────┘   │ Var     │╶┘ └─────────┘ └╴│ Index   │
+│ name: b │                 │ name: c │               ┌╴│ arr: ◌  │
+└─────────┘                 └─────────┘   ┌─────────┐ │ │ ind: ◌  │╶┐
+                                          │ Var     │╶┘ └─────────┘ │
+                                          │ name: d │   ┌─────────┐ │
+                                          └─────────┘   │ LitInt  │╶┘
+                                                        │ val: 0  │
+                                                        └─────────┘
 ```
 
 It is important to understand the distinction between the AST and token trees. When writing macros,
