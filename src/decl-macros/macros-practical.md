@@ -1186,7 +1186,7 @@ macro_rules! recurrence {
                             let $ind = self.pos;
 //                              ^~~~ changed
                             let $seq = IndexOffset { slice: &self.mem, offset: $ind };
-//                              ^~~~ changed
+//                              ^~~~ changed                                   ^~~~ changed
                             $recur
                         };
 
