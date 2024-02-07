@@ -27,13 +27,13 @@ macro_rules! function_item_matcher {
     }
 }
 
-#function_item_matcher!(
-#    #[inline]
-#    #[cold]
-#    pub fn foo(bar: i32, baz: i32, ) -> String {
-#        format!("{} {}", bar, baz)
-#    }
-#);
+# function_item_matcher!(
+#     #[inline]
+#     #[cold]
+#     pub fn foo(bar: i32, baz: i32, ) -> String {
+#         format!("{} {}", bar, baz)
+#     }
+# );
 #
 # fn main() {
 #     assert_eq!(foo(13, 37), "13 37");
@@ -114,27 +114,27 @@ macro_rules! struct_item_matcher {
     }
 }
 
-#struct_item_matcher!(
-#    #[derive(Copy, Clone)]
-#    pub(crate) struct Foo {
-#       pub bar: i32,
-#       baz: &'static str,
-#       qux: f32
-#    }
-#);
-#struct_item_matcher!(
-#    #[derive(Copy, Clone)]
-#    pub(crate) struct Bar;
-#);
-#struct_item_matcher!(
-#    #[derive(Clone)]
-#    pub(crate) struct Baz (i32, pub f32, String);
-#);
-#fn main() {
-#    let _: Foo = Foo { bar: 42, baz: "macros can be nice", qux: 3.14, };
-#    let _: Bar = Bar;
-#    let _: Baz = Baz(2, 0.1234, String::new());
-#}
+# struct_item_matcher!(
+#     #[derive(Copy, Clone)]
+#     pub(crate) struct Foo {
+#        pub bar: i32,
+#        baz: &'static str,
+#        qux: f32
+#     }
+# );
+# struct_item_matcher!(
+#     #[derive(Copy, Clone)]
+#     pub(crate) struct Bar;
+# );
+# struct_item_matcher!(
+#     #[derive(Clone)]
+#     pub(crate) struct Baz (i32, pub f32, String);
+# );
+# fn main() {
+#     let _: Foo = Foo { bar: 42, baz: "macros can be nice", qux: 3.14, };
+#     let _: Bar = Bar;
+#     let _: Baz = Baz(2, 0.1234, String::new());
+# }
 ```
 
 # Enum
@@ -191,25 +191,25 @@ macro_rules! enum_item_matcher {
     };
 }
 
-#enum_item_matcher!(
-#    #[derive(Copy, Clone)]
-#    pub(crate) enum Foo {
-#        Bar,
-#        Baz,
-#    }
-#);
-#enum_item_matcher!(
-#    #[derive(Copy, Clone)]
-#    pub(crate) enum Bar {
-#        Foo(i32, f32),
-#        Bar,
-#        Baz(),
-#    }
-#);
-#enum_item_matcher!(
-#    #[derive(Clone)]
-#    pub(crate) enum Baz {}
-#);
+# enum_item_matcher!(
+#     #[derive(Copy, Clone)]
+#     pub(crate) enum Foo {
+#         Bar,
+#         Baz,
+#     }
+# );
+# enum_item_matcher!(
+#     #[derive(Copy, Clone)]
+#     pub(crate) enum Bar {
+#         Foo(i32, f32),
+#         Bar,
+#         Baz(),
+#     }
+# );
+# enum_item_matcher!(
+#     #[derive(Clone)]
+#     pub(crate) enum Baz {}
+# );
 ```
 
 [patterns]: ../patterns.md
