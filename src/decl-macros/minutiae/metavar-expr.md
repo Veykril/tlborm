@@ -21,7 +21,7 @@ The `$$` expression expands to a single `$`, making it effectively an escaped `$
 This enables the ability in writing macros emitting new macros as the former macro won't transcribe metavariables, repetitions and metavariable expressions that have an escaped `$`.
 
 We can see the problem without using `$$` in the following snippet:
-```rust
+```rust,compile_fail
 macro_rules! foo {
     () => {
         macro_rules! bar {
@@ -38,7 +38,8 @@ foo!();
 The problem is obvious, the transcriber of foo sees a repetition and tries to repeat it when transcribing, but there is no `$any` metavariable in its scope causing it to fail.
 With `$$` we can get around this as the transcriber of `foo` will no longer try to do the repetition.[^tt-$]
 
-```rust
+```rust,ignore
+# // This code block marked `ignore` because mdbook can't handle `#![feature(...)]`.
 #![feature(macro_metavar_expr)]
 
 macro_rules! foo {
@@ -67,7 +68,8 @@ The `count` metavariable expression expands to the repetition count of the metav
 
 The `count(ident)` expression defaults `depth` to the maximum valid depth, making it count the total repetitions for the given metavariable.
 
-```rust
+```rust,ignore
+# // This code block marked `ignore` because mdbook can't handle `#![feature(...)]`.
 #![feature(macro_metavar_expr)]
 
 macro_rules! foo {
@@ -97,7 +99,8 @@ The `index(depth)` metavariable expression expands to the current iteration inde
 
 The `index()` expression defaults `depth` to `0`, making it a shorthand for `index(0)`.
 
-```rust
+```rust,ignore
+# // This code block marked `ignore` because mdbook can't handle `#![feature(...)]`.
 #![feature(macro_metavar_expr)]
 
 macro_rules! attach_iteration_counts {
@@ -134,7 +137,8 @@ The `length(depth)` metavariable expression expands to the iteration count of th
 The `length()` expression defaults `depth` to `0`, making it a shorthand for `length(0)`.
 
 
-```rust
+```rust,ignore
+# // This code block marked `ignore` because mdbook can't handle `#![feature(...)]`.
 #![feature(macro_metavar_expr)]
 
 macro_rules! lets_count {
@@ -166,7 +170,8 @@ The `ignore(ident)` metavariable expression expands to nothing, making it possib
 
 - The `ident` argument must be a declared metavariable in the scope of the rule.
 
-```rust
+```rust,ignore
+# // This code block marked `ignore` because mdbook can't handle `#![feature(...)]`.
 #![feature(macro_metavar_expr)]
 
 macro_rules! repetition_tuples {

@@ -50,8 +50,8 @@ You can also enable this from the command-line by adding `-Z trace-macros` to th
 Secondly, there is [`log_syntax!`] which causes the compiler to output all tokens passed to it.
 For example, this makes the compiler sing a song:
 
-```rust
-# // Note: make sure to use a nightly channel compiler.
+```rust,ignore
+# // This code block marked `ignore` because mdbook can't handle `#![feature(...)]`.
 #![feature(log_syntax)]
 
 macro_rules! sing {

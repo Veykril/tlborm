@@ -36,7 +36,7 @@ So `self` is both a keyword and not a keyword at the same time.
 You might wonder how this is in any way important.
 Take this example:
 
-```rust
+```rust,compile_fail
 macro_rules! make_mutable {
     ($i:ident) => {let mut $i = $i;};
 }
@@ -74,7 +74,7 @@ error: `mut` must be followed by a named binding
 So the macro will happily match `self` as an identifier, allowing you to use it in cases where you can't actually use it.
 But, fine; it somehow remembers that `self` is a keyword even when it's an identifier, so you *should* be able to do this, right?
 
-```rust
+```rust,compile_fail
 macro_rules! make_self_mutable {
     ($i:ident) => {let mut $i = self;};
 }
@@ -117,7 +117,7 @@ Now the compiler thinks we refer to our module with `self`, but that doesn't mak
 We already have a `self` right there, in the function signature which is definitely not a module.
 It's almost like it's complaining that the `self` it's trying to use isn't the *same* `self`... as though the `self` keyword has hygiene, like an... identifier.
 
-```rust
+```rust,compile_fail
 macro_rules! double_method {
     ($body:expr) => {
         fn double(mut self) -> Dummy {
@@ -169,7 +169,7 @@ At last, *this works*.
 So `self` is both a keyword *and* an identifier when it feels like it.
 Surely this works for other, similar constructs, right?
 
-```rust
+```rust,compile_fail
 macro_rules! double_method {
     ($self_:ident, $body:expr) => {
         fn double($self_) -> Dummy {

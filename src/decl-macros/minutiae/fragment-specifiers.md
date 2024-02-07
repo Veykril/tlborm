@@ -162,7 +162,7 @@ metas! {
 
 The `pat` fragment matches any kind of [pattern](https://doc.rust-lang.org/reference/patterns.html), including or-patterns starting with the 2021 edition.
 
-```rust
+```rust,edition2021
 macro_rules! patterns {
     ($($pat:pat)*) => ();
 }
@@ -329,7 +329,7 @@ visibilities! {
 While able to match empty sequences of tokens, the fragment specifier still acts quite different from [optional repetitions](../macros-methodical.md#repetitions) which is described in the following:
 
 If it is being matched against no left over tokens the entire macro matching fails.
-```rust
+```rust,compile_fail
 macro_rules! non_optional_vis {
     ($vis:vis) => ();
 }
@@ -337,13 +337,16 @@ non_optional_vis!();
 // ^^^^^^^^^^^^^^^^ error: missing tokens in macro arguments
 ```
 
-`$vis:vis $ident:ident` matches fine, unlike `$(pub)? $ident:ident` which is ambiguous, as `pub` denotes a valid identifier.
+`$vis:vis $ident:ident` matches fine.
 ```rust
 macro_rules! vis_ident {
     ($vis:vis $ident:ident) => ();
 }
 vis_ident!(pub foo); // this works fine
+```
 
+In contrast, `$(pub)? $ident:ident` is ambiguous, as `pub` denotes a valid identifier.
+```rust,compile_fail
 macro_rules! pub_ident {
     ($(pub)? $ident:ident) => ();
 }

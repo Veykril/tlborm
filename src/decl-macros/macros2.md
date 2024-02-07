@@ -13,7 +13,8 @@ Nothing described here is final or complete, and may be subject to change.
 
 We'll do a comparison between the `macro` and `macro_rules` syntax for two macros we have implemented in previous chapters:
 
-```rust
+```rust,ignore
+# // This code block marked `ignore` because mdbook can't handle `#![feature(...)]`.
 #![feature(decl_macro)]
 
 macro_rules! replace_expr_ {
@@ -60,7 +61,8 @@ Unlike `macro_rules` which have [mixed site hygiene], `macro` have definition si
 
 As such the following compiles with a `macro_rules` macro, but fails with a `macro` definition:
 
-```rust
+```rust,ignore
+# // This code block marked `ignore` because mdbook can't handle `#![feature(...)]`.
 #![feature(decl_macro)]
 // try uncommenting the following line, and commenting out the line right after
 

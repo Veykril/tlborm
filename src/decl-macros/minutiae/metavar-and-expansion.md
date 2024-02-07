@@ -42,7 +42,7 @@ The parser also does not perform any kind of lookahead.
 That means if the compiler cannot unambiguously determine how to parse the macro invocation one token at a time, it will abort with an ambiguity error.
 A simple example that triggers this:
 
-```rust
+```rust,compile_fail
 macro_rules! ambiguity {
     ($($i:ident)* $i2:ident) => { };
 }
