@@ -220,7 +220,7 @@ repeat_two!( a b c d e f, u v w x y z );
 
 But this does not:
 
-```rust
+```rust,compile_fail
 # macro_rules! repeat_two {
 #     ($($i:ident)*, $($i2:ident)*) => {
 #         $( let $i: (); let $i2: (); )*
@@ -232,7 +232,7 @@ repeat_two!( a b c d e f, x y z );
 
 failing with the following error
 
-```
+```text
 error: meta-variable `i` repeats 6 times, but `i2` repeats 3 times
  --> src/main.rs:6:10
   |

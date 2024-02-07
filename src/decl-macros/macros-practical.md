@@ -374,7 +374,7 @@ Success!
 Now, let's copy & paste this into the macro expansion, and replace the expanded code with an invocation.
 This gives us:
 
-```rust
+```rust,compile_fail
 macro_rules! recurrence {
     ( a[n]: $sty:ty = $($inits:expr),+ , ... , $recur:expr ) => {
         {
@@ -489,7 +489,7 @@ Theoretically, this *should* work as desired, but currently doesn't.
 Thankfully, the fix is relatively simple: we remove the comma from the syntax.
 To keep things balanced, we'll remove *both* commas around `...`:
 
-```rust
+```rust,compile_fail
 macro_rules! recurrence {
     ( a[n]: $sty:ty = $($inits:expr),+ ... $recur:expr ) => {
 //                                     ^~~ changed
@@ -866,7 +866,7 @@ macro_rules! recurrence {
 
 With that done, we can now substitute the last thing: the `recur` expression.
 
-```rust
+```rust,compile_fail
 # macro_rules! count_exprs {
 #     () => (0);
 #     ($head:expr $(, $tail:expr)*) => (1 + count_exprs!($($tail),*));
