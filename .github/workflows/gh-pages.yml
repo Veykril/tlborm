@@ -1,6 +1,7 @@
 name: github pages
 
 on:
+  pull_request:
   push:
     branches:
       - master
@@ -9,14 +10,19 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Clone repository
+        uses: actions/checkout@v3
 
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v1
         with:
           mdbook-version: 'latest'
 
-      - run: mdbook build
+      - name: Build
+        run: mdbook build
+
+      - name: Test
+        run: mdbook test
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
@@ -26,3 +32,5 @@ jobs:
           force_orphan: true
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
+        # Only deploy on a push to master, not on a pull request.
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == 'Veykril/tlborm'
