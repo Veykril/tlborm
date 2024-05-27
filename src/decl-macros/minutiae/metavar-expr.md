@@ -10,10 +10,10 @@ As mentioned in the [`methodical introduction`](../macros-methodical.md), Rust h
 This chapter will introduce them more in-depth together with usage examples.
 
 - [`$$`](#dollar-dollar-)
-- [`${count(ident, depth)}`](#countident-depth)
+- [`${count($ident, depth)}`](#countident-depth)
 - [`${index(depth)}`](#indexdepth)
 - [`${length(depth)}`](#lengthdepth)
-- [`${ignore(ident)}`](#ignoreident)
+- [`${ignore($ident)}`](#ignoreident)
 
 ## Dollar Dollar (`$$`)
 
@@ -58,15 +58,15 @@ bar!();
 [^tt-$]: Before `$$` occurs, users must resort to a tricky and not so well-known hack to declare nested macros with repetitions
          [via using `$tt` like this](https://play.rust-lang.org/?version=nightly&mode=debug&edition=2021&gist=9ce18fc79ce17c77d20e74f3c46ee13c).
 
-## `count(ident, depth)`
+## `count($ident, depth)`
 
 The `count` metavariable expression expands to the repetition count of the metavariable `$ident` up to the given repetition depth.
 
-- The `ident` argument must be a declared metavariable in the scope of the rule.
+- The `$ident` argument must be a declared metavariable in the scope of the rule.
 - The `depth` argument must be an integer literal of value less or equal to the maximum repetition depth that the `$ident` metavariable appears in.
 - The expression expands to an unsuffixed integer literal token.
 
-The `count(ident)` expression defaults `depth` to the maximum valid depth, making it count the total repetitions for the given metavariable.
+The `count($ident)` expression defaults `depth` to the maximum valid depth, making it count the total repetitions for the given metavariable.
 
 ```rust,ignore
 # // This code block marked `ignore` because mdbook can't handle `#![feature(...)]`.
@@ -74,9 +74,9 @@ The `count(ident)` expression defaults `depth` to the maximum valid depth, makin
 
 macro_rules! foo {
     ( $( $outer:ident ( $( $inner:ident ),* ) ; )* ) => {
-        println!("count(outer, 0): $outer repeats {} times", ${count(outer)});
-        println!("count(inner, 0): The $inner repetition repeats {} times in the outer repetition", ${count(inner, 0)});
-        println!("count(inner, 1): $inner repeats {} times in the inner repetitions", ${count(inner, 1)});
+        println!("count(outer, 0): $outer repeats {} times", ${count($outer)});
+        println!("count(inner, 0): The $inner repetition repeats {} times in the outer repetition", ${count($inner, 0)});
+        println!("count(inner, 1): $inner repeats {} times in the inner repetitions", ${count($inner, 1)});
     };
 }
 
@@ -164,11 +164,11 @@ fn main() {
 }
 ```
 
-## `ignore(ident)`
+## `ignore($ident)`
 
-The `ignore(ident)` metavariable expression expands to nothing, making it possible to expand something as often as a metavariable repeats without expanding the metavariable.
+The `ignore($ident)` metavariable expression expands to nothing, making it possible to expand something as often as a metavariable repeats without expanding the metavariable.
 
-- The `ident` argument must be a declared metavariable in the scope of the rule.
+- The `$ident` argument must be a declared metavariable in the scope of the rule.
 
 ```rust,ignore
 # // This code block marked `ignore` because mdbook can't handle `#![feature(...)]`.
@@ -181,7 +181,7 @@ macro_rules! repetition_tuples {
                 (
                     ${index()},
                     ${index(1)}
-                    ${ignore(inner)} // without this metavariable expression, compilation would fail
+                    ${ignore($inner)} // without this metavariable expression, compilation would fail
                 ),
             )*
         )*)
