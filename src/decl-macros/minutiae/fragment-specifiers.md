@@ -41,7 +41,7 @@ blocks! {
 
 ## `expr`
 
-The `expr` fragment matches any kind of [expression](https://doc.rust-lang.org/reference/expressions.html) (Rust has a lot of them, given it *is* an expression orientated language).
+The `expr` fragment matches any kind of [expression](https://doc.rust-lang.org/reference/expressions.html) (Rust has a lot of them, given it *is* an expression-oriented language).
 
 ```rust
 macro_rules! expressions {
