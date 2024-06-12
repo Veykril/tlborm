@@ -32,20 +32,23 @@ So, with all that having been said, let's get started.
 ## Construction
 
 Usually, when working on a new `macro_rules!` macro, the first thing I do is decide what the invocation should look like.
-In this specific case, my first attempt looked like this:
+In this specific case, my second* attempt looked like this:
 
 ```rust,ignore
-let fib = recurrence![a[n] = 0, 1, ..., a[n-2] + a[n-1]];
+let fib = recurrence![a[n] = 0, 1 => a[n-2] + a[n-1]];
 
 for e in fib.take(10) { println!("{}", e) }
 ```
+
+> __\*__ It may be preferable to use  '...' instead of '=>' for syntax like this and older versions of this book 
+> certainly did just that, but there's a small problem with doing so that we'll discuss later on. Stick with '=>' for now.
 
 From that, we can take a stab at how the `macro_rules!` macro should be defined, even if we aren't sure of the actual expansion.
 This is useful because if you can't figure out how to parse the input syntax, then *maybe* you need to change it.
 
 ```rust,ignore
 macro_rules! recurrence {
-    ( a[n] = $($inits:expr),+ , ... , $recur:expr ) => { /* ... */ };
+    ( a[n] = $($inits:expr),+ => $recur:expr ) => { /* ... */ };
 }
 # fn main() {}
 ```
@@ -58,7 +61,7 @@ That rule says the input to the invocation must match:
 - the literal token sequence `a` `[` `n` `]` `=`,
 - a [repeating] (the `$( ... )`) sequence, using `,` as a separator, and one or more (`+`) repeats of:
     - a valid *expression* captured into the [metavariable] `inits` (`$inits:expr`)
-- the literal token sequence `,` `...` `,`,
+- the literal token sequence `,` `=>` `,`,
 - a valid *expression* captured into the [metavariable] `recur` (`$recur:expr`).
 
 [repeating]: ./macros-methodical.md#repetitions
@@ -132,7 +135,7 @@ Also, `TODO_shuffle_down_and_append` is another placeholder;
 I want something that places `next_val` on the end of the array, shuffling the rest down by one space, dropping the 0th element.
 
 ```rust,ignore
-
+    /* ...snip */
     Recurrence { mem: [0, 1], pos: 0 }
 };
 
@@ -185,11 +188,11 @@ In this case, we've added `u64`, but that's not necessarily what the user wants,
 
 ```rust
 macro_rules! recurrence {
-    ( a[n]: $sty:ty = $($inits:expr),+ , ... , $recur:expr ) => { /* ... */ };
+    ( a[n]: $sty:ty = $($inits:expr),+ => $recur:expr ) => { /* ... */ };
 }
 
 /*
-let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-2] + a[n-1]];
+let fib = recurrence![a[n]: u64 = 0, 1 => a[n-2] + a[n-1]];
 
 for e in fib.take(10) { println!("{}", e) }
 */
@@ -273,12 +276,12 @@ The working code thus far now looks like this:
 
 ```rust
 macro_rules! recurrence {
-    ( a[n]: $sty:ty = $($inits:expr),+ , ... , $recur:expr ) => { /* ... */ };
+    ( a[n]: $sty:ty = $($inits:expr),+ => $recur:expr ) => { /* ... */ };
 }
 
 fn main() {
     /*
-    let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-2] + a[n-1]];
+    let fib = recurrence![a[n]: u64 = 0, 1 => a[n-2] + a[n-1]];
 
     for e in fib.take(10) { println!("{}", e) }
     */
@@ -376,7 +379,7 @@ This gives us:
 
 ```rust,compile_fail
 macro_rules! recurrence {
-    ( a[n]: $sty:ty = $($inits:expr),+ , ... , $recur:expr ) => {
+    ( a[n]: $sty:ty = $($inits:expr),+ => $recur:expr ) => {
         {
             /*
                 What follows here is *literally* the code from before,
@@ -447,90 +450,52 @@ macro_rules! recurrence {
 }
 
 fn main() {
-    let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-2] + a[n-1]];
+    let fib = recurrence![a[n]: u64 = 0, 1 => a[n-2] + a[n-1]];
 
     for e in fib.take(10) { println!("{}", e) }
 }
 ```
 
 Obviously, we aren't *using* the metavariables yet, but we can change that fairly easily.
-However, if we try to compile this, `rustc` aborts, telling us:
 
-```text
-error: local ambiguity: multiple parsing options: built-in NTs expr ('inits') or 1 other option.
-  --> src/main.rs:75:45
-   |
-75 |     let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-2] + a[n-1]];
-   |
-```
-
-Here, we've run into a limitation of the `macro_rules` system.
-The problem is that second comma.
-When it sees it during expansion, `macro_rules` can't decide if it's supposed to parse *another* expression for `inits`, or `...`.
-Sadly, it isn't quite clever enough to realise that `...` isn't a valid expression, so it gives up.
-Theoretically, this *should* work as desired, but currently doesn't.
-
-> **Aside**: I *did* fib a little about how our rule would be interpreted by the macro system.
-> In general, it *should* work as described, but doesn't in this case.
-> The `macro_rules` machinery, as it stands, has its foibles, and its worthwhile remembering that on occasion, you'll need to contort a little to get it to work.
+> **Aside**: I said we'd go over it before, so let's briefly review why we're using '=>' instead of '...' in our macro. 
+> 
+> If we used '...' for our input pattern matcher ala
+> ```rust,ignore
+> macro_rules! recurrence {
+>     ( a[n] = $($inits:expr),+, ..., $recur:expr ) => { /* ... */ };
+>     //                         ^^^~~ changed
+> }
+> ```
+> It _should_ allow us to make calls to `recurrence` that look like 
+> ```rust,ignore
+> let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-2] + a[n-1]];
+> ```
+> but we'd receive the following error if we tried to compile:
+> ```text
+> error: local ambiguity: multiple parsing options: built-in NTs expr ('inits') or 1 other option.
+> --> src/main.rs:75:45
+> |
+> 75 |     let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-2] + a[n-1]];
+> |
+> ```
+> In general, it should work to have pattern matching like this, but doesn't in this case.
+> The `macro_rules` machinery, as it stands, has its foibles, and its worthwhile remembering that on occasion, 
+> you'll need to contort a little to get it to work.
 >
 > In this *particular* case, there are two issues.
 > First, the macro system doesn't know what does and does not constitute the various grammar elements (*e.g.* an expression); that's the parser's job.
-> As such, it doesn't know that `...` isn't an expression.
+> As such, it doesn't know that the `...` in the above definition isn't an expression.
 > Secondly, it has no way of trying to capture a compound grammar element (like an expression) without 100% committing to that capture.
 >
 > In other words, it can ask the parser to try and parse some input as an expression, but the parser will respond to any problems by aborting.
-> The only way the macro system can currently deal with this is to just try to forbid situations where this could be a problem.
+> The only way the macro system can currently deal with this is to just try to forbid situations where this could be a problem. 
+> Give it a shot now and play around with it to get a better idea of what we mean.
 >
 > On the bright side, this is a state of affairs that exactly *no one* is enthusiastic about.
 > The `macro` keyword has already been reserved for a more rigorously-defined future [macro system](https://github.com/rust-lang/rust/issues/39412).
 > Until then, needs must.
 
-Thankfully, the fix is relatively simple: we remove the comma from the syntax.
-To keep things balanced, we'll remove *both* commas around `...`:
-
-```rust,compile_fail
-macro_rules! recurrence {
-    ( a[n]: $sty:ty = $($inits:expr),+ ... $recur:expr ) => {
-//                                     ^~~ changed
-        /* ... */
-#         // Cheat :D
-#         (vec![0u64, 1, 2, 3, 5, 8, 13, 21, 34]).into_iter()
-    };
-}
-
-fn main() {
-    let fib = recurrence![a[n]: u64 = 0, 1 ... a[n-2] + a[n-1]];
-//                                         ^~~ changed
-
-    for e in fib.take(10) { println!("{}", e) }
-}
-```
-
-Success! ... or so we thought.
-Turns out this is being rejected by the compiler nowadays, while it was fine back when this was written.
-The reason for this is that the compiler now recognizes the `...` as a token, and as we know we may only use `=>`, `,` or `;` after an expression fragment.
-So unfortunately we are now out of luck as our dreamed up syntax will not work out this way, so let us just choose one that looks the most befitting that we are allowed to use instead, I'd say replacing `,` with `;` works.
-
-```rust
-macro_rules! recurrence {
-    ( a[n]: $sty:ty = $($inits:expr),+ ; ... ; $recur:expr ) => {
-//                                     ^~~~~~^ changed
-        /* ... */
-#         // Cheat :D
-#         (vec![0u64, 1, 2, 3, 5, 8, 13, 21, 34]).into_iter()
-    };
-}
-
-fn main() {
-    let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-2] + a[n-1]];
-//                                        ^~~~~^ changed
-
-    for e in fib.take(10) { println!("{}", e) }
-}
-```
-
-Success! But for real this time.
 
 
 ### Substitution
@@ -540,7 +505,7 @@ So, let's go through and fix the `u64`s:
 
 ```rust
 macro_rules! recurrence {
-    ( a[n]: $sty:ty = $($inits:expr),+ ; ... ; $recur:expr ) => {
+    ( a[n]: $sty:ty = $($inits:expr),+ => $recur:expr ) => {
         {
             use std::ops::Index;
 
@@ -582,29 +547,26 @@ macro_rules! recurrence {
                 fn next(&mut self) -> Option<$sty> {
 //                                           ^~~~ changed
                     /* ... */
-#                     if self.pos < 2 {
-#                         let next_val = self.mem[self.pos];
-#                         self.pos += 1;
-#                         Some(next_val)
-#                     } else {
-#                         let next_val = {
-#                             let n = self.pos;
-#                             let a = IndexOffset { slice: &self.mem, offset: n };
-#                             (a[n-2] + a[n-1])
-#                         };
-#
-#                         {
-#                             use std::mem::swap;
-#
-#                             let mut swap_tmp = next_val;
-#                             for i in (0..2).rev() {
-#                                 swap(&mut swap_tmp, &mut self.mem[i]);
-#                             }
-#                         }
-#
-#                         self.pos += 1;
-#                         Some(next_val)
-#                     }
+                    if self.pos < 2 {
+                        let next_val = self.mem[self.pos];
+                        self.pos += 1;
+                        Some(next_val)
+                    } else {
+                        let next_val = {
+                            let n = self.pos;
+                            let a = IndexOffset { slice: &self.mem, offset: n };
+                            (a[n-2] + a[n-1])
+                        };
+                        {
+                            use std::mem::swap;
+                            let mut swap_tmp = next_val;
+                            for i in (0..2).rev() {
+                                swap(&mut swap_tmp, &mut self.mem[i]);
+                            }
+                        }
+                        self.pos += 1;
+                        Some(next_val)
+                    }
                 }
             }
 
@@ -614,7 +576,7 @@ macro_rules! recurrence {
 }
 
 fn main() {
-    let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-2] + a[n-1]];
+    let fib = recurrence![a[n]: u64 = 0, 1 => a[n-2] + a[n-1]];
 
     for e in fib.take(10) { println!("{}", e) }
 }
@@ -858,7 +820,7 @@ macro_rules! recurrence {
 /* ... */
 #
 # fn main() {
-#     let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-2] + a[n-1]];
+#     let fib = recurrence![a[n]: u64 = 0, 1 => a[n-2] + a[n-1]];
 #
 #     for e in fib.take(10) { println!("{}", e) }
 # }
@@ -934,7 +896,7 @@ With that done, we can now substitute the last thing: the `recur` expression.
 #     };
 # }
 # fn main() {
-#     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-2] + a[n-1]];
+#     let fib = recurrence![a[n]: u64 = 1, 1 => a[n-2] + a[n-1]];
 #     for e in fib.take(10) { println!("{}", e) }
 # }
 ```
@@ -945,25 +907,25 @@ And, when we compile our finished `macro_rules!` macro...
 error[E0425]: cannot find value `a` in this scope
   --> src/main.rs:68:50
    |
-68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-2] + a[n-1]];
+68 |     let fib = recurrence![a[n]: u64 = 1, 1 => a[n-2] + a[n-1]];
    |                                                  ^ not found in this scope
 
 error[E0425]: cannot find value `n` in this scope
   --> src/main.rs:68:52
    |
-68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-2] + a[n-1]];
+68 |     let fib = recurrence![a[n]: u64 = 1, 1 => a[n-2] + a[n-1]];
    |                                                    ^ not found in this scope
 
 error[E0425]: cannot find value `a` in this scope
   --> src/main.rs:68:59
    |
-68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-2] + a[n-1]];
+68 |     let fib = recurrence![a[n]: u64 = 1, 1 => a[n-2] + a[n-1]];
    |                                                           ^ not found in this scope
 
 error[E0425]: cannot find value `n` in this scope
   --> src/main.rs:68:61
    |
-68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-2] + a[n-1]];
+68 |     let fib = recurrence![a[n]: u64 = 1, 1 => a[n-2] + a[n-1]];
    |                                                             ^ not found in this scope
 ```
 
@@ -1211,7 +1173,7 @@ macro_rules! recurrence {
 }
 
 fn main() {
-    let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-2] + a[n-1]];
+    let fib = recurrence![a[n]: u64 = 0, 1 => a[n-2] + a[n-1]];
 
     for e in fib.take(10) { println!("{}", e) }
 }
@@ -1297,7 +1259,7 @@ Now, let's try with a different sequence.
 # }
 #
 # fn main() {
-for e in recurrence!(f[i]: f64 = 1.0; ...; f[i-1] * i as f64).take(10) {
+for e in recurrence!(f[i]: f64 = 1.0 => f[i-1] * i as f64).take(10) {
     println!("{}", e)
 }
 # }
