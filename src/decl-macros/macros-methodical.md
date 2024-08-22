@@ -107,7 +107,7 @@ macro_rules! one_expression {
 ```
 
 These metavariables leverage the Rust compiler's parser, ensuring that they are always "correct".
-An `expr` metavariables will *always* capture a complete, valid expression for the version of Rust being compiled.
+An `expr` metavariable will *always* capture a complete, valid expression for the version of Rust being compiled.
 
 You can mix literal token trees and metavariables, within limits (explained in [Metavariables and Expansion Redux]).
 
