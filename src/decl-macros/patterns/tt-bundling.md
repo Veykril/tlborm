@@ -42,7 +42,7 @@ fn main() {
             be self-referential, so let us make it return
             some ninety-one!
         ),
-        Some(91)
+        Some(87)
     );
 }
 ```
