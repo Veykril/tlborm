@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v1
         with:
-          mdbook-version: 'latest'
+          mdbook-version: "latest"
 
       - name: Build
         run: mdbook build
@@ -30,7 +30,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./book/html
           force_orphan: true
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
-        # Only deploy on a push to master, not on a pull request.
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == 'Veykril/tlborm'
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
+        # Only deploy on a push to main, not on a pull request.
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'Veykril/tlborm'
