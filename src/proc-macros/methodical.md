@@ -16,7 +16,7 @@ A `proc-macro` type crate implicitly links to the compiler-provided [proc_macro]
 The two most important types exposed by the crate are the [`TokenStream`](https://doc.rust-lang.org/proc_macro/struct.TokenStream.html), which are the proc-macro variant of the already familiar token trees as well as the [`Span`](https://doc.rust-lang.org/proc_macro/struct.Span.html), which describes a part of source code used primarily for error reporting and hygiene. See the [Hygiene and Spans](./hygiene.md) chapter for more information.
 
 As proc-macros therefore are functions living in a crate, they can be addressed as all the other items in a Rust project.
-All thats required to add the crate to the dependency graph of a project and bring the desired item into scope.
+All that is required is to add the crate to the dependency graph of a project and bring the desired item into scope.
 
 > **Note**: Procedural macros invocations still run at the same stage in the compiler expansion-wise as declarative macros, just that they are standalone Rust programs that the compiler compiles, runs, and finally either replaces or appends to.
 
