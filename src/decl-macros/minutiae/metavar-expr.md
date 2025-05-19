@@ -9,11 +9,12 @@
 As mentioned in the [`methodical introduction`](../macros-methodical.md), Rust has special expressions that can be used by macro transcribers to obtain information about metavariables that are otherwise difficult or even impossible to get.
 This chapter will introduce them more in-depth together with usage examples.
 
-- [`$$`](#dollar-dollar-)
-- [`${count($ident, depth)}`](#countident-depth)
-- [`${index(depth)}`](#indexdepth)
-- [`${length(depth)}`](#lengthdepth)
-- [`${ignore($ident)}`](#ignoreident)
+- [Metavariable Expressions](#metavariable-expressions)
+  - [Dollar Dollar (`$$`)](#dollar-dollar-)
+  - [`count($ident, depth)`](#countident-depth)
+  - [`index(depth)`](#indexdepth)
+  - [`length(depth)`](#lengthdepth)
+  - [`ignore($ident)`](#ignoreident)
 
 ## Dollar Dollar (`$$`)
 
@@ -55,7 +56,7 @@ bar!();
 # fn main() {}
 ```
 
-[^tt-$]: Before `$$` occurs, users must resort to a tricky and not so well-known hack to declare nested macros with repetitions
+[^tt-$]: Before `$$` was implemented, users had to resort to a tricky and not so well-known hack to declare nested macros with repetitions
          [via using `$tt` like this](https://play.rust-lang.org/?version=nightly&mode=debug&edition=2021&gist=9ce18fc79ce17c77d20e74f3c46ee13c).
 
 ## `count($ident, depth)`
