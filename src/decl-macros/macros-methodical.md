@@ -257,8 +257,8 @@ The following expressions are available with `ident` being the name of a bound m
 - `${count(ident, depth)}`: The number of times `$ident` repeats in the repetition at `depth`.
 - `${index()}`: The current repetition index of the inner-most repetition. This is equivalent to `${index(0)}`.
 - `${index(depth)}`: The current index of the repetition at `depth`, counting outwards.
-- `${length()}`: The number of times the inner-most repetition will repeat for. This is equivalent to `${length(0)}`.
-- `${length(depth)}`: The number of times the repetition at `depth` will repeat for, counting outwards.
+- `${len()}`: The number of times the inner-most repetition will repeat for. This is equivalent to `${len(0)}`.
+- `${len(depth)}`: The number of times the repetition at `depth` will repeat for, counting outwards.
 - `${ignore(ident)}`: Binds `$ident` for repetition, while expanding to nothing.
 - `$$`:	Expands to a single `$`, effectively escaping the `$` token so it won't be transcribed.
 

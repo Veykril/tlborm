@@ -13,7 +13,7 @@ This chapter will introduce them more in-depth together with usage examples.
   - [Dollar Dollar (`$$`)](#dollar-dollar-)
   - [`count($ident, depth)`](#countident-depth)
   - [`index(depth)`](#indexdepth)
-  - [`length(depth)`](#lengthdepth)
+  - [`len(depth)`](#lengthdepth)
   - [`ignore($ident)`](#ignoreident)
 
 ## Dollar Dollar (`$$`)
@@ -128,14 +128,14 @@ fn main() {
 ```
 
 
-## `length(depth)`
+## `len(depth)`
 
-The `length(depth)` metavariable expression expands to the iteration count of the repetition at the given depth.
+The `len(depth)` metavariable expression expands to the iteration count of the repetition at the given depth.
 
 - The `depth` argument targets the repetition at `depth` counting outwards from the inner-most repetition where the expression is invoked.
 - The expression expands to an unsuffixed integer literal token.
 
-The `length()` expression defaults `depth` to `0`, making it a shorthand for `length(0)`.
+The `len()` expression defaults `depth` to `0`, making it a shorthand for `len(0)`.
 
 
 ```rust,ignore
@@ -148,8 +148,8 @@ macro_rules! lets_count {
             $(
                 println!(
                     "'{}' in inner iteration {}/{} with '{}' in outer iteration {}/{} ",
-                    stringify!($inner), ${index()}, ${length()},
-                    stringify!($outer), ${index(1)}, ${length(1)},
+                    stringify!($inner), ${index()}, ${len()},
+                    stringify!($outer), ${index(1)}, ${len(1)},
                 );
             )*
         )*
