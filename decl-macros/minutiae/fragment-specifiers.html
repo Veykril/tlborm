@@ -1,0 +1,522 @@
+<!DOCTYPE HTML>
+<html lang="en" class="ayu sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Fragment Specifiers - The Little Book of Rust Macros</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../res/rust-syntax-bg-highlight.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "ayu";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Little Book of Rust Macros</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/veykril/tlborm/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="fragment-specifiers"><a class="header" href="#fragment-specifiers">Fragment Specifiers</a></h1>
+<p>As mentioned in the <a href="../macros-methodical.html"><code>methodical introduction</code></a> chapter, Rust, as of 1.60, has 14 fragment specifiers.
+This section will go a bit more into detail for some of them and shows a few example inputs of what each matcher matches.</p>
+<blockquote>
+<p><strong>Note</strong>: Capturing with anything but the <code>ident</code>, <code>lifetime</code> and <code>tt</code> fragments will render the captured AST opaque, making it impossible to further match it with other fragment specifiers in future macro invocations.</p>
+</blockquote>
+<ul>
+<li><a href="#block"><code>block</code></a></li>
+<li><a href="#expr"><code>expr</code></a></li>
+<li><a href="#ident"><code>ident</code></a></li>
+<li><a href="#item"><code>item</code></a></li>
+<li><a href="#lifetime"><code>lifetime</code></a></li>
+<li><a href="#literal"><code>literal</code></a></li>
+<li><a href="#meta"><code>meta</code></a></li>
+<li><a href="#pat"><code>pat</code></a></li>
+<li><a href="#pat_param"><code>pat_param</code></a></li>
+<li><a href="#path"><code>path</code></a></li>
+<li><a href="#stmt"><code>stmt</code></a></li>
+<li><a href="#tt"><code>tt</code></a></li>
+<li><a href="#ty"><code>ty</code></a></li>
+<li><a href="#vis"><code>vis</code></a></li>
+</ul>
+<h2 id="block"><a class="header" href="#block"><code>block</code></a></h2>
+<p>The <code>block</code> fragment solely matches a <a href="https://doc.rust-lang.org/reference/expressions/block-expr.html">block expression</a>, which consists of an opening <code>{</code> brace, followed by any number of statements and finally followed by a closing <code>}</code> brace.</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! blocks {
+    ($($block:block)*) =&gt; ();
+}
+
+blocks! {
+    {}
+    {
+        let zig;
+    }
+    { 2 }
+}
+<span class="boring">fn main() {}</span></code></pre></pre>
+<h2 id="expr"><a class="header" href="#expr"><code>expr</code></a></h2>
+<p>The <code>expr</code> fragment matches any kind of <a href="https://doc.rust-lang.org/reference/expressions.html">expression</a> (Rust has a lot of them, given it <em>is</em> an expression-oriented language).</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! expressions {
+    ($($expr:expr)*) =&gt; ();
+}
+
+expressions! {
+    "literal"
+    funcall()
+    future.await
+    break 'foo bar
+}
+<span class="boring">fn main() {}</span></code></pre></pre>
+<h2 id="ident"><a class="header" href="#ident"><code>ident</code></a></h2>
+<p>The <code>ident</code> fragment matches an <a href="https://doc.rust-lang.org/reference/identifiers.html">identifier</a> or <em>keyword</em>.</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! idents {
+    ($($ident:ident)*) =&gt; ();
+}
+
+idents! {
+    // _ &lt;- This is not an ident, it is a pattern
+    foo
+    async
+    O_________O
+    _____O_____
+}
+<span class="boring">fn main() {}</span></code></pre></pre>
+<h2 id="item"><a class="header" href="#item"><code>item</code></a></h2>
+<p>The <code>item</code> fragment simply matches any of Rust's <a href="https://doc.rust-lang.org/reference/items.html">item</a> <em>definitions</em>, not identifiers that refer to items.
+This includes visibility modifiers.</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! items {
+    ($($item:item)*) =&gt; ();
+}
+
+items! {
+    struct Foo;
+    enum Bar {
+        Baz
+    }
+    impl Foo {}
+    pub use crate::foo;
+    /*...*/
+}
+<span class="boring">fn main() {}</span></code></pre></pre>
+<h2 id="lifetime"><a class="header" href="#lifetime"><code>lifetime</code></a></h2>
+<p>The <code>lifetime</code> fragment matches a <a href="https://doc.rust-lang.org/reference/tokens.html#lifetimes-and-loop-labels">lifetime or label</a>.
+It's quite similar to <a href="#ident"><code>ident</code></a> but with a prepended <code>'</code>.</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! lifetimes {
+    ($($lifetime:lifetime)*) =&gt; ();
+}
+
+lifetimes! {
+    'static
+    'shiv
+    '_
+}
+<span class="boring">fn main() {}</span></code></pre></pre>
+<h2 id="literal"><a class="header" href="#literal"><code>literal</code></a></h2>
+<p>The <code>literal</code> fragment matches any <a href="https://doc.rust-lang.org/reference/expressions/literal-expr.html">literal expression</a>.</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! literals {
+    ($($literal:literal)*) =&gt; ();
+}
+
+literals! {
+    -1
+    "hello world"
+    2.3
+    b'b'
+    true
+}
+<span class="boring">fn main() {}</span></code></pre></pre>
+<h2 id="meta"><a class="header" href="#meta"><code>meta</code></a></h2>
+<p>The <code>meta</code> fragment matches the contents of an <a href="https://doc.rust-lang.org/reference/attributes.html">attribute</a>.
+That is, it will match a simple path, one without generic arguments followed by a delimited token tree or an <code>=</code> followed by a literal expression.</p>
+<blockquote>
+<p><strong>Note</strong>: You will usually see this fragment being used in a matcher like <code>#[$meta:meta]</code> or <code>#![$meta:meta]</code> to actually capture an attribute.</p>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! metas {
+    ($($meta:meta)*) =&gt; ();
+}
+
+metas! {
+    ASimplePath
+    super::man
+    path = "home"
+    foo(bar)
+}
+<span class="boring">fn main() {}</span></code></pre></pre>
+<blockquote>
+<p><strong>Doc-Comment Fact</strong>: Doc-Comments like <code>/// ...</code> and <code>//! ...</code> are actually syntax sugar for attributes! They desugar to <code>#[doc="..."]</code> and <code>#![doc="..."]</code> respectively, meaning you can match on them like with attributes!</p>
+</blockquote>
+<h2 id="pat"><a class="header" href="#pat"><code>pat</code></a></h2>
+<p>The <code>pat</code> fragment matches any kind of <a href="https://doc.rust-lang.org/reference/patterns.html">pattern</a>, including or-patterns starting with the 2021 edition.</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! patterns {
+    ($($pat:pat)*) =&gt; ();
+}
+
+patterns! {
+    "literal"
+    _
+    0..5
+    ref mut PatternsAreNice
+    0 | 1 | 2 | 3
+}
+<span class="boring">fn main() {}</span></code></pre></pre>
+<h2 id="pat_param"><a class="header" href="#pat_param"><code>pat_param</code></a></h2>
+<p>In the 2021 edition, the behavior for the <code>pat</code> fragment type has been changed to allow or-patterns to be parsed.
+This changes the follow list of the fragment, preventing such fragment from being followed by a <code>|</code> token.
+To avoid this problem or to get the old fragment behavior back one can use the <code>pat_param</code> fragment which allows <code>|</code> to follow it, as it disallows top level or-patterns.</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! patterns {
+    ($( $( $pat:pat_param )|+ )*) =&gt; ();
+}
+
+patterns! {
+    "literal"
+    _
+    0..5
+    ref mut PatternsAreNice
+    0 | 1 | 2 | 3
+}
+<span class="boring">fn main() {}</span></code></pre></pre>
+<h2 id="path"><a class="header" href="#path"><code>path</code></a></h2>
+<p>The <code>path</code> fragment matches a so called <a href="https://doc.rust-lang.org/reference/paths.html#paths-in-types">TypePath</a> style path.
+This includes the function style trait forms, <code>Fn() -&gt; ()</code>.</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! paths {
+    ($($path:path)*) =&gt; ();
+}
+
+paths! {
+    ASimplePath
+    ::A::B::C::D
+    G::&lt;eneri&gt;::C
+    FnMut(u32) -&gt; ()
+}
+<span class="boring">fn main() {}</span></code></pre></pre>
+<h2 id="stmt"><a class="header" href="#stmt"><code>stmt</code></a></h2>
+<p>The <code>statement</code> fragment solely matches a <a href="https://doc.rust-lang.org/reference/statements.html">statement</a> without its trailing semicolon, unless it is an item statement that requires one (such as a Unit-Struct).</p>
+<p>Let's use a simple example to show exactly what is meant with this.
+We use a macro that merely emits what it captures:</p>
+<pre><code class="language-rust ignore">macro_rules! statements {
+    ($($stmt:stmt)*) =&gt; ($($stmt)*);
+}
+
+fn main() {
+    statements! {
+        struct Foo;
+        fn foo() {}
+        let zig = 3
+        let zig = 3;
+        3
+        3;
+        if true {} else {}
+        {}
+    }
+}
+</code></pre>
+<p>Expanding this, via the <a href="https://play.rust-lang.org/">playground</a> for example<sup class="footnote-reference" id="fr-debugging-1"><a href="#footnote-debugging">1</a></sup>, gives us roughly the following:</p>
+<pre><code class="language-rust ignore">/* snip */
+
+fn main() {
+    struct Foo;
+    fn foo() { }
+    let zig = 3;
+    let zig = 3;
+    ;
+    3;
+    3;
+    ;
+    if true { } else { }
+    { }
+}</code></pre>
+<p>From this we can tell a few things.</p>
+<p>The first you should be able to see immediately is that while the <code>stmt</code> fragment doesn't capture trailing semicolons, it still emits them when required, even if the statement is already followed by one.
+The simple reason for that is that semicolons on their own are already valid statements which the fragment captures eagerly.
+So our macro isn't capturing 8 times, but 10!
+This can be important when doing multiples repetitions and expanding these in one repetition expansion, as the repetition numbers have to match in those cases.</p>
+<p>Another thing you should be able to notice here is that the trailing semicolon of the <code>struct Foo;</code> item statement is being matched, otherwise we would've seen an extra one like in the other cases.
+This makes sense as we already said, that for item statements that require one, the trailing semicolon will be matched with.</p>
+<p>A last observation is that expressions get emitted back with a trailing semicolon, unless the expression solely consists of only a block expression or control flow expression.</p>
+<p>The fine details of what was just mentioned here can be looked up in the <a href="https://doc.rust-lang.org/reference/statements.html">reference</a>.</p>
+<p>Fortunately, these fine details here are usually not of importance whatsoever, with the small exception that was mentioned earlier in regards to repetitions which by itself shouldn't be a common problem to run into.</p>
+<h2 id="tt"><a class="header" href="#tt"><code>tt</code></a></h2>
+<p>The <code>tt</code> fragment matches a TokenTree.
+If you need a refresher on what exactly a TokenTree was you may want to revisit the <a href="../../syntax-extensions/source-analysis.html#token-trees">TokenTree chapter</a> of this book.
+The <code>tt</code> fragment is one of the most powerful fragments, as it can match nearly anything while still allowing you to inspect the contents of it at a later state in the macro.</p>
+<p>This allows one to make use of very powerful patterns like the <a href="../patterns/tt-muncher.html">tt-muncher</a> or the <a href="../patterns/push-down-acc.html">push-down-accumulator</a>.</p>
+<h2 id="ty"><a class="header" href="#ty"><code>ty</code></a></h2>
+<p>The <code>ty</code> fragment matches any kind of <a href="https://doc.rust-lang.org/reference/types.html#type-expressions">type expression</a>.</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! types {
+    ($($type:ty)*) =&gt; ();
+}
+
+types! {
+    foo::bar
+    bool
+    [u8]
+    impl IntoIterator&lt;Item = u32&gt;
+}
+<span class="boring">fn main() {}</span></code></pre></pre>
+<h2 id="vis"><a class="header" href="#vis"><code>vis</code></a></h2>
+<p>The <code>vis</code> fragment matches a <em>possibly empty</em> <a href="https://doc.rust-lang.org/reference/visibility-and-privacy.html">Visibility qualifier</a>.</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>macro_rules! visibilities {
+    //         ∨~~Note this comma, since we cannot repeat a `vis` fragment on its own
+    ($($vis:vis,)*) =&gt; ();
+}
+
+visibilities! {
+    , // no vis is fine, due to the implicit `?`
+    pub,
+    pub(crate),
+    pub(in super),
+    pub(in some_path),
+}
+<span class="boring">}</span></code></pre></pre>
+<p>While able to match empty sequences of tokens, the fragment specifier still acts quite different from <a href="../macros-methodical.html#repetitions">optional repetitions</a> which is described in the following:</p>
+<p>If it is being matched against no left over tokens the entire macro matching fails.</p>
+<pre><pre class="playground"><code class="language-rust compile_fail edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>macro_rules! non_optional_vis {
+    ($vis:vis) =&gt; ();
+}
+non_optional_vis!();
+// ^^^^^^^^^^^^^^^^ error: missing tokens in macro arguments
+<span class="boring">}</span></code></pre></pre>
+<p><code>$vis:vis $ident:ident</code> matches fine.</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>macro_rules! vis_ident {
+    ($vis:vis $ident:ident) =&gt; ();
+}
+vis_ident!(pub foo); // this works fine
+<span class="boring">}</span></code></pre></pre>
+<p>In contrast, <code>$(pub)? $ident:ident</code> is ambiguous, as <code>pub</code> denotes a valid identifier.</p>
+<pre><pre class="playground"><code class="language-rust compile_fail edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>macro_rules! pub_ident {
+    ($(pub)? $ident:ident) =&gt; ();
+}
+pub_ident!(pub foo);
+        // ^^^ error: local ambiguity when calling macro `pub_ident`: multiple parsing options: built-in NTs ident ('ident') or 1 other option.
+<span class="boring">}</span></code></pre></pre>
+<p>Being a fragment that matches the empty token sequence also gives it a very interesting quirk in combination with <code>tt</code> fragments and recursive expansions.</p>
+<p>When matching the empty token sequence, the metavariable will still count as a capture and since it is not a <code>tt</code>, <code>ident</code> or <code>lifetime</code> fragment it will become opaque to further expansions.
+This means if this capture is passed onto another macro invocation that captures it as a <code>tt</code> you effectively end up with token tree that contains nothing!</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! it_is_opaque {
+    (()) =&gt; { "()" };
+    (($tt:tt)) =&gt; { concat!("$tt is ", stringify!($tt)) };
+    ($vis:vis ,) =&gt; { it_is_opaque!( ($vis) ); }
+}
+fn main() {
+    // this prints "$tt is ", as the recursive calls hits the second branch with
+    // an empty tt, opposed to matching with the first branch!
+    println!("{}", it_is_opaque!(,));
+}</code></pre></pre>
+<hr>
+<ol class="footnote-definition"><li id="footnote-debugging">
+<p>See the <a href="./debugging.html">debugging chapter</a> for tips on how to do this. <a href="#fr-debugging-1">↩</a></p>
+</li>
+</ol>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../decl-macros/minutiae.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../decl-macros/minutiae/metavar-and-expansion.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../decl-macros/minutiae.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../decl-macros/minutiae/metavar-and-expansion.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE HTML>
+<html lang="en" class="ayu sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Counting - The Little Book of Rust Macros</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../res/rust-syntax-bg-highlight.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "ayu";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Little Book of Rust Macros</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/veykril/tlborm/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="counting"><a class="header" href="#counting">Counting</a></h1>
+<p>What follows are several techniques for counting in <code>macro_rules!</code> macros:</p>
+<blockquote>
+<p><strong>Note</strong>: If you are just interested in the most efficient way <a href="./counting.html#bit-twiddling">look here</a></p>
+</blockquote>
+<h2 id="repetition-with-replacement"><a class="header" href="#repetition-with-replacement">Repetition with replacement</a></h2>
+<p>Counting things in a macro is a surprisingly tricky task.
+The simplest way is to use replacement with a repetition match.</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! replace_expr {
+    ($_t:tt $sub:expr) =&gt; {$sub};
+}
+
+macro_rules! count_tts {
+    ($($tts:tt)*) =&gt; {0usize $(+ replace_expr!($tts 1usize))*};
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    assert_eq!(count_tts!(0 1 2), 3);
+</span><span class="boring">}</span></code></pre></pre>
+<p>This is a fine approach for smallish numbers, but will likely <em>crash the compiler</em> with inputs of around 500 or so tokens.
+Consider that the output will look something like this:</p>
+<pre><code class="language-rust ignore">0usize + 1usize + /* ~500 `+ 1usize`s */ + 1usize</code></pre>
+<p>The compiler must parse this into an AST, which will produce what is effectively a perfectly unbalanced binary tree 500+ levels deep.</p>
+<h2 id="recursion"><a class="header" href="#recursion">Recursion</a></h2>
+<p>An older approach is to use recursion.</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! count_tts {
+    () =&gt; {0usize};
+    ($_head:tt $($tail:tt)*) =&gt; {1usize + count_tts!($($tail)*)};
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    assert_eq!(count_tts!(0 1 2), 3);
+</span><span class="boring">}</span></code></pre></pre>
+<blockquote>
+<p><strong>Note</strong>: As of <code>rustc</code> 1.2, the compiler has <em>grievous</em> performance problems when large numbers of integer literals of unknown type must undergo inference.
+We are using explicitly <code>usize</code>-typed literals here to avoid that.</p>
+<p>If this is not suitable (such as when the type must be substitutable), you can help matters by using <code>as</code> (<em>e.g.</em> <code>0 as $ty</code>, <code>1 as $ty</code>, <em>etc.</em>).</p>
+</blockquote>
+<p>This <em>works</em>, but will trivially exceed the recursion limit.
+Unlike the repetition approach, you can extend the input size by matching multiple tokens at once.</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! count_tts {
+    ($_a:tt $_b:tt $_c:tt $_d:tt $_e:tt
+     $_f:tt $_g:tt $_h:tt $_i:tt $_j:tt
+     $_k:tt $_l:tt $_m:tt $_n:tt $_o:tt
+     $_p:tt $_q:tt $_r:tt $_s:tt $_t:tt
+     $($tail:tt)*)
+        =&gt; {20usize + count_tts!($($tail)*)};
+    ($_a:tt $_b:tt $_c:tt $_d:tt $_e:tt
+     $_f:tt $_g:tt $_h:tt $_i:tt $_j:tt
+     $($tail:tt)*)
+        =&gt; {10usize + count_tts!($($tail)*)};
+    ($_a:tt $_b:tt $_c:tt $_d:tt $_e:tt
+     $($tail:tt)*)
+        =&gt; {5usize + count_tts!($($tail)*)};
+    ($_a:tt
+     $($tail:tt)*)
+        =&gt; {1usize + count_tts!($($tail)*)};
+    () =&gt; {0usize};
+}
+
+fn main() {
+    assert_eq!(700, count_tts!(
+        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
+        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
+
+        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
+        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
+
+        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
+        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
+
+        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
+        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
+
+        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
+        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
+
+        // Repetition breaks somewhere after this
+        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
+        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
+
+        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
+        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,,,,
+    ));
+}</code></pre></pre>
+<p>This particular formulation will work up to ~1,200 tokens.</p>
+<h2 id="slice-length"><a class="header" href="#slice-length">Slice length</a></h2>
+<p>A third approach is to help the compiler construct a shallow AST that won't lead to a stack overflow.
+This can be done by constructing an array literal and calling the <code>len</code> method.</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! replace_expr {
+    ($_t:tt $sub:expr) =&gt; {$sub};
+}
+
+macro_rules! count_tts {
+    ($($tts:tt)*) =&gt; {&lt;[()]&gt;::len(&amp;[$(replace_expr!($tts ())),*])};
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    assert_eq!(count_tts!(0 1 2), 3);
+</span><span class="boring">}</span></code></pre></pre>
+<p>This has been tested to work up to 10,000 tokens, and can probably go much higher.</p>
+<h2 id="array-length"><a class="header" href="#array-length">Array length</a></h2>
+<p>Another modification of the previous approach is to use const generics stabilized in Rust 1.51.
+It's only slightly slower than slice length method on 20,000 tokens and works in const contexts.</p>
+<pre><pre class="playground"><code class="language-rust edition2021">const fn count_helper&lt;const N: usize&gt;(_: [(); N]) -&gt; usize { N }
+
+macro_rules! replace_expr {
+    ($_t:tt $sub:expr) =&gt; { $sub }
+}
+
+macro_rules! count_tts {
+    ($($smth:tt)*) =&gt; {
+        count_helper([$(replace_expr!($smth ())),*])
+    }
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    assert_eq!(count_tts!(0 1 2), 3);
+</span><span class="boring">}</span></code></pre></pre>
+<h2 id="enum-counting"><a class="header" href="#enum-counting">Enum counting</a></h2>
+<p>This approach can be used where you need to count a set of mutually distinct identifiers.</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! count_idents {
+    () =&gt; {0};
+    ($last_ident:ident, $($idents:ident),* $(,)?) =&gt; {
+        {
+            #[allow(dead_code, non_camel_case_types)]
+            enum Idents { $($idents,)* $last_ident }
+            const COUNT: u32 = Idents::$last_ident as u32 + 1;
+            COUNT
+        }
+    };
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    const COUNT: u32 = count_idents!(A, B, C);
+</span><span class="boring">    assert_eq!(COUNT, 3);
+</span><span class="boring">}</span></code></pre></pre>
+<p>This method does have two drawbacks.
+As implied above, it can <em>only</em> count valid identifiers (which are also not keywords), and it does not allow those identifiers to repeat.</p>
+<h2 id="bit-twiddling"><a class="header" href="#bit-twiddling">Bit twiddling</a></h2>
+<p>Another recursive approach using bit operations:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! count_tts {
+    () =&gt; { 0 };
+    ($odd:tt $($a:tt $b:tt)*) =&gt; { (count_tts!($($a)*) &lt;&lt; 1) | 1 };
+    ($($a:tt $even:tt)*) =&gt; { count_tts!($($a)*) &lt;&lt; 1 };
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    assert_eq!(count_tts!(0 1 2), 3);
+</span><span class="boring">}</span></code></pre></pre>
+<p>This approach is pretty smart as it effectively halves its input whenever its even and then multiplying the counter by 2 (or in this case shifting 1 bit to the left which is equivalent).
+If the input is uneven it simply takes one token tree from the input <code>or</code>s the token tree to the previous counter which is equivalent to adding 1 as the lowest bit has to be a 0 at this point due to the previous shifting.
+Rinse and repeat until we hit the base rule <code>() =&gt; 0</code>.</p>
+<p>The benefit of this is that the constructed AST expression that makes up the counter value will grow with a complexity of <code>O(log(n))</code> instead of <code>O(n)</code> like the other approaches.
+Be aware that you can still hit the recursion limit with this if you try hard enough.
+Credits for this method go to Reddit user <a href="https://www.reddit.com/r/rust/comments/d3yag8/the_little_book_of_rust_macros/"><code>YatoRust</code></a>.</p>
+<p>Let's go through the procedure by hand once:</p>
+<pre><code class="language-rust ignore">count_tts!(0 0 0 0 0 0 0 0 0 0);</code></pre>
+<p>This invocation will match the third rule due to the fact that we have an even number of token trees(10).
+The matcher names the odd token trees in the sequence <code>$a</code> and the even ones <code>$even</code> but the expansion only makes use of <code>$a</code>, which means it effectively discards all the even elements cutting the input in half.
+So the invocation now becomes:</p>
+<pre><code class="language-rust ignore">count_tts!(0 0 0 0 0) &lt;&lt; 1;</code></pre>
+<p>This invocation will now match the second rule as its input is an uneven amount of token trees.
+In this case the first token tree is discarded to make the input even again, then we also do the halving step in this invocation again since we know the input would be even now anyways.
+Therefore we can count 1 for the uneven discard and multiply by 2 again since we also halved.</p>
+<pre><code class="language-rust ignore">((count_tts!(0 0) &lt;&lt; 1) | 1) &lt;&lt; 1;</code></pre>
+<pre><code class="language-rust ignore">((count_tts!(0) &lt;&lt; 1 &lt;&lt; 1) | 1) &lt;&lt; 1;</code></pre>
+<pre><code class="language-rust ignore">((((count_tts!() &lt;&lt; 1) | 1) &lt;&lt; 1 &lt;&lt; 1) | 1) &lt;&lt; 1;</code></pre>
+<pre><code class="language-rust ignore">((((0 &lt;&lt; 1) | 1) &lt;&lt; 1 &lt;&lt; 1) | 1) &lt;&lt; 1;</code></pre>
+<p>Now to check if we expanded correctly manually we can use a one of the tools we introduced for <a href="../minutiae/debugging.html"><code>debugging</code></a>.
+When expanding the macro there we should get:</p>
+<pre><code class="language-rust ignore">((((0 &lt;&lt; 1) | 1) &lt;&lt; 1 &lt;&lt; 1) | 1) &lt;&lt; 1;</code></pre>
+<p>That's the same so we didn't make any mistakes, great!</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../decl-macros/building-blocks/ast-coercion.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../decl-macros/building-blocks/abacus-counting.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../decl-macros/building-blocks/ast-coercion.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../decl-macros/building-blocks/abacus-counting.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

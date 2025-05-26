@@ -1,0 +1,431 @@
+<!DOCTYPE HTML>
+<html lang="en" class="ayu sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>A Methodical Introduction - The Little Book of Rust Macros</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../res/rust-syntax-bg-highlight.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "ayu";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Little Book of Rust Macros</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/veykril/tlborm/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="macros-a-methodical-introduction"><a class="header" href="#macros-a-methodical-introduction">Macros, A Methodical Introduction</a></h1>
+<p>This chapter will introduce Rust's declarative <a href="https://doc.rust-lang.org/reference/macros-by-example.html">Macro-By-Example</a> system by explaining the system as a whole.
+It will do so by first going into the construct's syntax and its key parts and then following it up with more general information that one should at least be aware of.</p>
+<h1 id="macro_rules"><a class="header" href="#macro_rules"><code>macro_rules!</code></a></h1>
+<p>With all that in mind, we can introduce <code>macro_rules!</code> itself.
+As noted previously, <code>macro_rules!</code> is <em>itself</em> a syntax extension, meaning it is <em>technically</em> not part of the Rust syntax.
+It uses the following forms:</p>
+<pre><code class="language-rust ignore">macro_rules! $name {
+    $rule0 ;
+    $rule1 ;
+    // …
+    $ruleN ;
+}</code></pre>
+<p>There must be <em>at least</em> one rule, and you can omit the semicolon after the last rule.
+You can use brackets(<code>[]</code>), parentheses(<code>()</code>) or braces(<code>{}</code>).</p>
+<p>Each <em>"rule"</em> looks like the following:</p>
+<pre><code class="language-ignore">    ($matcher) =&gt; {$expansion}
+</code></pre>
+<p>Like before, the types of parentheses used can be any kind, but parentheses around the matcher and braces around the expansion are somewhat conventional.
+The expansion part of a rule is also called its <em>transcriber</em>.</p>
+<p>Note that the choice of the parentheses does not matter in regards to how the mbe macro may be invoked.
+In fact, function-like macros can be invoked with any kind of parentheses as well, but invocations with <code>{ .. }</code> and <code>( ... );</code>, notice the trailing semicolon, are special in that their expansion will <em>always</em> be parsed as an <em>item</em>.</p>
+<p>If you are wondering, the <code>macro_rules!</code> invocation expands to... <em>nothing</em>.
+At least, nothing that appears in the AST; rather, it manipulates compiler-internal structures to register the mbe macro.
+As such, you can <em>technically</em> use <code>macro_rules!</code> in any position where an empty expansion is valid.</p>
+<h2 id="matching"><a class="header" href="#matching">Matching</a></h2>
+<p>When a <code>macro_rules!</code> macro is invoked, the <code>macro_rules!</code> interpreter goes through the rules one by one, in declaration order.
+For each rule, it tries to match the contents of the input token tree against that rule's <code>matcher</code>.
+A matcher must match the <em>entirety</em> of the input to be considered a match.</p>
+<p>If the input matches the matcher, the invocation is replaced by the <code>expansion</code>; otherwise, the next rule is tried.
+If all rules fail to match, the expansion fails with an error.</p>
+<p>The simplest example is of an empty matcher:</p>
+<pre><code class="language-rust ignore">macro_rules! four {
+    () =&gt; { 1 + 3 };
+}</code></pre>
+<p>This matches if and only if the input is also empty (<em>i.e.</em> <code>four!()</code>, <code>four![]</code> or <code>four!{}</code>).</p>
+<p>Note that the specific grouping tokens you use when you invoke the function-like macro <em>are not</em> matched, they are in fact not passed to the invocation at all.
+That is, you can invoke the above macro as <code>four![]</code> and it will still match.
+Only the <em>contents</em> of the input token tree are considered.</p>
+<p>Matchers can also contain literal token trees, which must be matched exactly.
+This is done by simply writing the token trees normally.
+For example, to match the sequence <code>4 fn ['spang "whammo"] @_@</code>, you would write:</p>
+<pre><code class="language-rust ignore">macro_rules! gibberish {
+    (4 fn ['spang "whammo"] @_@) =&gt; {...};
+}</code></pre>
+<p>You can use any token tree that you can write.</p>
+<h2 id="metavariables"><a class="header" href="#metavariables">Metavariables</a></h2>
+<p>Matchers can also contain captures.
+These allow input to be matched based on some general grammar category, with the result captured to a metavariable which can then be substituted into the output.</p>
+<p>Captures are written as a dollar (<code>$</code>) followed by an identifier, a colon (<code>:</code>), and finally the kind of capture which is also called the fragment-specifier, which must be one of the following:</p>
+<ul>
+<li><a href="./minutiae/fragment-specifiers.html#block"><code>block</code></a>: a block (i.e. a block of statements and/or an expression, surrounded by braces)</li>
+<li><a href="./minutiae/fragment-specifiers.html#expr"><code>expr</code></a>: an expression</li>
+<li><a href="./minutiae/fragment-specifiers.html#ident"><code>ident</code></a>: an identifier (this includes keywords)</li>
+<li><a href="./minutiae/fragment-specifiers.html#item"><code>item</code></a>: an item, like a function, struct, module, impl, etc.</li>
+<li><a href="./minutiae/fragment-specifiers.html#lifetime"><code>lifetime</code></a>: a lifetime (e.g. <code>'foo</code>, <code>'static</code>, ...)</li>
+<li><a href="./minutiae/fragment-specifiers.html#literal"><code>literal</code></a>: a literal (e.g. <code>"Hello World!"</code>, <code>3.14</code>, <code>'🦀'</code>, ...)</li>
+<li><a href="./minutiae/fragment-specifiers.html#meta"><code>meta</code></a>: a meta item; the things that go inside the <code>#[...]</code> and <code>#![...]</code> attributes</li>
+<li><a href="./minutiae/fragment-specifiers.html#pat"><code>pat</code></a>: a pattern</li>
+<li><a href="./minutiae/fragment-specifiers.html#path"><code>path</code></a>: a path (e.g. <code>foo</code>, <code>::std::mem::replace</code>, <code>transmute::&lt;_, int&gt;</code>, …)</li>
+<li><a href="./minutiae/fragment-specifiers.html#stmt"><code>stmt</code></a>: a statement</li>
+<li><a href="./minutiae/fragment-specifiers.html#tt"><code>tt</code></a>: a single token tree</li>
+<li><a href="./minutiae/fragment-specifiers.html#ty"><code>ty</code></a>: a type</li>
+<li><a href="./minutiae/fragment-specifiers.html#vis"><code>vis</code></a>: a possible empty visibility qualifier (e.g. <code>pub</code>, <code>pub(in crate)</code>, ...)</li>
+</ul>
+<p>For more in-depth description of the fragment specifiers, check out the <a href="./minutiae/fragment-specifiers.html">Fragment Specifiers</a> chapter.</p>
+<p>For example, here is a <code>macro_rules!</code> macro which captures its input as an expression under the metavariable <code>$e</code>:</p>
+<pre><code class="language-rust ignore">macro_rules! one_expression {
+    ($e:expr) =&gt; {...};
+}</code></pre>
+<p>These metavariables leverage the Rust compiler's parser, ensuring that they are always "correct".
+An <code>expr</code> metavariable will <em>always</em> capture a complete, valid expression for the version of Rust being compiled.</p>
+<p>You can mix literal token trees and metavariables, within limits (explained in <a href="./minutiae/metavar-and-expansion.html">Metavariables and Expansion Redux</a>).</p>
+<p>To refer to a metavariable you simply write <code>$name</code>, as the type of the variable is already specified in the matcher. For example:</p>
+<pre><code class="language-rust ignore">macro_rules! times_five {
+    ($e:expr) =&gt; { 5 * $e };
+}</code></pre>
+<p>Much like macro expansion, metavariables are substituted as complete AST nodes.
+This means that no matter what sequence of tokens is captured by <code>$e</code>, it will be interpreted as a single, complete expression.</p>
+<p>You can also have multiple metavariables in a single matcher:</p>
+<pre><code class="language-rust ignore">macro_rules! multiply_add {
+    ($a:expr, $b:expr, $c:expr) =&gt; { $a * ($b + $c) };
+}</code></pre>
+<p>And use them as often as you like in the expansion:</p>
+<pre><code class="language-rust ignore">macro_rules! discard {
+    ($e:expr) =&gt; {};
+}
+macro_rules! repeat {
+    ($e:expr) =&gt; { $e; $e; $e; };
+}</code></pre>
+<p>There is also a special metavariable called <a href="./minutiae/hygiene.html#crate"><code>$crate</code></a> which can be used to refer to the current crate.</p>
+<h2 id="repetitions"><a class="header" href="#repetitions">Repetitions</a></h2>
+<p>Matchers can contain repetitions. These allow a sequence of tokens to be matched.
+These have the general form <code>$ ( ... ) sep rep</code>.</p>
+<ul>
+<li>
+<p><code>$</code> is a literal dollar token.</p>
+</li>
+<li>
+<p><code>( ... )</code> is the paren-grouped matcher being repeated.</p>
+</li>
+<li>
+<p><code>sep</code> is an <em>optional</em> separator token. It may not be a delimiter or one
+of the repetition operators. Common examples are <code>,</code> and <code>;</code>.</p>
+</li>
+<li>
+<p><code>rep</code> is the <em>required</em> repeat operator. Currently, this can be:</p>
+<ul>
+<li><code>?</code>: indicating at most one repetition</li>
+<li><code>*</code>: indicating zero or more repetitions</li>
+<li><code>+</code>: indicating one or more repetitions</li>
+</ul>
+<p>Since <code>?</code> represents at most one occurrence, it cannot be used with a separator.</p>
+</li>
+</ul>
+<p>Repetitions can contain any other valid matcher, including literal token trees, metavariables, and other repetitions allowing arbitrary nesting.</p>
+<p>Repetitions use the same syntax in the expansion and repeated metavariables can only be accessed inside of repetitions in the expansion.</p>
+<p>For example, below is a mbe macro which formats each element as a string.
+It matches zero or more comma-separated expressions and expands to an expression that constructs a vector.</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! vec_strs {
+    (
+        // Start a repetition:
+        $(
+            // Each repeat must contain an expression...
+            $element:expr
+        )
+        // ...separated by commas...
+        ,
+        // ...zero or more times.
+        *
+    ) =&gt; {
+        // Enclose the expansion in a block so that we can use
+        // multiple statements.
+        {
+            let mut v = Vec::new();
+
+            // Start a repetition:
+            $(
+                // Each repeat will contain the following statement, with
+                // $element replaced with the corresponding expression.
+                v.push(format!("{}", $element));
+            )*
+
+            v
+        }
+    };
+}
+
+fn main() {
+    let s = vec_strs![1, "a", true, 3.14159f32];
+    assert_eq!(s, &amp;["1", "a", "true", "3.14159"]);
+}</code></pre></pre>
+<p>You can repeat multiple metavariables in a single repetition as long as all metavariables repeat equally often.
+So this invocation of the following macro works:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>macro_rules! repeat_two {
+    ($($i:ident)*, $($i2:ident)*) =&gt; {
+        $( let $i: (); let $i2: (); )*
+    }
+}
+
+repeat_two!( a b c d e f, u v w x y z );
+<span class="boring">}</span></code></pre></pre>
+<p>But this does not:</p>
+<pre><pre class="playground"><code class="language-rust compile_fail edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">macro_rules! repeat_two {
+</span><span class="boring">    ($($i:ident)*, $($i2:ident)*) =&gt; {
+</span><span class="boring">        $( let $i: (); let $i2: (); )*
+</span><span class="boring">    }
+</span><span class="boring">}
+</span>
+repeat_two!( a b c d e f, x y z );
+<span class="boring">}</span></code></pre></pre>
+<p>failing with the following error</p>
+<pre><code class="language-text">error: meta-variable `i` repeats 6 times, but `i2` repeats 3 times
+ --&gt; src/main.rs:6:10
+  |
+6 |         $( let $i: (); let $i2: (); )*
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</code></pre>
+<h2 id="metavariable-expressions"><a class="header" href="#metavariable-expressions">Metavariable Expressions</a></h2>
+<blockquote>
+<p><em>RFC</em>: <a href="https://github.com/rust-lang/rfcs/blob/master/text/3086-macro-metavar-expr.md">rfcs#1584</a><br />
+<em>Tracking Issue</em>: <a href="https://github.com/rust-lang/rust/issues/83527">rust#83527</a><br />
+<em>Feature</em>: <code>#![feature(macro_metavar_expr)]</code></p>
+</blockquote>
+<p>Transcriber can contain what is called metavariable expressions.
+Metavariable expressions provide transcribers with information about metavariables that are otherwise not easily obtainable.
+With the exception of the <code>$$</code> expression, these have the general form <code>$ { op(...) }</code>.
+Currently all metavariable expressions but <code>$$</code> deal with repetitions.</p>
+<p>The following expressions are available with <code>ident</code> being the name of a bound metavariable and <code>depth</code> being an integer literal:</p>
+<ul>
+<li><code>${count(ident)}</code>: The number of times <code>$ident</code> repeats in the inner-most repetition in total. This is equivalent to <code>${count(ident, 0)}</code>.</li>
+<li><code>${count(ident, depth)}</code>: The number of times <code>$ident</code> repeats in the repetition at <code>depth</code>.</li>
+<li><code>${index()}</code>: The current repetition index of the inner-most repetition. This is equivalent to <code>${index(0)}</code>.</li>
+<li><code>${index(depth)}</code>: The current index of the repetition at <code>depth</code>, counting outwards.</li>
+<li><code>${len()}</code>: The number of times the inner-most repetition will repeat for. This is equivalent to <code>${len(0)}</code>.</li>
+<li><code>${len(depth)}</code>: The number of times the repetition at <code>depth</code> will repeat for, counting outwards.</li>
+<li><code>${ignore(ident)}</code>: Binds <code>$ident</code> for repetition, while expanding to nothing.</li>
+<li><code>$$</code>:	Expands to a single <code>$</code>, effectively escaping the <code>$</code> token so it won't be transcribed.</li>
+</ul>
+<p> </p>
+<p>For the complete grammar definition you may want to consult the <a href="https://doc.rust-lang.org/reference/macros-by-example.html#macros-by-example">Macros By Example</a> chapter of the Rust reference.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../decl-macros.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../decl-macros/macros-practical.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../decl-macros.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../decl-macros/macros-practical.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

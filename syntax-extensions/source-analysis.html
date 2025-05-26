@@ -1,0 +1,339 @@
+<!DOCTYPE HTML>
+<html lang="en" class="ayu sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Source Analysis - The Little Book of Rust Macros</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../res/rust-syntax-bg-highlight.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "ayu";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Little Book of Rust Macros</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/veykril/tlborm/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="source-analysis"><a class="header" href="#source-analysis">Source Analysis</a></h1>
+<h3 id="tokenization"><a class="header" href="#tokenization">Tokenization</a></h3>
+<p>The first stage of compilation for a Rust program is <a href="https://en.wikipedia.org/wiki/Lexical_analysis#Tokenization">tokenization</a>. This is where the source text is
+transformed into a sequence of tokens (<em>i.e.</em> indivisible lexical units; the programming language
+equivalent of "words"). Rust has various kinds of tokens, such as:</p>
+<ul>
+<li>Identifiers: <code>foo</code>, <code>Bambous</code>, <code>self</code>, <code>we_can_dance</code>, <code>LaCaravane</code>, …</li>
+<li>Literals: <code>42</code>, <code>72u32</code>, <code>0_______0</code>, <code>1.0e-40</code>, <code>"ferris was here"</code>, …</li>
+<li>Keywords: <code>_</code>, <code>fn</code>, <code>self</code>, <code>match</code>, <code>yield</code>, <code>macro</code>, …</li>
+<li>Symbols: <code>[</code>, <code>:</code>, <code>::</code>, <code>?</code>, <code>~</code>, <code>@</code><sup class="footnote-reference" id="fr-wither-at-1"><a href="#footnote-wither-at">1</a></sup>, …</li>
+</ul>
+<p>…among others. There are some things to note about the above: first, <code>self</code> is both an identifier
+<em>and</em> a keyword. In almost all cases, <code>self</code> is a keyword, but it <em>is</em> possible for it to be
+<em>treated</em> as an identifier, which will come up later (along with much cursing). Secondly, the list
+of keywords includes some suspicious entries such as <code>yield</code> and <code>macro</code> that aren't <em>actually</em> in
+the language, but <em>are</em> parsed by the compiler—these are <a href="https://doc.rust-lang.org/reference/keywords.html#reserved-keywords">reserved</a> for future use. Third, the list
+of symbols <em>also</em> includes entries that aren't used by the language. In the case of <code>&lt;-</code>, it is
+vestigial: it was removed from the grammar, but not from the lexer. As a final point, note that
+<code>::</code> is a distinct token; it is not simply two adjacent <code>:</code> tokens. The same is true of all
+multi-character symbol tokens in Rust, as of Rust 1.2.<sup class="footnote-reference" id="fr-two-lexers-1"><a href="#footnote-two-lexers">2</a></sup></p>
+<p>As a point of comparison, it is at <em>this</em> stage that some languages have their macro layer, though
+Rust does <em>not</em>. For example, C/C++ macros are <em>effectively</em> processed at this point.
+<sup class="footnote-reference" id="fr-lies-damn-lies-cpp-1"><a href="#footnote-lies-damn-lies-cpp">3</a></sup> This is why the following code works:
+<sup class="footnote-reference" id="fr-cpp-it-seemed-like-a-good-idea-at-the-time-1"><a href="#footnote-cpp-it-seemed-like-a-good-idea-at-the-time">4</a></sup></p>
+<pre><code class="language-c">#define SUB int
+#define BEGIN {
+#define END }
+
+SUB main() BEGIN
+    printf("Oh, the horror!\n");
+END
+</code></pre>
+<h3 id="parsing"><a class="header" href="#parsing">Parsing</a></h3>
+<p>The next stage is parsing, where the stream of tokens is turned into an <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree</a> (AST).
+This involves building up the syntactic structure of the program in memory. For example, the token
+sequence <code>1 + 2</code> is transformed into the equivalent of:</p>
+<pre><code class="language-text">┌─────────┐   ┌─────────┐
+│ BinOp   │ ┌╴│ LitInt  │
+│ op: Add │ │ │ val: 1  │
+│ lhs: ◌  │╶┘ └─────────┘
+│ rhs: ◌  │╶┐ ┌─────────┐
+└─────────┘ └╴│ LitInt  │
+              │ val: 2  │
+              └─────────┘
+</code></pre>
+<p>The AST contains the structure of the <em>entire</em> program, though it is based on purely <em>lexical</em>
+information. For example, although the compiler may know that a particular expression is referring
+to a variable called <code>a</code>, at this stage, it has <em>no way</em> of knowing what <code>a</code> is, or even <em>where</em> it
+comes from.</p>
+<p>It is <em>after</em> the AST has been constructed that macros are processed. However, before we can discuss
+that, we have to talk about token trees.</p>
+<h2 id="token-trees"><a class="header" href="#token-trees">Token trees</a></h2>
+<p>Token trees are somewhere between tokens and the AST. Firstly, <em>almost</em> all tokens are also token
+trees; more specifically, they are <em>leaves</em>. There is one other kind of thing that can be a token
+tree leaf, but we will come back to that later.</p>
+<p>The only basic tokens that are <em>not</em> leaves are the "grouping" tokens: <code>(...)</code>, <code>[...]</code>, and <code>{...}</code>.
+These three are the <em>interior nodes</em> of token trees, and what give them their structure. To give a
+concrete example, this sequence of tokens:</p>
+<pre><code class="language-text">a + b + (c + d[0]) + e
+</code></pre>
+<p>would be parsed into the following token trees:</p>
+<pre><code class="language-text">«a» «+» «b» «+» «(   )» «+» «e»
+          ╭────────┴──────────╮
+           «c» «+» «d» «[   ]»
+                        ╭─┴─╮
+                         «0»
+</code></pre>
+<p>Note that this has <em>no relationship</em> to the AST the expression would produce; instead of a single
+root node, there are <em>seven</em> token trees at the root level. For reference, the AST would be:</p>
+<pre><code class="language-text">                                          ┌─────────┐
+                                          │ BinOp   │
+                                          │ op: Add │
+                                        ┌╴│ lhs: ◌  │
+                            ┌─────────┐ │ │ rhs: ◌  │╶┐ ┌─────────┐
+                            │ BinOp   │╶┘ └─────────┘ └╴│ Var     │
+                            │ op: Add │                 │ name: e │
+                          ┌╴│ lhs: ◌  │                 └─────────┘
+┌─────────┐   ┌─────────┐ │ │ rhs: ◌  │╶┐ ┌─────────┐
+│ Var     │╶┐ │ BinOp   │╶┘ └─────────┘ └╴│ BinOp   │
+│ name: a │ │ │ op: Add │                 │ op: Add │
+└─────────┘ └╴│ lhs: ◌  │               ┌╴│ lhs: ◌  │
+┌─────────┐ ┌╴│ rhs: ◌  │   ┌─────────┐ │ │ rhs: ◌  │╶┐ ┌─────────┐
+│ Var     │╶┘ └─────────┘   │ Var     │╶┘ └─────────┘ └╴│ Index   │
+│ name: b │                 │ name: c │               ┌╴│ arr: ◌  │
+└─────────┘                 └─────────┘   ┌─────────┐ │ │ ind: ◌  │╶┐
+                                          │ Var     │╶┘ └─────────┘ │
+                                          │ name: d │   ┌─────────┐ │
+                                          └─────────┘   │ LitInt  │╶┘
+                                                        │ val: 0  │
+                                                        └─────────┘
+</code></pre>
+<p>It is important to understand the distinction between the AST and token trees. When writing macros,
+you have to deal with <em>both</em> as distinct things.</p>
+<p>One other aspect of this to note: it is <em>impossible</em> to have an unpaired parenthesis, bracket or brace;
+nor is it possible to have incorrectly nested groups in a token tree.</p>
+<hr>
+<ol class="footnote-definition"><li id="footnote-wither-at">
+<p><code>@</code> has a purpose, though most people seem to forget about it completely: it is used
+in patterns to bind a non-terminal part of the pattern to a name. <a href="#fr-wither-at-1">↩</a></p>
+</li>
+<li id="footnote-two-lexers">
+<p>Technically rust currently(1.46) has two lexers, <a href="https://github.com/rust-lang/rust/tree/master/compiler/rustc_lexer"><code>rustc_lexer</code></a> which only emits
+single character symbols as tokens and the <a href="https://github.com/rust-lang/rust/tree/master/compiler/rustc_parse/src/lexer">lexer</a> in <a href="https://github.com/rust-lang/rust/tree/master/compiler/rustc_parse"><code>rustc_parse</code></a> which sees multi-character
+symbols as distinct tokens. <a href="#fr-two-lexers-1">↩</a></p>
+</li>
+<li id="footnote-lies-damn-lies-cpp">
+<p>In fact, the C preprocessor uses a different lexical structure to C itself,
+but the distinction is <em>broadly</em> irrelevant. <a href="#fr-lies-damn-lies-cpp-1">↩</a></p>
+</li>
+<li id="footnote-cpp-it-seemed-like-a-good-idea-at-the-time">
+<p><em>Whether</em> it should work is an entirely <em>different</em>
+question. <a href="#fr-cpp-it-seemed-like-a-good-idea-at-the-time-1">↩</a></p>
+</li>
+</ol>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../syntax-extensions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../syntax-extensions/ast.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../syntax-extensions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../syntax-extensions/ast.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

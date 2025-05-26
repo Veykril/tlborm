@@ -1,0 +1,341 @@
+<!DOCTYPE HTML>
+<html lang="en" class="ayu sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Abacus Counting - The Little Book of Rust Macros</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../res/rust-syntax-bg-highlight.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "ayu";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Little Book of Rust Macros</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/veykril/tlborm/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="abacus-counters"><a class="header" href="#abacus-counters">Abacus Counters</a></h1>
+<blockquote>
+<p><strong>Provisional</strong>: needs a more compelling example.
+Matching nested groups that are <em>not</em> denoted by Rust groups is sufficiently unusual that it may not merit inclusion.</p>
+</blockquote>
+<blockquote>
+<p><strong>Note</strong>: this section assumes understanding of <a href="#push-down-accumulation">push-down accumulation</a> and <a href="#incremental-tt-munchers">incremental TT munchers</a>.</p>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! abacus {
+    ((- $($moves:tt)*) -&gt; (+ $($count:tt)*)) =&gt; {
+        abacus!(($($moves)*) -&gt; ($($count)*))
+    };
+    ((- $($moves:tt)*) -&gt; ($($count:tt)*)) =&gt; {
+        abacus!(($($moves)*) -&gt; (- $($count)*))
+    };
+    ((+ $($moves:tt)*) -&gt; (- $($count:tt)*)) =&gt; {
+        abacus!(($($moves)*) -&gt; ($($count)*))
+    };
+    ((+ $($moves:tt)*) -&gt; ($($count:tt)*)) =&gt; {
+        abacus!(($($moves)*) -&gt; (+ $($count)*))
+    };
+
+    // Check if the final result is zero.
+    (() -&gt; ()) =&gt; { true };
+    (() -&gt; ($($count:tt)+)) =&gt; { false };
+}
+
+fn main() {
+    let equals_zero = abacus!((++-+-+++--++---++----+) -&gt; ());
+    assert_eq!(equals_zero, true);
+}</code></pre></pre>
+<p>This technique can be used in cases where you need to keep track of a varying counter that starts at or near zero, and must support the following operations:</p>
+<ul>
+<li>Increment by one.</li>
+<li>Decrement by one.</li>
+<li>Compare to zero (or any other fixed, finite value).</li>
+</ul>
+<p>A value of <em>n</em> is represented by <em>n</em> instances of a specific token stored in a group.
+Modifications are done using recursion and <a href="#push-down-accumulation">push-down accumulation</a>.
+Assuming the token used is <code>x</code>, the operations above are implemented as follows:</p>
+<ul>
+<li>Increment by one: match <code>($($count:tt)*)</code>, substitute <code>(x $($count)*)</code>.</li>
+<li>Decrement by one: match <code>(x $($count:tt)*)</code>, substitute <code>($($count)*)</code>.</li>
+<li>Compare to zero: match <code>()</code>.</li>
+<li>Compare to one: match <code>(x)</code>.</li>
+<li>Compare to two: match <code>(x x)</code>.</li>
+<li><em>(and so on...)</em></li>
+</ul>
+<p>In this way, operations on the counter are like flicking tokens back and forth like an abacus.<sup class="footnote-reference" id="fr-abacus-1"><a href="#footnote-abacus">1</a></sup></p>
+<p>In cases where you want to represent negative values, <em>-n</em> can be represented as <em>n</em> instances of a
+<em>different</em> token.
+In the example given above, <em>+n</em> is stored as <em>n</em> <code>+</code> tokens, and <em>-m</em> is stored as <em>m</em> <code>-</code> tokens.</p>
+<p>In this case, the operations become slightly more complicated; increment and decrement effectively reverse their usual meanings when the counter is negative.
+To which given <code>+</code> and <code>-</code> for the positive and negative tokens respectively, the operations change to:</p>
+<ul>
+<li>Increment by one:
+<ul>
+<li>match <code>()</code>, substitute <code>(+)</code>.</li>
+<li>match <code>(- $($count:tt)*)</code>, substitute <code>($($count)*)</code>.</li>
+<li>match <code>($($count:tt)+)</code>, substitute <code>(+ $($count)+)</code>.</li>
+</ul>
+</li>
+<li>Decrement by one:
+<ul>
+<li>match <code>()</code>, substitute <code>(-)</code>.</li>
+<li>match <code>(+ $($count:tt)*)</code>, substitute <code>($($count)*)</code>.</li>
+<li>match <code>($($count:tt)+)</code>, substitute <code>(- $($count)+)</code>.</li>
+</ul>
+</li>
+<li>Compare to 0: match <code>()</code>.</li>
+<li>Compare to +1: match <code>(+)</code>.</li>
+<li>Compare to -1: match <code>(-)</code>.</li>
+<li>Compare to +2: match <code>(++)</code>.</li>
+<li>Compare to -2: match <code>(--)</code>.</li>
+<li><em>(and so on...)</em></li>
+</ul>
+<p>Note that the example at the top combines some of the rules together (for example, it combines increment on <code>()</code> and <code>($($count:tt)+)</code> into an increment on <code>($($count:tt)*)</code>).</p>
+<p>If you want to extract the actual <em>value</em> of the counter, this can be done using a regular <a href="./counting.html">counter macro</a>.
+For the example above, the terminal rules can be replaced with the following:</p>
+<pre><code class="language-rust ignore">macro_rules! abacus {
+    // ...
+
+    // This extracts the counter as an integer expression.
+    (() -&gt; ()) =&gt; {0};
+    (() -&gt; (- $($count:tt)*)) =&gt; {
+        - ( count_tts!($( $count_tts:tt )*) )
+    };
+    (() -&gt; (+ $($count:tt)*)) =&gt; {
+        count_tts!($( $count_tts:tt )*)
+    };
+}
+
+// One of the many token tree counting macros in the counting chapter
+macro_rules! count_tts {
+    // ...
+}</code></pre>
+<blockquote>
+<p><strong><abbr title="Just for this example">JFTE</abbr></strong>: strictly speaking, the above formulation of <code>abacus!</code> is needlessly complex.
+It can be implemented much more efficiently using repetition, provided you <em>do not</em> need to match against the counter's value in a macro:</p>
+<pre><code class="language-ignore">macro_rules! abacus {
+    (-) =&gt; {-1};
+    (+) =&gt; {1};
+    ($( $moves:tt )*) =&gt; {
+        0 $(+ abacus!($moves))*
+    }
+}
+</code></pre>
+</blockquote>
+<hr>
+<ol class="footnote-definition"><li id="footnote-abacus">
+<p>This desperately thin reasoning conceals the <em>real</em> reason for this name: to avoid having
+<em>yet another</em> thing with "token" in the name. Talk to your writer about avoiding
+<a href="https://en.wikipedia.org/wiki/Semantic_satiation">semantic satiation</a> today!<br />
+In fairness, it could <em>also</em> have been called <a href="https://en.wikipedia.org/wiki/Unary_numeral_system">"unary counting"</a>. <a href="#fr-abacus-1">↩</a></p>
+</li>
+</ol>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../decl-macros/building-blocks/counting.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../decl-macros/building-blocks/parsing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../decl-macros/building-blocks/counting.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../decl-macros/building-blocks/parsing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

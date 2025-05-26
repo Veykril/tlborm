@@ -1,0 +1,317 @@
+<!DOCTYPE HTML>
+<html lang="en" class="ayu sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Incremental TT Munchers - The Little Book of Rust Macros</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../res/rust-syntax-bg-highlight.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "ayu";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Little Book of Rust Macros</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/veykril/tlborm/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="incremental-tt-munchers"><a class="header" href="#incremental-tt-munchers">Incremental TT Munchers</a></h1>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! mixed_rules {
+    () =&gt; {};
+    (trace $name:ident; $($tail:tt)*) =&gt; {
+        {
+            println!(concat!(stringify!($name), " = {:?}"), $name);
+            mixed_rules!($($tail)*);
+        }
+    };
+    (trace $name:ident = $init:expr; $($tail:tt)*) =&gt; {
+        {
+            let $name = $init;
+            println!(concat!(stringify!($name), " = {:?}"), $name);
+            mixed_rules!($($tail)*);
+        }
+    };
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let a = 42;
+</span><span class="boring">    let b = "Ho-dee-oh-di-oh-di-oh!";
+</span><span class="boring">    let c = (false, 2, 'c');
+</span><span class="boring">    mixed_rules!(
+</span><span class="boring">        trace a;
+</span><span class="boring">        trace b;
+</span><span class="boring">        trace c;
+</span><span class="boring">        trace b = "They took her where they put the crazies.";
+</span><span class="boring">        trace b;
+</span><span class="boring">    );
+</span><span class="boring">}</span></code></pre></pre>
+<p>This pattern is perhaps the <em>most powerful</em> macro parsing technique available, allowing one to parse grammars of significant complexity.
+However, it can increase compile times if used excessively, so should be used
+with care.</p>
+<p>A <em>TT muncher</em> is a recursive <code>macro_rules!</code> macro that works by incrementally processing its input one step at a time.
+At each step, it matches and removes (munches) some sequence of tokens from the start of its input, generates some intermediate output, then recurses on the input tail.</p>
+<p>The reason for "TT" in the name specifically is that the unprocessed part of the input is <em>always</em> captured as <code>$($tail:tt)*</code>.
+This is done as a <a href="../minutiae/fragment-specifiers.html#tt"><code>tt</code></a> repetition is the only way to <em>losslessly</em> capture part of a macro's input.</p>
+<p>The only hard restrictions on TT munchers are those imposed on the <code>macro_rules!</code> macro system as a whole:</p>
+<ul>
+<li>You can only match against literals and grammar constructs which can be captured by <code>macro_rules!</code>.</li>
+<li>You cannot match unbalanced groups.</li>
+</ul>
+<p>It is important, however, to keep the macro recursion limit in mind.
+<code>macro_rules!</code> does not have <em>any</em> form of tail recursion elimination or optimization.
+It is recommended that, when writing a TT muncher, you make reasonable efforts to keep recursion as limited as possible.
+This can be done by adding additional rules to account for variation in the input (as opposed to recursion into an intermediate layer), or by making compromises on the input syntax to make using standard repetitions more tractable.</p>
+<h2 id="performance"><a class="header" href="#performance">Performance</a></h2>
+<p>TT munchers are inherently quadratic.
+Consider a TT muncher rule that consumes one token tree and then recursively calls itself on the remaining input.
+If it is passed 100 token trees:</p>
+<ul>
+<li>The initial invocation will match against all 100 token trees.</li>
+<li>The first recursive invocation will match against 99 token trees.</li>
+<li>The next recursive invocation will match against 98 token trees.</li>
+</ul>
+<p>And so on, down to 1.
+This is a classic quadratic pattern, and long inputs can cause macro expansion to blow out compile times.</p>
+<p>Try to avoid using TT munchers too much, especially with long inputs.
+The default value of the <code>recursion_limit</code> attribute is a good sanity check; if you have to exceed it, you might be heading for trouble.</p>
+<p>If you have the choice between writing a TT muncher that can be called once to handle multiple things, or a simpler macro that can be called multiple times to handle a single thing, prefer the latter.
+For example, you could change a macro that is called like this:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">macro_rules! f { ($($tt:tt)*) =&gt; {} }
+</span>f! {
+    fn f_u8(x: u32) -&gt; u8;
+    fn f_u16(x: u32) -&gt; u16;
+    fn f_u32(x: u32) -&gt; u32;
+    fn f_u64(x: u64) -&gt; u64;
+    fn f_u128(x: u128) -&gt; u128;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>To one that is called like this:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">macro_rules! f { ($($tt:tt)*) =&gt; {} }
+</span>f! { fn f_u8(x: u32) -&gt; u8; }
+f! { fn f_u16(x: u32) -&gt; u16; }
+f! { fn f_u32(x: u32) -&gt; u32; }
+f! { fn f_u64(x: u64) -&gt; u64; }
+f! { fn f_u128(x: u128) -&gt; u128; }
+<span class="boring">}</span></code></pre></pre>
+<p>The longer the input, the more likely this will improve compile times.</p>
+<p>Also, if a TT muncher macro has many rules, put the most frequently matched
+rules as early as possible.
+This avoids unnecessary matching failures.
+(In fact, this is good advice for any kind of declarative macro, not just TT munchers.)</p>
+<p>Finally, if you can write a macro using normal repetition via <code>*</code> or <code>+</code>, that should be preferred to a TT muncher.
+This is most likely if each invocation of the TT muncher would only process one token at a time.
+In more complicated cases, there is an advanced technique used within the <code>quote</code> crate that can avoid the quadratic behaviour, at the cost of some conceptual complexity.
+See <a href="https://github.com/dtolnay/quote/blob/31c3be473d0457e29c4f47ab9cff73498ac804a7/src/lib.rs#L664-L746">this comment</a> for details.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../decl-macros/patterns/callbacks.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../decl-macros/patterns/internal-rules.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../decl-macros/patterns/callbacks.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../decl-macros/patterns/internal-rules.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
