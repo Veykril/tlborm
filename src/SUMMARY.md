@@ -20,6 +20,7 @@
         - [Debugging](./decl-macros/minutiae/debugging.md)
         - [Scoping](./decl-macros/minutiae/scoping.md)
         - [Import and Export](./decl-macros/minutiae/import-export.md)
+        - [Documentation](./decl-macros/minutiae/documentation.md)
     - [Patterns](./decl-macros/patterns.md)
         - [Callbacks](./decl-macros/patterns/callbacks.md)
         - [Incremental TT Munchers](./decl-macros/patterns/tt-muncher.md)
