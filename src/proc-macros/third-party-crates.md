@@ -4,7 +4,7 @@
 > The crates listed here merely make writing them simpler and more concise, while potentially adding to the compilation time of the procedural macro due to added dependencies.
 
 As procedural macros live in a crate they can naturally depend on ([crates.io](https://crates.io/)) crates.
-turns out the crate ecosystem has some really helpful crates tailored towards procedural macros that this chapter will quickly go over, most of which will be used in the following chapters to implement the example macros.
+It turns out the crate ecosystem has some really helpful crates tailored towards procedural macros that this chapter will quickly go over, most of which will be used in the following chapters to implement the example macros.
 As these are merely quick introductions it is advised to look at each crate's documentation for more in-depth information if required.
 
 ## [`proc-macro2`]
@@ -17,9 +17,9 @@ This crate is actually just a wrapper around the [`proc_macro`] crate serving tw
 As the [`proc_macro`] crate is exclusive to [`proc_macro`] type crates, making them unit testable or accessing them from non-proc macro code is next to impossible.
 With that in mind the [`proc-macro2`] crate mimics the original [`proc_macro`] crate's api, acting as a wrapper in proc-macro crates and standing on its own in non-proc-macro crates.
 Hence it is advised to build libraries targeting proc-macro code to be built against [`proc-macro2`] instead as that will enable those libraries to be unit testable, which is also the reason why the following listed crates take and emit [`proc-macro2::TokenStream`](https://docs.rs/proc-macro2/1.0.27/proc_macro2/struct.TokenStream.html)s instead.
-When a `proc_macro` token stream is required, one can simply `.into()` the `proc-macro2` token stream to get the `proc_macro` version and vice-versa.
+When a `proc_macro` token stream is required, one can simply `.into()` the `proc_macro2` token stream to get the `proc_macro` version and vice-versa.
 
-Procedural macros using the `proc-macro2` crate will usually import the `proc-macro2::TokenStream` in an aliased form like `use proc-macro2::TokenStream as TokenStream2`.
+Procedural macros using the `proc-macro2` crate will usually import the `proc_macro2::TokenStream` in an aliased form like `use proc_macro2::TokenStream as TokenStream2`.
 
 ## [`quote`]
 
