@@ -43,7 +43,7 @@ let expanded = quote! {
 
 This a very useful tool when preparing macro output avoiding the need of creating a token stream by inserting tokens one by one.
 
-> **Note**: As stated earlier, this crate makes use of `proc_macro2` and thus the `quote!` macro returns a `proc-macro2::TokenStream`.
+> **Note**: As stated earlier, this crate makes use of `proc_macro2` and thus the `quote!` macro returns a `proc_macro2::TokenStream`.
 
 ## [`syn`](https://docs.rs/syn/*/syn/)
 
