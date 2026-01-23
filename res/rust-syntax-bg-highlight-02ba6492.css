@@ -1,0 +1,6 @@
+pre.rust .synctx-0 { background-color: rgba(255, 0, 0, 0.1); }
+pre.rust .synctx-1 { background-color: rgba(0, 255, 0, 0.1); }
+.light pre.rust .synctx-0 { background-color: rgba(255, 0, 0, 0.2); }
+.light pre.rust .synctx-1 { background-color: rgba(0, 255, 0, 0.2); }
+.rust pre.rust .synctx-0 { background-color: rgba(255, 0, 0, 0.2); }
+.rust pre.rust .synctx-1 { background-color: rgba(0, 255, 0, 0.2); }
