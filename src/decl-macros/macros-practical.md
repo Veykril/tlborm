@@ -160,7 +160,7 @@ let fib = {
             } else {
                 let a = /* something */;
                 let n = self.pos;
-                let next_val = (a[n-2] + a[n-1]);
+                let next_val = a[n-2] + a[n-1];
 
                 self.mem.TODO_shuffle_down_and_append(next_val.clone());
 
@@ -321,11 +321,9 @@ fn main() {
                     self.pos += 1;
                     Some(next_val)
                 } else {
-                    let next_val = {
-                        let n = self.pos;
-                        let a = IndexOffset { slice: &self.mem, offset: n };
-                        a[n-2] + a[n-1]
-                    };
+                    let n = self.pos;
+                    let a = IndexOffset { slice: &self.mem, offset: n };
+                    let next_val = a[n-2] + a[n-1];
 
                     {
                         use std::mem::swap;
@@ -349,11 +347,9 @@ fn main() {
 }
 ```
 
-Note that I've changed the order of the declarations of `n` and `a`, as well as wrapped them(along with the recurrence expression) in a block.
-The reason for the first should be obvious(`n` needs to be defined first so I can use it for `a`).
-The reason for the second is that the borrowed reference `&self.mem` will prevent the swaps later on from happening (you cannot mutate something that is aliased elsewhere). The block ensures that the `&self.mem` borrow expires before then.
+Note that I've changed the order of the declarations of `n` and `a`, as `a`'s definition depends on `n`.
 
-Incidentally, the only reason the code that does the `mem` swaps is in a block is to narrow the scope in which `std::mem::swap` is available, for the sake of being tidy.
+Meanwhile, the code that does the `mem` swaps is wrapped in a block, purely to narrow the scope in which `std::mem::swap` is available, for the sake of being tidy.
 
 If we take this code and run it, we get:
 
@@ -420,11 +416,9 @@ macro_rules! recurrence {
                         self.pos += 1;
                         Some(next_val)
                     } else {
-                        let next_val = {
-                            let n = self.pos;
-                            let a = IndexOffset { slice: &self.mem, offset: n };
-                            (a[n-2] + a[n-1])
-                        };
+                        let n = self.pos;
+                        let a = IndexOffset { slice: &self.mem, offset: n };
+                        let next_val = a[n-2] + a[n-1];
 
                         {
                             use std::mem::swap;
@@ -458,10 +452,10 @@ However, if we try to compile this, `rustc` aborts, telling us:
 
 ```text
 error: local ambiguity: multiple parsing options: built-in NTs expr ('inits') or 1 other option.
-  --> src/main.rs:75:45
+  --> src/main.rs:71:45
    |
-75 |     let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-2] + a[n-1]];
-   |
+71 |     let fib = recurrence![a[n]: u64 = 0, 1, ..., a[n-2] + a[n-1]];
+   |                                             ^^^
 ```
 
 Here, we've run into a limitation of the `macro_rules` system.
@@ -587,11 +581,9 @@ macro_rules! recurrence {
 #                         self.pos += 1;
 #                         Some(next_val)
 #                     } else {
-#                         let next_val = {
-#                             let n = self.pos;
-#                             let a = IndexOffset { slice: &self.mem, offset: n };
-#                             (a[n-2] + a[n-1])
-#                         };
+#                         let n = self.pos;
+#                         let a = IndexOffset { slice: &self.mem, offset: n };
+#                         let next_val = a[n-2] + a[n-1];
 #
 #                         {
 #                             use std::mem::swap;
@@ -829,11 +821,9 @@ macro_rules! recurrence {
                         self.pos += 1;
                         Some(next_val)
                     } else {
-                        let next_val = {
-                            let n = self.pos;
-                            let a = IndexOffset { slice: &self.mem, offset: n };
-                            (a[n-2] + a[n-1])
-                        };
+                        let n = self.pos;
+                        let a = IndexOffset { slice: &self.mem, offset: n };
+                        let next_val = a[n-2] + a[n-1];
 
                         {
                             use std::mem::swap;
@@ -910,12 +900,10 @@ With that done, we can now substitute the last thing: the `recur` expression.
                         self.pos += 1;
                         Some(next_val)
                     } else {
-                        let next_val = {
-                            let n = self.pos;
-                            let a = IndexOffset { slice: &self.mem, offset: n };
-                            $recur
-//                          ^~~~~~ changed
-                        };
+                        let n = self.pos;
+                        let a = IndexOffset { slice: &self.mem, offset: n };
+                        let next_val = $recur;
+//                                     ^~~~~~ changed
                         {
                             use std::mem::swap;
                             let mut swap_tmp = next_val;
@@ -934,7 +922,7 @@ With that done, we can now substitute the last thing: the `recur` expression.
 #     };
 # }
 # fn main() {
-#     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-2] + a[n-1]];
+#     let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-2] + a[n-1]];
 #     for e in fib.take(10) { println!("{}", e) }
 # }
 ```
@@ -945,25 +933,25 @@ And, when we compile our finished `macro_rules!` macro...
 error[E0425]: cannot find value `a` in this scope
   --> src/main.rs:68:50
    |
-68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-2] + a[n-1]];
+68 |     let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-2] + a[n-1]];
    |                                                  ^ not found in this scope
 
 error[E0425]: cannot find value `n` in this scope
   --> src/main.rs:68:52
    |
-68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-2] + a[n-1]];
+68 |     let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-2] + a[n-1]];
    |                                                    ^ not found in this scope
 
 error[E0425]: cannot find value `a` in this scope
   --> src/main.rs:68:59
    |
-68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-2] + a[n-1]];
+68 |     let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-2] + a[n-1]];
    |                                                           ^ not found in this scope
 
 error[E0425]: cannot find value `n` in this scope
   --> src/main.rs:68:61
    |
-68 |     let fib = recurrence![a[n]: u64 = 1, 1; ...; a[n-2] + a[n-1]];
+68 |     let fib = recurrence![a[n]: u64 = 0, 1; ...; a[n-2] + a[n-1]];
    |                                                             ^ not found in this scope
 ```
 
@@ -979,97 +967,63 @@ The output (after cleaning up some formatting) is shown below;
 in particular, note the place in the code where `$recur` was substituted:
 
 ```rust,ignore
-#![feature(no_std)]
+#![feature(prelude_import)]
 #![no_std]
+extern crate std;
 #[prelude_import]
-use std::prelude::v1::*;
-#[macro_use]
-extern crate std as std;
+use ::std::prelude::rust_2015::*;
 fn main() {
-    let fib = {
-        use std::ops::Index;
-        const MEM_SIZE: usize = 1 + 1;
-        struct Recurrence {
-            mem: [u64; MEM_SIZE],
-            pos: usize,
-        }
-        struct IndexOffset<'a> {
-            slice: &'a [u64; MEM_SIZE],
-            offset: usize,
-        }
-        impl <'a> Index<usize> for IndexOffset<'a> {
-            type Output = u64;
-            #[inline(always)]
-            fn index<'b>(&'b self, index: usize) -> &'b u64 {
-                use std::num::Wrapping;
-                let index = Wrapping(index);
-                let offset = Wrapping(self.offset);
-                let window = Wrapping(MEM_SIZE);
-                let real_index = index - offset + window;
-                &self.slice[real_index.0]
+    let fib =
+        {
+            use std::ops::Index;
+            const MEM_SIZE: usize = 1 + (1 + 0);
+            struct Recurrence {
+                mem: [u64; MEM_SIZE],
+                pos: usize,
             }
-        }
-        impl Iterator for Recurrence {
-            type Item = u64;
-            #[inline]
-            fn next(&mut self) -> Option<u64> {
-                if self.pos < MEM_SIZE {
-                    let next_val = self.mem[self.pos];
-                    self.pos += 1;
-                    Some(next_val)
-                } else {
-                    let next_val = {
-                        let n = self.pos;
-                        let a = IndexOffset{slice: &self.mem, offset: n,};
-                        a[n - 1] + a[n - 2]
-                    };
-                    {
-                        use std::mem::swap;
-                        let mut swap_tmp = next_val;
-                        {
-                            let result =
-                                match ::std::iter::IntoIterator::into_iter((0..MEM_SIZE).rev()) {
-                                    mut iter => loop {
-                                        match ::std::iter::Iterator::next(&mut iter) {
-                                            ::std::option::Option::Some(i) => {
-                                                swap(&mut swap_tmp, &mut self.mem[i]);
-                                            }
-                                            ::std::option::Option::None => break,
-                                        }
-                                    },
-                                };
-                            result
-                        }
-                    }
-                    self.pos += 1;
-                    Some(next_val)
+            struct IndexOffset<'a> {
+                slice: &'a [u64; MEM_SIZE],
+                offset: usize,
+            }
+            impl<'a> Index<usize> for IndexOffset<'a> {
+                type Output = u64;
+                #[inline(always)]
+                fn index<'b>(&'b self, index: usize) -> &'b u64 {
+                    use std::num::Wrapping;
+                    let index = Wrapping(index);
+                    let offset = Wrapping(self.offset);
+                    let window = Wrapping(MEM_SIZE);
+                    let real_index = index - offset + window;
+                    &self.slice[real_index.0]
                 }
             }
-        }
-        Recurrence{mem: [0, 1], pos: 0,}
-    };
-    {
-        let result =
-            match ::std::iter::IntoIterator::into_iter(fib.take(10)) {
-                mut iter => loop {
-                    match ::std::iter::Iterator::next(&mut iter) {
-                        ::std::option::Option::Some(e) => {
-                            ::std::io::_print(::std::fmt::Arguments::new_v1(
-                                {
-                                    static __STATIC_FMTSTR: &'static [&'static str] = &["", "\n"];
-                                    __STATIC_FMTSTR
-                                },
-                                &match (&e,) {
-                                    (__arg0,) => [::std::fmt::ArgumentV1::new(__arg0, ::std::fmt::Display::fmt)],
-                                }
-                            ))
+            impl Iterator for Recurrence {
+                type Item = u64;
+                #[inline]
+                fn next(&mut self) -> Option<u64> {
+                    if self.pos < MEM_SIZE {
+                        let next_val = self.mem[self.pos];
+                        self.pos += 1;
+                        Some(next_val)
+                    } else {
+                        let n = self.pos;
+                        let a = IndexOffset { slice: &self.mem, offset: n };
+                        let next_val = a[n - 2] + a[n - 1];
+                        {
+                            use std::mem::swap;
+                            let mut swap_tmp = next_val;
+                            for i in (0..MEM_SIZE).rev() {
+                                swap(&mut swap_tmp, &mut self.mem[i]);
+                            }
                         }
-                        ::std::option::Option::None => break,
+                        self.pos += 1;
+                        Some(next_val)
                     }
-                },
-            };
-        result
-    }
+                }
+            }
+            Recurrence { mem: [0, 1], pos: 0 }
+        };
+    for e in fib.take(10) { { ::std::io::_print(format_args!("{0}\n", e)); } }
 }
 ```
 
@@ -1182,13 +1136,11 @@ macro_rules! recurrence {
                         self.pos += 1;
                         Some(next_val)
                     } else {
-                        let next_val = {
-                            let $ind = self.pos;
-//                              ^~~~ changed
-                            let $seq = IndexOffset { slice: &self.mem, offset: $ind };
-//                              ^~~~ changed                                   ^~~~ changed
-                            $recur
-                        };
+                        let $ind = self.pos;
+//                          ^~~~ changed
+                        let $seq = IndexOffset { slice: &self.mem, offset: $ind };
+//                          ^~~~ changed                                   ^~~~ changed
+                        let next_val = $recur;
 
                         {
                             use std::mem::swap;
@@ -1270,11 +1222,9 @@ Now, let's try with a different sequence.
 #                         self.pos += 1;
 #                         Some(next_val)
 #                     } else {
-#                         let next_val = {
-#                             let $ind = self.pos;
-#                             let $seq = IndexOffset { slice: &self.mem, offset: $ind };
-#                             $recur
-#                         };
+#                         let $ind = self.pos;
+#                         let $seq = IndexOffset { slice: &self.mem, offset: $ind };
+#                         let next_val = $recur;
 #
 #                         {
 #                             use std::mem::swap;
